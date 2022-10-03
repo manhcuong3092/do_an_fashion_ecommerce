@@ -2,6 +2,7 @@ const express = require('express')
 const app = express();
 
 const cookieParser = require('cookie-parser');
+const errorMiddleware = require('./middlewares/errors');
 const dotenv = require('dotenv')
 dotenv.config({path: '.env'})
 
@@ -14,5 +15,8 @@ app.use(cookieParser());
 app.get('/', (req, res, next) => {
   res.status(200).send('It work!')
 })
+
+// Midlleware to handle error
+app.use(errorMiddleware)
 
 module.exports = app;
