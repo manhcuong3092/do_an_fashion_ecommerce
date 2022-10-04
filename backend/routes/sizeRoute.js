@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { getAllSizes, createSize, getSize, updateSize, deleteSize } = require('../controllers/sizeController');
+const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 router.route('/sizes').get(getAllSizes);
 router.route('/size/:id').get(getSize)

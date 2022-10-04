@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const { getAllColors, createColor, getColor, updateColor, deleteColor } = require('../controllers/colorController');
+const { authorizeRoles, isAuthenticatedUser } = require('../middlewares/auth');
 
 router.route('/colors').get(getAllColors);
 router.route('/color/:id').get(getColor)
