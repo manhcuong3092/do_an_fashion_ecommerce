@@ -71,20 +71,18 @@ const productSchema = new mongoose.Schema({
         maxLength: [6, 'Số lượng sản phẩm trong kho không quá 6 ký tự'],
         default: 0,
       },
-      sizes: [
-        {
-          type: mongoose.Schema.ObjectId,
-          ref: 'Size',
-          require: true
-        }
-      ],
-      colors: [
-        {
-          type: mongoose.Schema.ObjectId,
-          ref: 'Color',
-          require: true
-        }
-      ],
+      size:
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Size',
+        require: true
+      },
+      color:
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Color',
+        require: true
+      }
     },
   ],
   numOfReviews: {
@@ -120,6 +118,14 @@ const productSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   }
+})
+
+productSchema.pre('save', async function (next) {
+  if (!this.isModified('name')) {
+    next();
+  }
+  const slug = require('slug');
+  this.slug = `${slug(this.name)}-${Date.now()}`
 })
 
 module.exports = mongoose.model('Product', productSchema);

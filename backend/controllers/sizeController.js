@@ -1,4 +1,4 @@
-const Size = require('../model/size');
+const Size = require('../models/size');
 const catchAsyncError = require('../middlewares/catchAsyncErrors');
 const ErrorHandler = require('../utils/errorHandler');
 

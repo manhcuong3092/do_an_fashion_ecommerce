@@ -1,4 +1,4 @@
-const Color = require('../model/color');
+const Color = require('../models/color');
 const catchAsyncError = require('../middlewares/catchAsyncErrors');
 const ErrorHandler = require('../utils/errorHandler');
 

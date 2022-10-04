@@ -1,4 +1,4 @@
-const Category = require('../model/category');
+const Category = require('../models/category');
 const catchAsyncError = require('../middlewares/catchAsyncErrors');
 const ErrorHandler = require('../utils/errorHandler');
 

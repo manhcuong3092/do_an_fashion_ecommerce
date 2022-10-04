@@ -6,15 +6,18 @@ dotenv.config({path: '.env'})
 
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload')
 
 const errorMiddleware = require('./middlewares/errors');
 const sizeRoute = require('./routes/sizeRoute');
 const colorRoute = require('./routes/colorRoute');
 const categoryRoute = require('./routes/categoryRoute');
+const productRoute = require('./routes/productRoute');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser());
+app.use(fileUpload());
 
 app.get('/', (req, res, next) => {
   res.status(200).send('It work!')
@@ -23,6 +26,7 @@ app.get('/', (req, res, next) => {
 app.use('/api/v1', sizeRoute);
 app.use('/api/v1', colorRoute);
 app.use('/api/v1', categoryRoute);
+app.use('/api/v1', productRoute);
 
 // Midlleware to handle error
 app.use(errorMiddleware)
