@@ -17,6 +17,10 @@ const blogSchema = new mongoose.Schema({
     type: String,
     require: [true, 'Hãy nhập nội dung bài viết'],
   },
+  avatar: {
+    type: String,
+    require: false
+  },
   createdAt: {
     type: Date,
     default: Date.now
