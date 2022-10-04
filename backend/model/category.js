@@ -5,6 +5,7 @@ const categorySchema = new mongoose.Schema({
     type: String,
     required: [true, 'Hãy nhập tên danh mục.'],
     trim: true,
+    unique: true,
     maxLength: [100, 'Tên danh mục không quá 100 ký tự']
   },
   description: {

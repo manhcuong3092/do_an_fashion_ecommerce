@@ -5,6 +5,7 @@ const colorSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Hãy nhập tên màu.'],
     trim: true,
+    unique: true,
     maxLength: [100, 'Tên màu không quá 100 ký tự']
   },
   description: {
