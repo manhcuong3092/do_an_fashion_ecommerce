@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 
 const errorMiddleware = require('./middlewares/errors');
 const sizeRoute = require('./routes/sizeRoute');
+const colorRoute = require('./routes/colorRoute');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -19,6 +20,7 @@ app.get('/', (req, res, next) => {
 })
 
 app.use('/api/v1', sizeRoute);
+app.use('/api/v1', colorRoute);
 
 // Midlleware to handle error
 app.use(errorMiddleware)
