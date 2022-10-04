@@ -100,7 +100,11 @@ const orderSchema = mongoose.Schema({
   deliveredAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
 })
 
 module.exports = mongoose.model('Order', orderSchema);

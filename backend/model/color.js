@@ -14,7 +14,11 @@ const colorSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Hãy nhập mã màu.'],
     maxLength: [7, 'Mã màu không quá 100 ký tự']
-  }
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
 })
 
 module.exports = mongoose.model('Color', colorSchema);
