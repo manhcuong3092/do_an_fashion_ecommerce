@@ -13,6 +13,7 @@ const sizeRoute = require('./routes/sizeRoute');
 const colorRoute = require('./routes/colorRoute');
 const categoryRoute = require('./routes/categoryRoute');
 const productRoute = require('./routes/productRoute');
+const authRoute = require('./routes/authRoute');
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -27,6 +28,8 @@ app.use('/api/v1', sizeRoute);
 app.use('/api/v1', colorRoute);
 app.use('/api/v1', categoryRoute);
 app.use('/api/v1', productRoute);
+app.use('/api/v1', authRoute);
+
 
 // Midlleware to handle error
 app.use(errorMiddleware)
