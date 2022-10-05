@@ -6,9 +6,26 @@ const clouldinary = require('cloudinary');
 
 // get : /api/v1/product/new
 exports.newProduct = catchAsyncError(async (req, res, next) => {
-  
-  // Todo: upload images
-  console.log(req.body);
+  let images = []
+  if (typeof req.body.images === 'string') {
+    images.push(req.body.images)
+  } else {
+    images = req.body.images
+  }
+
+  let imagesLink = [];
+  for (let i = 0; i < images.length; i++) {
+    const result = await clouldinary.v2.uploader.upload(images[i], {
+      folder: 'products'
+    });
+    imagesLink.push({
+      public_id: result.public_id,
+      url: result.secure_url
+    });
+  }
+
+  req.body.images = imagesLink;
+  req.body.createdBy = req.user.id;
 
   req.body.stock = req.body.stock.map(item => {
     return JSON.parse(item)
@@ -66,6 +83,34 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler('Không tìm thấy sản phẩm', 404));
   }
 
+  let images = []
+  if (typeof req.body.images === 'string') {
+    images.push(req.body.images)
+  } else {
+    images = req.body.images
+  }
+
+  if (images !== undefined) {
+    //delete images
+    for (let i = 0; i < product.images.length; i++) {
+      const result = await clouldinary.v2.uploader.destroy(product.images[i].public_id);
+    }
+
+
+    let imagesLink = [];
+    for (let i = 0; i < images.length; i++) {
+      const result = await clouldinary.v2.uploader.upload(images[i], {
+        folder: 'products'
+      });
+      imagesLink.push({
+        public_id: result.public_id,
+        url: result.secure_url
+      });
+    }
+    
+    req.body.images = imagesLink;
+  }
+
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -84,6 +129,11 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (!product) {
     return next(new ErrorHandler('Không tìm thấy sản phẩm', 404));
+  }
+  
+  //delete images
+  for (let i = 0; i < product.images.length; i++) {
+    const result = await clouldinary.v2.uploader.destroy(product.images[i].public_id);
   }
 
   await product.remove()
