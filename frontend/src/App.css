@@ -664,7 +664,6 @@ header.header-one {
 	margin-bottom: 40px;
 	float:none;
 }
-.load-list li:last-child  {margin-bottom: 0px;}
 .wrapper > button,.wrapper-two button {
     background: #fff none repeat scroll 0 0;
     border: 0 none;

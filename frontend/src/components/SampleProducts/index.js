@@ -91,7 +91,7 @@ const SampleProducts = () => {
               </div>
             </li>
           </ul>
-          <button id="load-more-one" classNameName='mt-5'>Xem thêm</button>
+          <button id="load-more-one" className='mt-5'>Xem thêm</button>
         </div>
       </div>
     </section>
