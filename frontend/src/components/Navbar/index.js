@@ -46,7 +46,7 @@ const Navbar = () => {
                       <li><a href="single-blog.html">Bài viết</a></li>
                     </ul>
                   </li>
-                  <li><a href="about.html">Về chúng tôi</a></li>
+                  <li><a href="about.html">Giới thiệu</a></li>
                   <li><a href="contact.html">Liên hệ</a></li>
                 </ul>
               </nav>

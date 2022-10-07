@@ -37,7 +37,7 @@ const SliderSection = () => {
                 <h3 className='text-secondary'>Bộ sưu tập mới</h3>
                 <h1 className='text-danger'>Men’s Fashion 2022</h1>
               </div>
-              <div class="animated slider-btn fadeInUpBig">
+              <div className="animated slider-btn fadeInUpBig">
                 <a className="shop-btn" href="shop.html">Mua ngay</a>
               </div>
             </div>

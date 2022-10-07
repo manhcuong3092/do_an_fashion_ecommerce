@@ -5,6 +5,7 @@ import SliderSection from './components/SliderSection';
 import CollectionSection from './components/CollectionSection';
 import SampleProducts from './components/SampleProducts';
 import BlogSection from './components/BlogSection';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <CollectionSection />
       <SampleProducts />
       <BlogSection />
+      <Footer />
     </Fragment>
   );
 }
