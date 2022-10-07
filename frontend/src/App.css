@@ -452,16 +452,16 @@ header.header-one {
 .right-width p {width: 80%;}
 .nivo-caption p,.nivo-caption  {padding:0;}
 .nivo-caption .slider-right {
-  width: 620px;
+  width: 100%;
 }
 .slide-text h3 {
 	color: #333;
-	font-size: 25px;
+	font-size: 2wh;
 	font-weight: 400;
 }
 .slide-text h1 {
 	color: #282828;
-	font-size: 60px;
+	font-size: 4wh;
 	font-weight: 700;
 	line-height: 1;
 	margin-bottom: 0;
@@ -2117,3 +2117,15 @@ select:focus{outline:none!important;border-color:transparent;border:0;}
 /*====================================================================
 							[ END ]
 ======================================================================*/
+
+.shop-btn {
+	background: #fe5858 none repeat scroll 0 0;
+	border: 1px solid transparent;
+	color: #fff;
+	font-weight: 700;
+	padding: 10px 30px;
+}
+
+.caption {
+	
+}
