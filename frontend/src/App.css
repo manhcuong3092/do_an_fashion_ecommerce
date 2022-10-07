@@ -39,7 +39,7 @@ img {max-width:100%;}
 p {margin:0px;}
 h1, h2, h3, h4, h5, h6 {
 	margin: 0 0 10px;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Roboto', sans-serif;
 	text-transform:uppercase;
 	font-weight:600;
 }
@@ -1426,10 +1426,11 @@ header.header-one.header-page {box-shadow: 0 2px 7px rgba(25, 25, 25, 0.2);}
     margin: 0;
 }
 .sidebar-title h4 {
-    font-size: 16px;
-    font-weight: 800;
+    font-size: 20px;
+    font-weight: 700;
 }
 .sidebar-title h5 a{
+		font-size: 15px;
     color: #999;
     font-weight: 600;
 }
@@ -1453,14 +1454,6 @@ header.header-one.header-page {box-shadow: 0 2px 7px rgba(25, 25, 25, 0.2);}
 .categories .panel {
 	width: 100%;
 	position:relative;
-}
-.categories .medium-a:after {
-	color: #999;
-	content: "+";
-	font-size: 20px;
-	position: absolute;
-	right: 30px;
-	top: 0;
 }
 .sidebar .categories [aria-expanded="true"] .medium-a:after {
 	content:"-";
@@ -1517,12 +1510,13 @@ header.header-one.header-page {box-shadow: 0 2px 7px rgba(25, 25, 25, 0.2);}
 }
 .size-select a {
     border-right: 1px solid #eeecec;
+		border-bottom: 1px solid #eeecec;
     font-weight: 500;
     line-height: 40px;
     text-align: center;
     width: 20%;
 }
-.brands-select li:last-child,.brands-select li a:last-child ,.size-select a:last-child,.range-slider input#amount,.panel-group .panel {
+.brands-select li:last-child,.brands-select li a:last-child, .range-slider input#amount,.panel-group .panel {
     border: 0 none;
 }
 .size-select a:hover,table tbody i.mdi-close:hover {
