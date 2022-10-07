@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import CartIcon from '../CartIcon'
 
 const Navbar = () => {
@@ -15,9 +16,8 @@ const Navbar = () => {
             <div className="mainmenu">
               <nav>
                 <ul>
-                  <li><a href="index.html">Trang chủ</a>
-                  </li>
-                  <li><a href="shop.html">Shop</a>
+                  <li><Link to="/">Trang chủ</Link></li>
+                  <li><Link to="/shop">Shop</Link>
                     <ul className="dropdown">
                       <li><a href="#">Shirts & Top</a></li>
                       <li><a href="#">Shoes</a></li>
@@ -40,14 +40,14 @@ const Navbar = () => {
                       <li><a href="error-404.html">404 page</a></li>
                     </ul>
                   </li>
-                  <li><a href="blog.html">Blog</a>
+                  <li><Link to="/blog">Blog</Link>
                     <ul className="dropdown">
                       <li><a href="blog-style-1.html">Danh sách bài viết</a></li>
                       <li><a href="single-blog.html">Bài viết</a></li>
                     </ul>
                   </li>
-                  <li><a href="about.html">Giới thiệu</a></li>
-                  <li><a href="contact.html">Liên hệ</a></li>
+                  <li><Link to="/about-us">Giới thiệu</Link></li>
+                  <li><Link to="/contact">Liên hệ</Link></li>
                 </ul>
               </nav>
             </div>
