@@ -1,20 +1,31 @@
 import './App.css';
 import { Fragment } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
-import SliderSection from './components/SliderSection';
-import CollectionSection from './components/CollectionSection';
-import SampleProducts from './components/SampleProducts';
-import BlogSection from './components/BlogSection';
+import { ToastContainer } from 'react-toastify';
 import Footer from './components/Footer';
+import Home from './pages/Home';
 
 function App() {
   return (
     <Fragment>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Header />
-      <SliderSection />
-      <CollectionSection />
-      <SampleProducts />
-      <BlogSection />
+      <Router>
+        <Routes>
+        <Route path='/' element={<Home />} />
+        </Routes>
+      </Router>
       <Footer />
     </Fragment>
   );
