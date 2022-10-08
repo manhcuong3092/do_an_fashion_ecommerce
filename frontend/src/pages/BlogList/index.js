@@ -1,10 +1,12 @@
 import React, { Fragment } from 'react'
 import GridBlog from '../../components/GridBlog'
+import PageTitle from '../../components/PageTitle'
 import SideBarBlog from '../../components/SideBarBlog'
 
 const BlogList = () => {
   return (
     <Fragment>
+			<PageTitle title={"Danh sách bài viết"} />
       <section class="latest-blog blog-style section-padding">
 			<div class="container">
 				<div class="row pt-4">

@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import BlogList from './pages/BlogList';
+import Product from './pages/Product';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='/shop' element={<Shop />} />
           <Route path='/blog' element={<BlogList />} />
+          <Route path='/product' element={<Product />} />
         </Routes>
       </Router>
       <Footer />

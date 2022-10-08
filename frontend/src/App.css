@@ -1335,9 +1335,9 @@ header.header-one.header-page {box-shadow: 0 2px 7px rgba(25, 25, 25, 0.2);}
 .share-tag a {margin-left: 13px;}
 .author-des > h4 a{
 	display: inline-block;
-	font-size: 13px;
+	font-size: 17px;
 	margin-bottom:0;
-	font-weight: 800;
+	font-weight: 600;
 	color: #333;
 	margin-bottom:0;
 }
