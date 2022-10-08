@@ -1,17 +1,21 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import PageTitle from '../../components/PageTitle'
 import ProductDetail from '../../components/ProductDetail'
 import ProductReview from '../../components/ProductReview'
 import RelatedProducts from '../../components/RelatedProducts'
 
 const Product = () => {
   return (
-    <div class="product-details pages section-padding-top">
-      <div class="container">
-        <ProductDetail />
-        <ProductReview />
-        <RelatedProducts />
+    <Fragment>
+      <PageTitle title={"Sản phẩm"} />
+      <div class="product-details pages section-padding-top">
+        <div class="container">
+          <ProductDetail />
+          <ProductReview />
+          <RelatedProducts />
+        </div>
       </div>
-    </div>
+    </Fragment>
   )
 }
 
