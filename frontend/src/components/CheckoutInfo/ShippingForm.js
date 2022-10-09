@@ -13,7 +13,7 @@ const ShippingForm = () => {
           <input type="text" name="phone" placeholder="Số điện thoại" />
           <input type="text" name="state" placeholder="Tỉnh/Thành phố" />
           <div className="custom-mess">
-            <textarea rows="2" placeholder="Địa chỉ" name="message"></textarea>
+            <textarea rows="2" placeholder="Địa chỉ" name="address"></textarea>
           </div>
         </form>
       </div>

@@ -12,6 +12,7 @@ import Blog from './pages/Blog';
 import ContactUs from './pages/ContactUs';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import Login from './pages/Auth/Login';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path='/contact' element={<ContactUs />} />
           <Route path='/cart' element={<Cart />} />
           <Route path='/checkout' element={<Checkout />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </Router>
       <Footer />
