@@ -10,6 +10,7 @@ import BlogList from './pages/BlogList';
 import Product from './pages/Product';
 import Blog from './pages/Blog';
 import ContactUs from './pages/ContactUs';
+import Cart from './pages/Cart';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path='/blog' element={<BlogList />} />
           <Route path='/blogdetail' element={<Blog />} />
           <Route path='/contact' element={<ContactUs />} />
+          <Route path='/cart' element={<Cart />} />
         </Routes>
       </Router>
       <Footer />

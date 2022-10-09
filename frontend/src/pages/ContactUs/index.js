@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import ContactMap from '../../components/ContactMap'
+import PageTitle from '../../components/PageTitle'
 
 const ContactUs = () => {
   return (
-    <ContactMap />
+    <Fragment>
+      <PageTitle title={"Liên Hệ"} />
+      <ContactMap />
+    </Fragment>
   )
 }
 
