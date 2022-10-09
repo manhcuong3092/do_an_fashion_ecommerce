@@ -12,7 +12,8 @@ import Blog from './pages/Blog';
 import ContactUs from './pages/ContactUs';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
-import Login from './pages/Auth/Login';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route path='/cart' element={<Cart />} />
           <Route path='/checkout' element={<Checkout />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
         </Routes>
       </Router>
       <Footer />

@@ -5,8 +5,8 @@ const Login = () => {
     <section className="pages login-page section-padding">
       <div className="container">
         <div className="row">
-          <div className="col-md-2"></div>
-          <div className="col-md-8">
+          <div className="col-md-3"></div>
+          <div className="col-md-6">
             <div className="main-input padding60">
               <div className="log-title text-center">
                 <h3><strong>Đăng nhập</strong></h3>
@@ -20,13 +20,14 @@ const Login = () => {
                     <div className="submit-text text-center">
                       <button>Đăng nhập</button>
                     </div>
+                    <br/>
                   </form>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-md-2"></div>
+        <div className="col-md-3"></div>
       </div>
     </section>
   )
