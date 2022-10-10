@@ -1,12 +1,15 @@
 import React from 'react'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const FooterTop = () => {
   return (
     <div className="footer-top section-padding">
       <div className="footer-dsc">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6 col-lg-3">
+        <Container>
+          <Row>
+            <Col md={6} lg={3}>
               <div className="single-text">
                 <div className="footer-title">
                   <h4>Contact us</h4>
@@ -31,8 +34,8 @@ const FooterTop = () => {
                   </ul>
                 </div>
               </div>
-            </div>
-            <div className="col-md-3 col-lg-2 wide-mobile">
+            </Col>
+            <Col md={3} lg={2}  className="wide-mobile">
               <div className="single-text">
                 <div className="footer-title">
                   <h4>my account</h4>
@@ -48,8 +51,8 @@ const FooterTop = () => {
                   </ul>
                 </div>
               </div>
-            </div>
-            <div className="col-md-3 col-lg-2 wide-mobile">
+            </Col>
+            <Col md={3} lg={2} className="wide-mobile">
               <div className="single-text">
                 <div className="footer-title">
                   <h4>shipping</h4>
@@ -65,8 +68,8 @@ const FooterTop = () => {
                   </ul>
                 </div>
               </div>
-            </div>
-            <div className="col-md-6 col-lg-2 r-margin-top wide-mobile">
+            </Col>
+            <Col md={6} lg={2} className="r-margin-top wide-mobile">
               <div className="single-text">
                 <div className="footer-title">
                   <h4>Information</h4>
@@ -82,8 +85,8 @@ const FooterTop = () => {
                   </ul>
                 </div>
               </div>
-            </div>
-            <div className="col-md-6 col-lg-3 r-margin-top wide-mobile">
+            </Col>
+            <Col md={6} lg={3} className="r-margin-top wide-mobile">
               <div className="single-text">
                 <div className="footer-title">
                   <h4>instagram</h4>
@@ -99,9 +102,9 @@ const FooterTop = () => {
                   </ul>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            </Col>
+          </Row>
+        </Container>
       </div>
     </div>
   )

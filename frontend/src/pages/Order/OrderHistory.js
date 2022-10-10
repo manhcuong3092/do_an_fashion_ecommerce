@@ -1,14 +1,17 @@
 import React, { Fragment } from 'react'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import PageTitle from '../../components/PageTitle'
+import Container from 'react-bootstrap/Container';
 
 const OrderHistory = () => {
   return (
     <Fragment>
       <PageTitle title={"Lịch sử đặt hàng"} />
       <section className="pages cart-page section-padding">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
+        <Container>
+          <Row>
+            <Col>
               <div className="table-responsive padding60">
                 <table className="wishlist-table text-center">
                   <thead>
@@ -41,9 +44,9 @@ const OrderHistory = () => {
                   </tbody>
                 </table>
               </div>
-            </div>
-          </div>
-        </div>
+            </Col>
+          </Row>
+        </Container>
       </section>
     </Fragment>
   )

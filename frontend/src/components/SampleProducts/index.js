@@ -1,21 +1,24 @@
 import React from 'react'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const SampleProducts = () => {
   return (
     <section className="single-products  products-two section-padding extra-padding-bottom">
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
+      <Container>
+        <Row>
+          <Col>
             <div className="section-title text-center">
               <h2>Sản phẩm đắc sắc</h2>
             </div>
-          </div>
-        </div>
+          </Col>
+        </Row>
         <div className="wrapper">
           <ul className="load-list load-list-one">
             <li>
-              <div className="row text-center">
-                <div className="col-md-6 col-lg-3">
+              <Row className="text-center">
+                <Col md={6} lg={3}>
                   <div className="single-product">
                     <div className="product-img">
                       <div className="pro-type">
@@ -33,8 +36,8 @@ const SampleProducts = () => {
                       <span>$65.20</span>
                     </div>
                   </div>
-                </div>
-                <div className="col-md-6 col-lg-3">
+                </Col>
+                <Col md={6} lg={3}>
                   <div className="single-product">
                     <div className="product-img">
                       <div className="pro-type sell">
@@ -52,8 +55,8 @@ const SampleProducts = () => {
                       <span>$57.00</span>
                     </div>
                   </div>
-                </div>
-                <div className="col-md-6 col-lg-3 r-margin-top">
+                </Col>
+                <Col md={6} lg={3} className="r-margin-top">
                   <div className="single-product">
                     <div className="product-img">
                       <div className="pro-type">
@@ -71,8 +74,8 @@ const SampleProducts = () => {
                       <span>$56.00</span>
                     </div>
                   </div>
-                </div>
-                <div className="col-md-6 col-lg-3 r-margin-top">
+                </Col>
+                <Col md={6} lg={3} className="r-margin-top">
                   <div className="single-product">
                     <div className="product-img">
                       <a href="#"><img src="img/products/19.jpg" alt="Product Title" /></a>
@@ -87,13 +90,13 @@ const SampleProducts = () => {
                       <span>$96.20</span>
                     </div>
                   </div>
-                </div>
-              </div>
+                </Col>
+              </Row>
             </li>
           </ul>
           <button id="load-more-one" className='mt-5'>Xem thêm</button>
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

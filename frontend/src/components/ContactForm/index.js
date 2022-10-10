@@ -1,11 +1,14 @@
 import React from 'react'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const ContactForm = () => {
   return (
     <div className="social-media section-padding">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6">
+      <Container>
+        <Row>
+          <Col md={6}>
             <div className="newsletter newsletter2">
               <h3>Đăng ký nhận tin tức</h3>
               <form action="#">
@@ -20,8 +23,8 @@ const ContactForm = () => {
               <a href="#"><i className="mdi mdi-dribbble"></i></a>
               <a href="#"><i className="mdi mdi-rss"></i></a>
             </div>
-          </div>
-          <div className="col-md-6 offset-lg-1 col-lg-5">
+          </Col>
+          <Col md={6} lg={5} className="offset-lg-1">
             <div className="newsletter get-touch">
               <h3>Liên hệ</h3>
               <form id="contact-form" action="https://whizthemes.com/mail-php/other/mail.php">
@@ -32,9 +35,9 @@ const ContactForm = () => {
                 <p className="form-message"></p>
               </form>
             </div>
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     </div>
   )
 }

@@ -1,12 +1,15 @@
 import React from 'react'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const Login = () => {
   return (
     <section className="pages login-page section-padding">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-3"></div>
-          <div className="col-md-6">
+      <Container>
+        <Row>
+          <Col md={3}></Col>
+          <Col md={6}>
             <div className="main-input padding60">
               <div className="log-title text-center">
                 <h3><strong>Đăng nhập</strong></h3>
@@ -25,10 +28,10 @@ const Login = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="col-md-3"></div>
-      </div>
+          </Col>
+        </Row>
+        <Col md={3}></Col>
+      </Container>
     </section>
   )
 }

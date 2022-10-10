@@ -1,10 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const CartPayment = () => {
   return (
-    <div className="row margin-top">
-      <div className="col-md-6">
+    <Row className="margin-top">
+      <Col md={6}>
         <div className="single-cart-form padding60">
           <div className="log-title">
             <h3><strong>Điều kiện miễn phí giao hàng</strong></h3>
@@ -13,8 +15,8 @@ const CartPayment = () => {
             <p>Các đơn hàng trên 500.000₫ sẽ được miễn phí giao hàng</p>
           </div>
         </div>
-      </div>
-      <div className="col-md-6">
+      </Col>
+      <Col md={6}>
         <div className="single-cart-form padding60">
           <div className="log-title">
             <h3><strong>Chi tiết thanh toán</strong></h3>
@@ -43,8 +45,8 @@ const CartPayment = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </Col>
+    </Row>
   )
 }
 

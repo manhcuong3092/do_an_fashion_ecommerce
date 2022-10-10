@@ -1,11 +1,14 @@
 import React from 'react'
 import QuickImages from './QuickImages'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const ProductDetail = () => {
   return (
-    <div className="single-list-view row">
+    <Row className="single-list-view">
       <QuickImages />
-      <div className="col-md-7 col-lg-8">
+      <Col md={7} lg={8}>
         <div className="quick-right">
           <div className="list-text">
             <h3>men’s White t-shirt</h3>
@@ -75,8 +78,8 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </Col>
+    </Row>
   )
 }
 

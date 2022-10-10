@@ -1,21 +1,24 @@
 import React from 'react'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const BlogSection = () => {
   return (
     <section className="latest-blog section-padding">
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
+      <Container>
+        <Row>
+          <Col>
             <div className="section-title text-center">
               <h2>Blog mới nhất</h2>
             </div>
-          </div>
-        </div>
+          </Col>
+        </Row>
         <div className="wrapper">
           <ul className="load-list load-list-blog">
             <li>
-              <div className="row">
-                <div className="col-md-4">
+              <Row>
+                <Col md={4}>
                   <div className="l-blog-text">
                     <div className="banner"><a href="single-blog.html"><img src="img/blog/1.jpg" alt="" /></a></div>
                     <div className="s-blog-text">
@@ -28,8 +31,8 @@ const BlogSection = () => {
                       <a href="single-blog.html">Đọc thêm</a>
                     </div>
                   </div>
-                </div>
-                <div className="col-md-4">
+                </Col>
+                <Col md={4}>
                   <div className="l-blog-text">
                     <div className="banner"><a href="single-blog.html"><img src="img/blog/2.jpg" alt="" /></a></div>
                     <div className="s-blog-text">
@@ -42,8 +45,8 @@ const BlogSection = () => {
                       <a href="single-blog.html">Đọc thêm</a>
                     </div>
                   </div>
-                </div>
-                <div className="col-md-4">
+                </Col>
+                <Col md={4}>
                   <div className="l-blog-text">
                     <div className="banner"><a href="single-blog.html"><img src="img/blog/3.jpg" alt="" /></a></div>
                     <div className="s-blog-text">
@@ -56,13 +59,13 @@ const BlogSection = () => {
                       <a href="single-blog.html">Đọc thêm</a>
                     </div>
                   </div>
-                </div>
-              </div>
+                </Col>
+              </Row>
             </li>
           </ul>
         <button id="load-more-blog" className='mt-5'>Xem thêm</button>
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

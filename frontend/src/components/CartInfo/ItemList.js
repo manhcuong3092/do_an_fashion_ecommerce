@@ -1,9 +1,11 @@
 import React from 'react'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const ItemList = () => {
   return (
-    <div className="row">
-      <div className="col-12">
+    <Row>
+      <Col>
         <div className="table-responsive padding60">
           <table className="wishlist-table text-center">
             <thead>
@@ -43,8 +45,8 @@ const ItemList = () => {
             </tbody>
           </table>
         </div>
-      </div>
-    </div>
+      </Col>
+    </Row>
   )
 }
 

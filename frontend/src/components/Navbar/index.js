@@ -1,17 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import CartIcon from '../CartIcon'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const Navbar = () => {
   return (
-    <div className="container text-center">
-      <div className="row">
-        <div className="col-md-2">
+    <Container className="text-center">
+      <Row>
+        <Col md={2}>
           <div className="logo">
             <a href="index.html"><img src="img/logo2.png" alt="Sellshop" /></a>
           </div>
-        </div>
-        <div className="col-md-8">
+        </Col>
+        <Col md={8}>
           <div className="header-middel">
             <div className="mainmenu">
               <nav>
@@ -52,12 +55,12 @@ const Navbar = () => {
               </nav>
             </div>
           </div>
-        </div>
-        <div className="col-md-2">
+        </Col>
+        <Col md={2}>
           <CartIcon />
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

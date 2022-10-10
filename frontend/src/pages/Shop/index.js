@@ -2,22 +2,25 @@ import React, { Fragment } from 'react'
 import GridProduct from '../../components/GridProduct'
 import PageTitle from '../../components/PageTitle'
 import SideBar from '../../components/SideBar'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const Shop = () => {
   return (
     <Fragment>
 			<PageTitle title="Danh sách sản phẩm" />
-      <section class="pages products-page section-padding-bottom">
-			<div class="container">
-				<div class="row pt-4">
-					<div class="col-md-4 col-lg-3">
+      <section className="pages products-page section-padding-bottom">
+			<Container>
+				<Row className="pt-4">
+					<Col md={4} lg={3}>
             <SideBar />
-					</div>
-					<div class="col-md-8 col-lg-9">
+					</Col>
+					<Col md={8} lg={9}>
 						<GridProduct />
-					</div>
-				</div>
-			</div>
+					</Col>
+				</Row>
+			</Container>
 		</section>
     </Fragment>
   )

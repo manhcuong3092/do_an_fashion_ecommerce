@@ -1,4 +1,7 @@
 import React from 'react'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const BlogDetail = () => {
   return (
@@ -47,28 +50,28 @@ const BlogDetail = () => {
         <div class="leave-comment">
           <h4>Để lại bình luận của bạn</h4>
           <form action="#">
-            <div class="row">
-              <div class="col-md-6">
+            <Row>
+              <Col md={6}>
                 <div class="input-text">
                   <input type="text" name="name" placeholder="Tên" value="" />
                 </div>
-              </div>
-              <div class="col-md-6">
+              </Col>
+              <Col md={6}>
                 <div class="input-text">
                   <input type="text" name="email" placeholder="Email" value="" />
                 </div>
-              </div>
-              <div class="col-12">
+              </Col>
+              <Col>
                 <div class="input-text">
                   <textarea name="comment" id="comment" placeholder="Nội dung" rows="4"></textarea>
                 </div>
-              </div>
-              <div class="col-12">
+              </Col>
+              <Col>
                 <div class="submit-text">
                   <button type="submit" value="submit form">Bình luận</button>
                 </div>
-              </div>
-            </div>
+              </Col>
+            </Row>
           </form>
         </div>
       </div>

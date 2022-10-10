@@ -3,17 +3,18 @@ import PageTitle from '../../components/PageTitle'
 import ProductDetail from '../../components/ProductDetail'
 import ProductReview from '../../components/ProductReview'
 import RelatedProducts from '../../components/RelatedProducts'
+import Container from 'react-bootstrap/Container';
 
 const Product = () => {
   return (
     <Fragment>
       <PageTitle title={"Sản phẩm"} />
       <div class="product-details pages section-padding-top">
-        <div class="container">
+        <Container>
           <ProductDetail />
           <ProductReview />
           <RelatedProducts />
-        </div>
+        </Container>
       </div>
     </Fragment>
   )

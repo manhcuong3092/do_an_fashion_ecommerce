@@ -1,9 +1,12 @@
 import React from 'react'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const ProductReview = () => {
   return (
-    <div className="row">
-      <div className="col-12">
+    <Row>
+      <Col>
         <div className="reviews padding60 margin-top">
           <ul className="reviews-tab clearfix nav">
             <li><a data-bs-toggle="tab" href="#moreinfo">Xem thêm thông tin</a></li>
@@ -81,35 +84,35 @@ const ProductReview = () => {
               </div>
               <div className="custom-input">
                 <form action="#">
-                  <div className="row">
-                    <div className="col-md-6">
+                  <Row>
+                    <Col md={6}>
                       <div className="input-mail">
                         <input type="text" name="name" placeholder="Your Name" />
                       </div>
-                    </div>
-                    <div className="col-md-6">
+                    </Col>
+                    <Col md={6}>
                       <div className="input-mail">
                         <input type="text" name="email" placeholder="Your Email" />
                       </div>
-                    </div>
-                    <div className="col-12">
+                    </Col>
+                    <Col>
                       <div className="custom-mess">
                         <textarea name="message" placeholder="Your Review" rows="2"></textarea>
                       </div>
-                    </div>
-                    <div className="col-12">
+                    </Col>
+                    <Col>
                       <div className="submit-text">
                         <button type="submit">submit review</button>
                       </div>
-                    </div>
-                  </div>
+                    </Col>
+                  </Row>
                 </form>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </Col>
+    </Row>
   )
 }
 

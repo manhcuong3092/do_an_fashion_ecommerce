@@ -1,14 +1,17 @@
 import React, { Fragment } from 'react'
 import PageTitle from '../../components/PageTitle'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const OrderDetail = () => {
   return (
     <Fragment>
       <PageTitle title={"Chi tiết đơn hàng"} />
       <section className="pages cart-page section-padding">
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
+        <Container>
+          <Row>
+            <Col>
               <div className="table-responsive padding60">
                 <table className="wishlist-table text-center">
                   <thead>
@@ -44,11 +47,11 @@ const OrderDetail = () => {
                   </tbody>
                 </table>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Row>
 
-          <div className="row margin-top">
-            <div className="col-md-6">
+          <Row className="margin-top">
+            <Col md={6}>
               <div className="single-cart-form padding60">
                 <div className="log-title">
                   <h3><strong>Trạng thái đơn hàng</strong></h3>
@@ -69,8 +72,8 @@ const OrderDetail = () => {
                   <p>12/31/2022</p>
                 </div>
               </div>
-            </div>
-            <div className="col-md-6">
+            </Col>
+            <Col md={6}>
               <div className="single-cart-form padding60">
                 <div className="log-title">
                   <h3><strong>Chi tiết thanh toán</strong></h3>
@@ -96,9 +99,9 @@ const OrderDetail = () => {
                   </table>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            </Col>
+          </Row>
+        </Container>
       </section>
     </Fragment>
   )

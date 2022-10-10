@@ -1,21 +1,24 @@
 import React from 'react'
 import CheckoutCart from './CheckoutCart'
 import ShippingForm from './ShippingForm'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const CheckoutInfo = () => {
   return (
     <section className="pages checkout section-padding">
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6">
+      <Container>
+        <Row>
+          <Col md={6}>
             <ShippingForm />
-          </div>
-          <div className="col-md-6">
+          </Col>
+          <Col md={6}>
             <CheckoutCart />
-          </div>
-        </div>
-        <div className="row margin-top">
-          <div className="col-12">
+          </Col>
+        </Row>
+        <Row className="margin-top">
+          <Col>
             <div className="padding60">
               <div className="log-title">
                 <h3><strong>Phương thức thanh toán</strong></h3>
@@ -37,7 +40,7 @@ const CheckoutInfo = () => {
                   <li className="panel">
                     <div data-bs-toggle="collapse" data-bs-target="#collapse3">
                       <div className="medium-a">
-                        Stripe
+                      Thanh toán online
                       </div>
                     </div>
                     <div className="paypal-dsc panel-collapse collapse" id="collapse3" data-bs-parent="#accordion">
@@ -52,9 +55,9 @@ const CheckoutInfo = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     </section>
   )
 }

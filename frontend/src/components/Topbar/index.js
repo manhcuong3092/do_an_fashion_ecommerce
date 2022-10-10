@@ -1,11 +1,14 @@
 import React from 'react'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const Topbar = () => {
   return (
     <div className="header-top-two">
-      <div className="container text-center">
-        <div className="row">
-          <div className="col-12">
+      <Container className="container">
+        <Row>
+          <Col>
             <div className="middel-top">
               <div className="left floatleft">
                 <p><i className="mdi mdi-clock"></i> Chưa đăng nhập</p>
@@ -38,9 +41,9 @@ const Topbar = () => {
                 </form>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     </div>
   )
 }

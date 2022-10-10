@@ -2,49 +2,47 @@ import React from 'react'
 
 const SideBar = () => {
   return (
-    <div class="sidebar left-sidebar">
-      <div class="s-side-text">
-        <div class="sidebar-title clearfix">
-          <h4 class="floatleft">Danh mục</h4>
-          <h5 class="floatright"><a href="#">Tất cả</a></h5>
+    <div className="sidebar left-sidebar">
+      <div className="s-side-text">
+        <div className="sidebar-title clearfix">
+          <h4 className="floatleft">Danh mục</h4>
+          <h5 className="floatright"><a href="#">Tất cả</a></h5>
         </div>
-        <div class="categories left-right-p">
-          <ul id="accordion" class="panel-group clearfix">
-            <li class="panel">
-              <div class="medium-a">
+        <div className="categories left-right-p">
+          <ul id="accordion" className="panel-group clearfix">
+            <li className="panel">
+              <div className="medium-a">
                 Áo phông
               </div>
             </li>
-            <li class="panel">
-              <div class="medium-a">
+            <li className="panel">
+              <div className="medium-a">
                 Quần âu
               </div>
             </li>
-            <li class="panel">
-              <div class="medium-a">
+            <li className="panel">
+              <div className="medium-a">
                 Áo khoác
               </div>
             </li>
           </ul>
         </div>
       </div>
-      <div class="s-side-text">
-        <div class="sidebar-title">
+      <div className="s-side-text">
+        <div className="sidebar-title">
           <h4>Giá</h4>
         </div>
-        <div class="range-slider clearfix">
-          <form action="javascript:void(0)">
-            <label><span>Khoảng giá</span> <input type="text" id="amount" readonly /></label>
+        <div className="range-slider clearfix">
+            <label><span>Khoảng giá</span> <input type="text" id="amount" /></label>
             <div id="slider-range"></div>
-          </form>
         </div>
       </div>
-      <div class="s-side-text">
-        <div class="sidebar-title clearfix">
-          <h4 class="floatleft">Kích cỡ</h4>
-          <h5 class="floatright"><a href="#">Tất cả</a></h5>
+      <div className="s-side-text">
+        <div className="sidebar-title clearfix">
+          <h4 className="floatleft">Kích cỡ</h4>
+          <h5 className="floatright"><a href="#">Tất cả</a></h5>
         </div>
-        <div class="size-select clearfix">
+        <div className="size-select clearfix">
           <a href="#">m</a>
           <a href="#">s</a>
           <a href="#">l</a>
@@ -52,27 +50,27 @@ const SideBar = () => {
           <a href="#">xll</a>
         </div>
       </div>
-      <div class="s-side-text">
-        <div class="sidebar-title clearfix">
-          <h4 class="floatleft">Màu sắc</h4>
-          <h5 class="floatright"><a href="#">Tất cả</a></h5>
+      <div className="s-side-text">
+        <div className="sidebar-title clearfix">
+          <h4 className="floatleft">Màu sắc</h4>
+          <h5 className="floatright"><a href="#">Tất cả</a></h5>
         </div>
-        <div class="color-select clearfix">
+        <div className="color-select clearfix">
           <span></span>
           <span></span>
-          <span class="outline"></span>
+          <span className="outline"></span>
           <span></span>
           <span></span>
           <span></span>
           <span></span>
         </div>
       </div>
-      <div class="s-side-text">
-        <div class="banner clearfix">
+      <div className="s-side-text">
+        <div className="banner clearfix">
           <a href="#"><img src="img/products/banner.jpg" alt="" /></a>
-          <div class="banner-text">
+          <div className="banner-text">
             <h2>best</h2> <br />
-            <h2 class="banner-brand">brand</h2>
+            <h2 className="banner-brand">brand</h2>
           </div>
         </div>
       </div>
