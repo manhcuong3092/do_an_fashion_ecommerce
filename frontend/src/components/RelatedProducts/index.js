@@ -1,18 +1,21 @@
 import React from 'react'
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 
 const RelatedProducts = () => {
   return (
     <section className="single-products section-padding">
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
+      <Container>
+        <Row>
+          <Col>
             <div className="section-title text-center">
               <h2>related Products</h2>
             </div>
-          </div>
-        </div>
-        <div className="row text-center">
-          <div className="col-md-6 col-lg-3">
+          </Col>
+        </Row>
+        <Row className="text-center">
+          <Col md={6} lg={3}>
             <div className="single-product">
               <div className="product-img">
                 <div className="pro-type">
@@ -30,9 +33,9 @@ const RelatedProducts = () => {
                 <span>$65.20</span>
               </div>
             </div>
-          </div>
+          </Col>
 
-          <div className="col-md-6 col-lg-3">
+          <Col md={6} lg={3}>
             <div className="single-product">
               <div className="product-img">
                 <div className="pro-type sell">
@@ -50,9 +53,9 @@ const RelatedProducts = () => {
                 <span>$57.00</span>
               </div>
             </div>
-          </div>
+          </Col>
 
-          <div className="col-md-6 col-lg-3 r-margin-top">
+          <Col md={6} lg={3} className="r-margin-top">
             <div className="single-product">
               <div className="product-img">
                 <div className="pro-type">
@@ -70,9 +73,9 @@ const RelatedProducts = () => {
                 <span>$56.00</span>
               </div>
             </div>
-          </div>
+          </Col>
 
-          <div className="col-md-6 col-lg-3 r-margin-top">
+          <Col md={6} lg={3} className="r-margin-top">
             <div className="single-product">
               <div className="product-img">
                 <a href="#"><img src="img/products/4.jpg" alt="Product Title" /></a>
@@ -87,10 +90,10 @@ const RelatedProducts = () => {
                 <span>$96.20</span>
               </div>
             </div>
-          </div>
+          </Col>
 
-        </div>
-      </div>
+        </Row>
+      </Container>
     </section>
   )
 }
