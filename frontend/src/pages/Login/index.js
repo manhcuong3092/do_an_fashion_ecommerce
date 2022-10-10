@@ -1,9 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import { toast } from 'react-toastify';
+import { clearErrors, login } from '../../redux/actions/authActions';
+
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isAuthenticated, error, loading } = useSelector(state => state.auth);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+      toast.success('Đăng nhập thành công.');
+    }
+    if (error) {
+      toast.error(error);
+      dispatch(clearErrors());
+    }
+  }, [dispatch, isAuthenticated, error, navigate]);
+
+  
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(login(email, password));
+  }
+
   return (
     <section className="pages login-page section-padding">
       <Container>
@@ -16,10 +45,18 @@ const Login = () => {
               </div>
               <div className="login-text">
                 <div className="custom-input">
-                  <form action="#">
-                    <input type="text" name="email" placeholder="Email" />
-                    <input type="password" name="password" placeholder="Mật khẩu" />
-                    <a className="forget" href="#">Quên mật khẩu?</a>
+                  <form onSubmit={submitHandler}>
+                    <input type="text"
+                      name="email" 
+                      placeholder="Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)} />
+                    <input type="password" 
+                      name="password" 
+                      placeholder="Mật khẩu"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)} />
+                    <Link className="forget" to="/forget">Quên mật khẩu?</Link>
                     <div className="submit-text text-center">
                       <button>Đăng nhập</button>
                     </div>

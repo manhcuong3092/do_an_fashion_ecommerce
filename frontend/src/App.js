@@ -2,6 +2,7 @@ import './App.css';
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Header from './layouts/Header/Header';
 import Footer from './layouts/Footer'
 import Home from './pages/Home';
@@ -21,17 +22,7 @@ import OrderDetail from './pages/Order/OrderDetail';
 function App() {
   return (
     <Fragment>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+      <ToastContainer />
       <Router>
         <Header />
         <Routes>

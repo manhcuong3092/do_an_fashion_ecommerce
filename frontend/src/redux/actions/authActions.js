@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_FAIL, LOGOUT_SUCCESS } from "../types/authActionTypes";
+import { CLEAR_ERRORS, LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_FAIL, LOGOUT_SUCCESS } from "../types/authTypes";
 
 //Login 
 export const login = (email, password) => async (dispatch) => {
@@ -38,4 +38,11 @@ export const logout = () => async (dispatch) => {
       payload: error.response.data.message
     })
   }
+}
+
+//Clear Error
+export const clearErrors = () => async (dispatch) => {
+  dispatch({
+    type: CLEAR_ERRORS
+  })
 }
