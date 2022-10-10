@@ -35,8 +35,8 @@ const Navbar = () => {
                   <li><a href="#">Trang</a>
                     <ul className="dropdown">
                       <li><a href="wishlist.html">Yêu thích</a></li>
-                      <li><a href="checkout.html">Checkout</a></li>
-                      <li><a href="cart.html">Giỏ hàng</a></li>
+                      <li><Link to="/checkout">Checkout</Link></li>
+                      <li><Link to="/cart">Giỏ hàng</Link></li>
                       <li><a href="product-grid.html">Danh sách sản phẩm</a></li>
                       <li><a href="product-list.html">Danh sách sản phẩm</a></li>
                       <li><a href="single-product.html">Sản phẩm</a></li>

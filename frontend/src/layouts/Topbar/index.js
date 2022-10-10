@@ -2,6 +2,7 @@ import React from 'react'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import { Link } from 'react-router-dom';
 
 const Topbar = () => {
   return (
@@ -19,18 +20,17 @@ const Topbar = () => {
                 <li>
                   <a href="#"><i className="mdi mdi-account"></i></a>
                   <ul>
-                    <li><a href="login.html">Đăng nhập</a></li>
-                    <li><a href="login.html">Đăng ký</a></li>
-                    <li><a href="my-account.html">Tài khoản</a></li>
+                    <li><Link to="/login">Đăng nhập</Link></li>
+                    <li><Link to="/register">Đăng ký</Link></li>
+                    <li><Link to="/profile">Tài khoản</Link></li>
                   </ul>
                 </li>
                 <li>
                   <a href="#"><i className="mdi mdi-settings"></i></a>
                   <ul>
-                    <li><a href="my-account.html">Tài khoản</a></li>
-                    <li><a href="cart.html">Giỏ hàng</a></li>
-                    <li><a href="wishlist.html">Yêu thích</a></li>
-                    <li><a href="checkout.html">Thnah toán</a></li>
+                    <li><Link to="/profile">Tài khoản</Link></li>
+                    <li><Link to="/cart">Giỏ hàng</Link></li>
+                    <li><Link to="/checkout">Thnah toán</Link></li>
                   </ul>
                 </li>
               </ul>
