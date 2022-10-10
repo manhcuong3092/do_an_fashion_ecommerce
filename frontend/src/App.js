@@ -15,6 +15,8 @@ import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import OrderHistory from './pages/Order/OrderHistory';
+import OrderDetail from './pages/Order/OrderDetail';
 
 function App() {
   return (
@@ -44,6 +46,8 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/orders' element={<OrderHistory />} />
+          <Route path='/order-detail' element={<OrderDetail />} />
         </Routes>
       </Router>
       <Footer />
