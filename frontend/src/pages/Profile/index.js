@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import ChangePassword from '../../components/ChangePasswordForm'
-import PageTitle from '../../components/PageTitle'
+import PageTitle from '../../layouts/PageTitle'
 import ProfileForm from '../../components/ProfileForm'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';

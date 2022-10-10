@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import ContactMap from '../../components/ContactMap'
-import PageTitle from '../../components/PageTitle'
+import PageTitle from '../../layouts/PageTitle'
 
 const ContactUs = () => {
   return (

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import PageTitle from '../../components/PageTitle'
+import PageTitle from '../../layouts/PageTitle'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';

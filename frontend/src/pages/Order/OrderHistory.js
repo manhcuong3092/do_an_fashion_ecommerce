@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
+import PageTitle from '../../layouts/PageTitle'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import PageTitle from '../../components/PageTitle'
 import Container from 'react-bootstrap/Container';
 
 const OrderHistory = () => {

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import GridProduct from '../../components/GridProduct'
-import PageTitle from '../../components/PageTitle'
+import PageTitle from '../../layouts/PageTitle'
 import SideBar from '../../components/SideBar'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';

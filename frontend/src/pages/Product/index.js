@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import PageTitle from '../../components/PageTitle'
+import PageTitle from '../../layouts/PageTitle'
 import ProductDetail from '../../components/ProductDetail'
 import ProductReview from '../../components/ProductReview'
 import RelatedProducts from '../../components/RelatedProducts'
