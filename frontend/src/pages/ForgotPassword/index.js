@@ -8,6 +8,7 @@ import { END_POINT } from '../../config'
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, forgotPassword } from '../../redux/actions/authActions';
 import Loader from '../../layouts/Loader';
+import Metadata from '../../layouts/Metadata';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -36,6 +37,7 @@ const ForgotPassword = () => {
 
   return (
     <section className="pages login-page section-padding">
+      <Metadata title={'Quên mật khẩu'} />
       { loading && (<Loader />)}
       <Container>
         <Row>

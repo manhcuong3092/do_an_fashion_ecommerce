@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { clearErrors, resetPassword } from '../../redux/actions/authActions';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../../layouts/Loader';
+import Metadata from '../../layouts/Metadata';
 
 const ResetPassword = () => {
   const [password, setPassword] = useState('');
@@ -37,6 +38,7 @@ const ResetPassword = () => {
   }
   return (
     <section className="pages login-page section-padding">
+      <Metadata title={'Đặt lại mật khẩu'} />
       { loading && (<Loader />)}
       <Container>
         <Row>

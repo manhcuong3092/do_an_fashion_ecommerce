@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { clearErrors, register } from '../../redux/actions/authActions';
 import { REGISTER_USER_RESET } from '../../redux/types/authActionTypes';
 import Loader from '../../layouts/Loader';
+import Metadata from '../../layouts/Metadata';
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -87,6 +88,7 @@ const Register = () => {
 
   return (
     <section className="pages login-page section-padding">
+      <Metadata title={'Đăng ký'} />
       { loading && (<Loader />)}
       <Container>
         <Row>

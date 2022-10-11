@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container';
 import { toast } from 'react-toastify';
 import { clearErrors, login } from '../../redux/actions/authActions';
 import Loader from '../../layouts/Loader';
+import Metadata from '../../layouts/Metadata';
 
 
 const Login = () => {
@@ -36,6 +37,7 @@ const Login = () => {
 
   return (
     <section className="pages login-page section-padding">
+      <Metadata title={'Đăng nhập'} />
       { loading && (<Loader />)}
       <Container>
         <Row>
@@ -59,7 +61,6 @@ const Login = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)} />
                     <Link className="forget" to="/password/forgot">Quên mật khẩu?</Link>
-                    <Link className="forget" to="/password/reset/asd">Quên mật khẩu?</Link>
                     <div className="submit-text text-center">
                       <button>Đăng nhập</button>
                     </div>
