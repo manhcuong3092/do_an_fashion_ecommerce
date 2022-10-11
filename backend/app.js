@@ -4,6 +4,11 @@ const app = express();
 const dotenv = require('dotenv')
 dotenv.config({path: '.env'})
 
+var cors = require('cors')
+
+//Enable cors
+app.use(cors())
+
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload')

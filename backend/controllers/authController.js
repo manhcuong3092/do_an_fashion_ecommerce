@@ -4,11 +4,13 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
+const cloudinary = require('cloudinary');
 
 //Register a user => /api/v1/register
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
   let avatar = null;
   if (req.body.avatar) {
+    console.log(req.body.avatar);
     const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
       folder: 'avatars',
       width: 150,
@@ -20,11 +22,12 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     }
   }
 
-  const { name, email, password, city, address } = req.body;
+  const { name, email, password, city, address, phoneNo } = req.body;
   const user = await User.create({
     name,
     email: email.toLowerCase(),
     password,
+    phoneNo,
     city,
     address,
     avatar
@@ -75,7 +78,7 @@ exports.logoutUser = catchAsyncErrors(async (req, res, next) => {
 exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    return next(new ErrorHandler(`Không tìm thấy user của email ${req.body.email}`, 404));
+    return next(new ErrorHandler(`Không tìm thấy người dùng của email ${req.body.email}`, 404));
   }
 
   //Get reset token
