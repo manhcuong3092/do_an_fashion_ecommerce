@@ -18,6 +18,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import OrderHistory from './pages/Order/OrderHistory';
 import OrderDetail from './pages/Order/OrderDetail';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path='/checkout' element={<Checkout />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/forgot' element={<ForgotPassword />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/orders' element={<OrderHistory />} />
           <Route path='/order-detail' element={<OrderDetail />} />
