@@ -9,7 +9,7 @@ const reducer = combineReducers({
 });
 
 let initState = {
-
+  auth: localStorage.getItem('auth') ? JSON.parse(localStorage.getItem('auth')) : {}
 };
 
 const middleware = [thunk];

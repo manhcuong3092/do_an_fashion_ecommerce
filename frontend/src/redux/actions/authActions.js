@@ -18,7 +18,7 @@ import {
 } from "../types/authActionTypes";
 
 //Login 
-export const login = (email, password) => async (dispatch) => {
+export const login = (email, password) => async (dispatch, getState) => {
   try {
     dispatch({ type: LOGIN_REQUEST });
     const config = {
@@ -31,6 +31,7 @@ export const login = (email, password) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: data.user
     })
+    localStorage.setItem('auth', JSON.stringify(getState().auth))
   } catch (error) {
     dispatch({
       type: LOGIN_FAIL,
@@ -48,6 +49,7 @@ export const logout = () => async (dispatch) => {
       type: LOGOUT_SUCCESS,
       payload: data.user
     })
+    localStorage.setItem('auth', JSON.stringify({}))
   } catch (error) {
     dispatch({
       type: LOGOUT_FAIL,
