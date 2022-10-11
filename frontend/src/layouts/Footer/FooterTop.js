@@ -2,6 +2,12 @@ import React from 'react'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import in1 from '../../assets/img/footer/in1.png';
+import in2 from '../../assets/img/footer/in2.png';
+import in3 from '../../assets/img/footer/in3.png';
+import in4 from '../../assets/img/footer/in4.png';
+import in5 from '../../assets/img/footer/in5.png';
+import in6 from '../../assets/img/footer/in6.png';
 
 const FooterTop = () => {
   return (
@@ -93,12 +99,12 @@ const FooterTop = () => {
                 </div>
                 <div className="clearfix instagram">
                   <ul>
-                    <li><a href="#"><img src="img/footer/in1.png" alt="Instagram" /></a></li>
-                    <li><a href="#"><img src="img/footer/in2.png" alt="Instagram" /></a></li>
-                    <li><a href="#"><img src="img/footer/in3.png" alt="Instagram" /></a></li>
-                    <li><a href="#"><img src="img/footer/in4.png" alt="Instagram" /></a></li>
-                    <li><a href="#"><img src="img/footer/in5.png" alt="Instagram" /></a></li>
-                    <li><a href="#"><img src="img/footer/in6.png" alt="Instagram" /></a></li>
+                    <li><a href="#"><img src={in1} alt="Instagram" /></a></li>
+                    <li><a href="#"><img src={in2} alt="Instagram" /></a></li>
+                    <li><a href="#"><img src={in3} alt="Instagram" /></a></li>
+                    <li><a href="#"><img src={in4} alt="Instagram" /></a></li>
+                    <li><a href="#"><img src={in5} alt="Instagram" /></a></li>
+                    <li><a href="#"><img src={in6} alt="Instagram" /></a></li>
                   </ul>
                 </div>
               </div>

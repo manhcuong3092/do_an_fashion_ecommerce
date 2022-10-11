@@ -4,6 +4,7 @@ import CartIcon from '../../components/CartIcon'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import logo from '../../assets/img/logo2.png'
 
 const Navbar = () => {
   return (
@@ -11,7 +12,7 @@ const Navbar = () => {
       <Row>
         <Col md={2}>
           <div className="logo">
-            <a href="index.html"><img src="img/logo2.png" alt="Sellshop" /></a>
+            <a href="/"><img src={logo} alt="Sellshop" /></a>
           </div>
         </Col>
         <Col md={8}>

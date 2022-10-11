@@ -1,3 +1,6 @@
+import './assets/css/bootstrap.min.css';
+import './assets/css/materialdesignicons.min.css';
+import './assets/css/responsive.css';
 import './App.css';
 import { Fragment } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
