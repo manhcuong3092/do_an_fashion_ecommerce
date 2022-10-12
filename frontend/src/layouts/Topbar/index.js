@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { logout } from "../../redux/actions/authActions";
+import { ROLE_ADMIN } from '../../constants/role';
 
 const Topbar = () => {
 
@@ -35,6 +36,7 @@ const Topbar = () => {
                     <ul>
                       <li><Link onClick={logoutHandler}>Đăng xuất</Link></li>
                       <li><Link to="/profile">Tài khoản</Link></li>
+                      { user.role === ROLE_ADMIN && <li><Link to="/admin/dashboard">Bảng điều khiển</Link></li> }
                     </ul>
                   ) : (
                     <ul>
