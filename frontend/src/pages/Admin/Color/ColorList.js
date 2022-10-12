@@ -12,8 +12,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 
-const SizeList = () => {
-  const [sizes, setSizes] = useState([]);
+const ColorList = () => {
+  const [colors, setColors] = useState([]);
   const [pageSize, setPageSize] = React.useState(10);
   const navigate = useNavigate();
 
@@ -24,12 +24,12 @@ const SizeList = () => {
           'Content-Type': 'application/json',
         },
       };
-      const { data } = await axios.delete(`/api/v1/admin/size/${id}`, config);
+      const { data } = await axios.delete(`/api/v1/admin/color/${id}`, config);
       if (data.success) {
-        toast.success('Xóa kích cỡ thành công.');
-        navigate('/admin/management/sizes');
-        setSizes(
-          sizes.filter((item) => {
+        toast.success('Xóa màu thành công.');
+        navigate('/admin/management/colors');
+        setColors(
+          colors.filter((item) => {
             return item.id !== id;
           }),
         );
@@ -44,6 +44,24 @@ const SizeList = () => {
     { field: 'id', headerName: 'ID', flex: 1 },
     { field: 'name', headerName: 'Tên', flex: 1 },
     { field: 'description', headerName: 'Mô tả', flex: 1 },
+    { field: 'hexCode', headerName: 'Mã màu', flex: 1 },
+    {
+      field: 'color',
+      headerName: 'Màu',
+      renderCell: (cell) => {
+        return (
+          <Button
+            style={{
+              borderRadius: 0,
+              backgroundColor: cell.value,
+              padding: '18px 36px',
+              fontSize: '18px',
+            }}
+            variant="contained"
+          ></Button>
+        );
+      },
+    },
     {
       field: 'actions',
       headerName: 'Hành động',
@@ -51,7 +69,7 @@ const SizeList = () => {
       renderCell: (cell) => {
         return (
           <Fragment>
-            <Button variant="contained" component={Link} color="primary" to={`/admin/management/size/${cell.value}`}>
+            <Button variant="contained" component={Link} color="primary" to={`/admin/management/color/${cell.value}`}>
               <EditIcon />
             </Button>
             <span style={{ width: '10px' }}> </span>
@@ -71,31 +89,29 @@ const SizeList = () => {
   ];
 
   useEffect(() => {
-    try {
-      const fetchData = async () => {
-        try {
-          const { data } = await axios.get(`${END_POINT}/api/v1/sizes`);
-          let sizeData = [];
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${END_POINT}/api/v1/colors`);
+        let colorData = [];
 
-          data.sizes.forEach((size, index) => {
-            sizeData.push({
-              id: size._id,
-              name: size.name,
-              description: size.description,
-              actions: size._id,
-              sequense: index + 1,
-            });
+        data.colors.forEach((color, index) => {
+          colorData.push({
+            id: color._id,
+            name: color.name,
+            description: color.description,
+            hexCode: color.hexCode,
+            color: color.hexCode,
+            actions: color._id,
+            sequense: index + 1,
           });
-          setSizes(sizeData);
-        } catch (error) {
-          toast.error(error.response.data.message);
-        }
-      };
-      fetchData();
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
-  }, [sizes]);
+        });
+        setColors(colorData);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+    fetchData();
+  }, [colors]);
 
   return (
     <Fragment>
@@ -104,15 +120,12 @@ const SizeList = () => {
         <div id="layoutSidenav_content">
           <main>
             <div class="container-fluid px-4">
-              <h1 className="my-4">Danh sách kích cỡ</h1>
-              {/* <Fragment>
-                <MDBDataTable data={setTableSizes()} className="px-3" bordered striped hover />
-              </Fragment> */}
+              <h1 className="my-4">Danh sách màu sắc</h1>
               <Button
                 variant="contained"
                 component={Link}
                 color="primary"
-                to={`/admin/management/create-size`}
+                to={`/admin/management/create-color`}
                 className="mb-3"
                 sx={{
                   ':hover': {
@@ -128,7 +141,7 @@ const SizeList = () => {
                   <DataGrid
                     pageSize={pageSize}
                     onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                    rows={sizes}
+                    rows={colors}
                     columns={columns}
                     rowsPerPageOptions={[5, 10, 20]}
                   />
@@ -143,4 +156,4 @@ const SizeList = () => {
   );
 };
 
-export default SizeList;
+export default ColorList;

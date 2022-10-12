@@ -28,6 +28,9 @@ import Dashboard from './pages/Admin/Dashboard';
 import SizeList from './pages/Admin/Size/SizeList';
 import CreateSize from './pages/Admin/Size/CreateSize';
 import UpdateSize from './pages/Admin/Size/UpdateSize';
+import ColorList from './pages/Admin/Color/ColorList';
+import CreateColor from './pages/Admin/Color/CreateColor';
+import UpdateColor from './pages/Admin/Color/UpdateColor';
 
 function App() {
   return (
@@ -57,6 +60,9 @@ function App() {
           <Route path="/admin/management/sizes" element={<SizeList />} />
           <Route path="/admin/management/create-size" element={<CreateSize />} />
           <Route path="/admin/management/size/:sizeId" element={<UpdateSize />} />
+          <Route path="/admin/management/colors" element={<ColorList />} />
+          <Route path="/admin/management/create-color" element={<CreateColor />} />
+          <Route path="/admin/management/color/:colorId" element={<UpdateColor />} />
         </Routes>
       </Router>
     </Fragment>
