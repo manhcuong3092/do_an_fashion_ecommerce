@@ -6,6 +6,7 @@ import OutlineBox from '~/components/OutlineBox';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
+import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 
 const UpdateSize = () => {
   const [name, setName] = useState('');
@@ -51,8 +52,8 @@ const UpdateSize = () => {
       <SideNav>
         <div id="layoutSidenav_content">
           <main>
-            <div class="container-fluid p-4">
-              <h1 className="my-4">Tạo kích cỡ</h1>
+            <div class="container-fluid px-4">
+              <h1 className="my-4">Cập nhật kích cỡ</h1>
               <OutlineBox>
                 <Form className="form-control p-4" onSubmit={handleSubmit}>
                   <Form.Group>
@@ -85,6 +86,7 @@ const UpdateSize = () => {
             </div>
           </main>
         </div>
+        <FooterAdmin />
       </SideNav>
     </Fragment>
   );

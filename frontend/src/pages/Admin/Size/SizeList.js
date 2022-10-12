@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import OutlineBox from '~/components/OutlineBox';
+import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 
 const SizeList = () => {
   const [sizes, setSizes] = useState([]);
@@ -103,7 +104,7 @@ const SizeList = () => {
         <div id="layoutSidenav_content">
           <main>
             <div class="container-fluid px-4">
-              <h1 className="my-5">Danh sách kích cỡ</h1>
+              <h1 className="my-4">Danh sách kích cỡ</h1>
               {/* <Fragment>
                 <MDBDataTable data={setTableSizes()} className="px-3" bordered striped hover />
               </Fragment> */}
@@ -136,6 +137,7 @@ const SizeList = () => {
             </div>
           </main>
         </div>
+        <FooterAdmin />
       </SideNav>
     </Fragment>
   );

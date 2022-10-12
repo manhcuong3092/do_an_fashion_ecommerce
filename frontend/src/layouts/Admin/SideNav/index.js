@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Collapse from 'react-bootstrap/Collapse';
+import { Link } from 'react-router-dom';
 
 const SideNav = ({ children }) => {
   const [open, setOpen] = useState(false);
@@ -11,15 +12,15 @@ const SideNav = ({ children }) => {
           <div className="sb-sidenav-menu">
             <div className="nav">
               <div className="sb-sidenav-menu-heading">Core</div>
-              <a className="nav-link" href="index.html">
+              <Link className="nav-link" to="/admin/dashboard">
                 <div className="sb-nav-link-icon">
                   <i className="fas fa-tachometer-alt"></i>
                 </div>
                 Dashboard
-              </a>
+              </Link>
               <div className="sb-sidenav-menu-heading">Quản lý</div>
               <a
-                href="#"
+                href="#!"
                 onClick={() => setOpen(!open)}
                 className="nav-link"
                 data-bs-toggle="collapse"
@@ -30,7 +31,7 @@ const SideNav = ({ children }) => {
                 <div className="sb-nav-link-icon">
                   <i className="fas fa-columns"></i>
                 </div>
-                Layouts
+                Sản phẩm
                 <div className="sb-sidenav-collapse-arrow">
                   <i className="fas fa-angle-down"></i>
                 </div>
@@ -38,12 +39,15 @@ const SideNav = ({ children }) => {
               <Collapse id="collapseLayouts" in={open} aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <div>
                   <nav className="sb-sidenav-menu-nested nav ml-5">
-                    <a className="nav-link" href="layout-static.html">
-                      Static Navigation
-                    </a>
-                    <a className="nav-link" href="layout-sidenav-light.html">
-                      Light Sidenav
-                    </a>
+                    <Link className="nav-link" to={'/admin/management/categories'}>
+                      Danh mục
+                    </Link>
+                    <Link className="nav-link" to={'/admin/management/sizes'}>
+                      Kích cỡ
+                    </Link>
+                    <Link className="nav-link" to={'/admin/management/colors'}>
+                      Màu sắc
+                    </Link>
                   </nav>
                 </div>
               </Collapse>
@@ -155,8 +159,7 @@ const SideNav = ({ children }) => {
           </div>
         </nav>
       </div>
-
-      {children}
+      <div id="layoutSidenav_content">{children}</div>
     </div>
   );
 };
