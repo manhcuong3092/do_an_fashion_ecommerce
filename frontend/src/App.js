@@ -27,6 +27,7 @@ import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Admin/Dashboard';
 import SizeList from './pages/Admin/Size/SizeList';
 import CreateSize from './pages/Admin/Size/CreateSize';
+import UpdateSize from './pages/Admin/Size/UpdateSize';
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/admin/management/sizes" element={<SizeList />} />
           <Route path="/admin/management/create-size" element={<CreateSize />} />
+          <Route path="/admin/management/size/:sizeId" element={<UpdateSize />} />
         </Routes>
       </Router>
     </Fragment>
