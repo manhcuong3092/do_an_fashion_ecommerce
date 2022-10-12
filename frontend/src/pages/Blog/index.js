@@ -5,10 +5,13 @@ import SideBarBlog from '../../components/SideBarBlog'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import Header from '../../layouts/Header';
+import Footer from '../../layouts/Footer';
 
 const Blog = () => {
   return (
     <Fragment>
+      <Header />
       <PageTitle title={"Bài viết"} />
       <section className="pages blog single-blog-area section-padding-top pb-5">
         <Container>
@@ -22,6 +25,7 @@ const Blog = () => {
           </Row>
         </Container>
       </section>
+      <Footer />
     </Fragment>
   )
 }

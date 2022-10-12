@@ -3,10 +3,13 @@ import PageTitle from '../../layouts/PageTitle'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import Header from '../../layouts/Header';
+import Footer from '../../layouts/Footer';
 
 const OrderHistory = () => {
   return (
     <Fragment>
+      <Header />
       <PageTitle title={"Lịch sử đặt hàng"} />
       <section className="pages cart-page section-padding">
         <Container>
@@ -48,6 +51,7 @@ const OrderHistory = () => {
           </Row>
         </Container>
       </section>
+      <Footer />
     </Fragment>
   )
 }

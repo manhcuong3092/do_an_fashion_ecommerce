@@ -4,10 +4,13 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Metadata from '../../layouts/Metadata';
+import Header from '../../layouts/Header';
+import Footer from '../../layouts/Footer';
 
 const OrderDetail = () => {
   return (
     <Fragment>
+      <Header />
       <PageTitle title={"Chi tiết đơn hàng"} />
       <section className="pages cart-page section-padding">
         <Container>
@@ -104,6 +107,7 @@ const OrderDetail = () => {
           </Row>
         </Container>
       </section>
+      <Footer />
     </Fragment>
   )
 }

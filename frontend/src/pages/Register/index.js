@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import validator from 'validator';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,6 +10,8 @@ import { clearErrors, register } from '../../redux/actions/authActions';
 import { REGISTER_USER_RESET } from '../../redux/types/authActionTypes';
 import Loader from '../../layouts/Loader';
 import Metadata from '../../layouts/Metadata';
+import Header from '../../layouts/Header';
+import Footer from '../../layouts/Footer';
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -87,63 +89,67 @@ const Register = () => {
   }
 
   return (
-    <section className="pages login-page section-padding">
-      <Metadata title={'Đăng ký'} />
-      { loading && (<Loader />)}
-      <Container>
-        <Row>
+    <Fragment>
+      <Header />
+      <section className="pages login-page section-padding">
+        <Metadata title={'Đăng ký'} />
+        {loading && (<Loader />)}
+        <Container>
+          <Row>
+            <Col md={3}></Col>
+            <Col md={6}>
+              <div className="main-input padding60 new-customer">
+                <div className="log-title text-center">
+                  <h3><strong>Đăng ký tài khoản</strong></h3>
+                </div>
+                <div className="custom-input">
+                  <form onSubmit={submitHandler}>
+                    <label>Họ tên <span className='text-danger'>(*)</span></label>
+                    <input type="text" name="name" placeholder="Họ Tên.."
+                      value={name}
+                      onChange={onChange} />
+                    <label>Email <span className='text-danger'>(*)</span></label>
+                    <input type="text" name="email" placeholder="Email.."
+                      value={email}
+                      onChange={onChange} />
+                    <label>Số điện thoại <span className='text-danger'>(*)</span></label>
+                    <input type="text" name="phoneNo" placeholder="Số điện thoại.."
+                      value={phoneNo}
+                      onChange={onChange} />
+                    <label>Mật khẩu <span className='text-danger'>(*)</span></label>
+                    <input type="password" name="password" placeholder="Mật khẩu"
+                      value={password}
+                      onChange={onChange} />
+                    <label>Nhập lại mật khẩu <span className='text-danger'>(*)</span></label>
+                    <input type="password" name="confirmPassword" placeholder="Xác nhận mật khẩu"
+                      value={confirmPassword}
+                      onChange={e => setConfirmPassword(e.target.value)} />
+                    <label>Ảnh đại diện</label>
+                    <input type='file' name="avatar" className='form-control' placeholder='Ảnh đại diện' onChange={onChange} />
+                    <div>
+                      <figure className='avatar mr-3 item-rtl'>
+                        <img
+                          src={avatarPreview}
+                          className='rounded-circle'
+                          alt='Avatar Preview'
+                          width={60}
+                          height={60}
+                        />
+                      </figure>
+                    </div>
+                    <div className="submit-text text-center">
+                      <button>Đăng ký</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </Col>
+          </Row>
           <Col md={3}></Col>
-          <Col md={6}>
-            <div className="main-input padding60 new-customer">
-              <div className="log-title text-center">
-                <h3><strong>Đăng ký tài khoản</strong></h3>
-              </div>
-              <div className="custom-input">
-                <form onSubmit={submitHandler}>
-                  <label>Họ tên <span className='text-danger'>(*)</span></label>
-                  <input type="text" name="name" placeholder="Họ Tên.."
-                    value={name}
-                    onChange={onChange} />
-                  <label>Email <span className='text-danger'>(*)</span></label>
-                  <input type="text" name="email" placeholder="Email.."
-                    value={email}
-                    onChange={onChange} />
-                  <label>Số điện thoại <span className='text-danger'>(*)</span></label>
-                  <input type="text" name="phoneNo" placeholder="Số điện thoại.."
-                    value={phoneNo}
-                    onChange={onChange} />
-                  <label>Mật khẩu <span className='text-danger'>(*)</span></label>
-                  <input type="password" name="password" placeholder="Mật khẩu"
-                    value={password}
-                    onChange={onChange} />
-                  <label>Nhập lại mật khẩu <span className='text-danger'>(*)</span></label>
-                  <input type="password" name="confirmPassword" placeholder="Xác nhận mật khẩu"
-                    value={confirmPassword}
-                    onChange={e => setConfirmPassword(e.target.value)} />
-                  <label>Ảnh đại diện</label>
-                  <input type='file' name="avatar" className='form-control' placeholder='Ảnh đại diện' onChange={onChange} />
-                  <div>
-                    <figure className='avatar mr-3 item-rtl'>
-                      <img
-                        src={avatarPreview}
-                        className='rounded-circle'
-                        alt='Avatar Preview'
-                        width={60}
-                        height={60}
-                      />
-                    </figure>
-                  </div>
-                  <div className="submit-text text-center">
-                    <button>Đăng ký</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </Col>
-        </Row>
-        <Col md={3}></Col>
-      </Container>
-    </section>
+        </Container>
+      </section>
+      <Footer />
+    </Fragment>
   )
 }
 

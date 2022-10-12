@@ -6,10 +6,13 @@ import ProfileForm from '../../components/ProfileForm'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import Header from '../../layouts/Header'
+import Footer from '../../layouts/Footer'
 
 const Profile = () => {
   return (
     <Fragment>
+      <Header />
       <PageTitle title={"Thông tin cá nhân"} />
       <section className="pages my-account-page section-padding">
         <Container>
@@ -36,6 +39,7 @@ const Profile = () => {
           </Row>
         </Container>
       </section>
+      <Footer />
     </Fragment>
   )
 }
