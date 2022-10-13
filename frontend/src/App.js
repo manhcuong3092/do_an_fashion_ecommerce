@@ -31,6 +31,9 @@ import UpdateSize from './pages/Admin/Size/UpdateSize';
 import ColorList from './pages/Admin/Color/ColorList';
 import CreateColor from './pages/Admin/Color/CreateColor';
 import UpdateColor from './pages/Admin/Color/UpdateColor';
+import CategoryList from './pages/Admin/Category/CategoryList';
+import CreateCategory from './pages/Admin/Category/CreateCategory';
+import UpdateCategory from './pages/Admin/Category/UpdateCategory';
 
 function App() {
   return (
@@ -63,6 +66,9 @@ function App() {
           <Route path="/admin/management/colors" element={<ColorList />} />
           <Route path="/admin/management/create-color" element={<CreateColor />} />
           <Route path="/admin/management/color/:colorId" element={<UpdateColor />} />
+          <Route path="/admin/management/categories" element={<CategoryList />} />
+          <Route path="/admin/management/create-category" element={<CreateCategory />} />
+          <Route path="/admin/management/category/:categoryId" element={<UpdateCategory />} />
         </Routes>
       </Router>
     </Fragment>

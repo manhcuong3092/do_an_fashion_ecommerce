@@ -8,10 +8,9 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 
-const CreateColor = () => {
+const CreateCategory = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [hexCode, setHexCode] = useState('#000000');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,10 +21,10 @@ const CreateColor = () => {
           'Content-Type': 'application/json',
         },
       };
-      const { data } = await axios.post('/api/v1/admin/color', { name, description, hexCode }, config);
+      const { data } = await axios.post('/api/v1/admin/category', { name, description }, config);
       if (data.success) {
-        toast.success('Tạo màu sắc thành công.');
-        navigate('/admin/management/colors');
+        toast.success('Tạo danh mục thành công.');
+        navigate('/admin/management/categories');
       }
     } catch (error) {
       toast.error(error.response.data.message);
@@ -39,7 +38,7 @@ const CreateColor = () => {
         <div id="layoutSidenav_content">
           <main>
             <div class="container-fluid px-4">
-              <h1 className="my-4">Tạo màu sắc</h1>
+              <h1 className="my-4">Tạo danh mục</h1>
               <OutlineBox>
                 <Form className="form-control p-4" onSubmit={handleSubmit}>
                   <Form.Group>
@@ -50,17 +49,6 @@ const CreateColor = () => {
                       className="form-control"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="my-3">
-                    <Form.Label htmlFor="description_field">Màu</Form.Label>
-                    <Form.Control
-                      type="color"
-                      id="name_field"
-                      className="form-control"
-                      value={hexCode}
-                      onChange={(e) => setHexCode(e.target.value)}
                     />
                   </Form.Group>
 
@@ -89,4 +77,4 @@ const CreateColor = () => {
   );
 };
 
-export default CreateColor;
+export default CreateCategory;
