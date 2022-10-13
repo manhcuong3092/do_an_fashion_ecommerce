@@ -115,7 +115,7 @@ ul {
   padding: 0;
 }
 ul li {
-  float: left;
+  /* float: left; */
 }
 hr.line {
   background: #ef6644 none repeat scroll 0 0;
@@ -2788,4 +2788,12 @@ table td .submit-text > a {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.instagram ul li,
+.mainmenu nav ul li,
+.blog-share li,
+.rating ul li,
+.pages-title-text ul li {
+  float: left;
 }

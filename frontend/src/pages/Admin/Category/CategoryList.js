@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import TopNav from '~/layouts/Admin/TopNav';
 import SideNav from '~/layouts/Admin/SideNav';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar, viVN } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -100,8 +100,11 @@ const CategoryList = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     }
-  }, [categories]);
+  }, []);
 
+  const [filterModel, setFilterModel] = useState({
+    items: [],
+  });
   return (
     <Fragment>
       <TopNav />
@@ -133,6 +136,12 @@ const CategoryList = () => {
                     rows={categories}
                     columns={columns}
                     rowsPerPageOptions={[5, 10, 20]}
+                    components={{
+                      Toolbar: GridToolbar,
+                    }}
+                    filterModel={filterModel}
+                    onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
+                    localeText={viVN.components.MuiDataGrid.defaultProps.localeText}
                   />
                 </div>
               </OutlineBox>
