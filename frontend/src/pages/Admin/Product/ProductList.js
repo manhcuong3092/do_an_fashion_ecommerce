@@ -11,9 +11,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
+import Avatar from '@mui/material/Avatar';
 
-const SizeList = () => {
-  const [sizes, setSizes] = useState([]);
+const ProductList = () => {
+  const [products, setProducts] = useState([]);
   const [pageSize, setPageSize] = React.useState(10);
   const navigate = useNavigate();
 
@@ -24,12 +27,12 @@ const SizeList = () => {
           'Content-Type': 'application/json',
         },
       };
-      const { data } = await axios.delete(`/api/v1/admin/size/${id}`, config);
+      const { data } = await axios.delete(`/api/v1/admin/product/${id}`, config);
       if (data.success) {
-        toast.success('Xóa kích cỡ thành công.');
-        navigate('/admin/management/sizes');
-        setSizes(
-          sizes.filter((item) => {
+        toast.success('Xóa sản phẩm thành công.');
+        navigate('/admin/management/products');
+        setProducts(
+          products.filter((item) => {
             return item.id !== id;
           }),
         );
@@ -40,10 +43,29 @@ const SizeList = () => {
   };
 
   const columns = [
-    { field: 'sequense', headerName: 'STT' },
-    { field: 'id', headerName: 'ID', flex: 1 },
-    { field: 'name', headerName: 'Tên', flex: 1 },
-    { field: 'description', headerName: 'Mô tả', flex: 1 },
+    { field: 'sequense', headerName: 'STT', width: 50 },
+    { field: 'id', headerName: 'ID', flex: 1, hide: true },
+    {
+      field: 'image',
+      headerName: 'Ảnh',
+      renderCell: (cell) => {
+        return <Avatar alt="Img" variant="square" src={cell.value} sx={{ width: 56, height: 56 }} />;
+      },
+    },
+    { field: 'name', headerName: 'Tên', flex: 3 },
+    { field: 'price', headerName: 'Giá', flex: 1 },
+    { field: 'salePrice', headerName: 'Giá khuyến mại', flex: 1 },
+    { field: 'category', headerName: 'Danh mục', flex: 1 },
+    { field: 'sizes', headerName: 'Kích cỡ', flex: 1 },
+    { field: 'colors', headerName: 'Màu', flex: 1 },
+    { field: 'stock', headerName: 'Kho', width: 80 },
+    {
+      field: 'active',
+      headerName: 'Kích hoạt',
+      renderCell: (cell) => {
+        return cell.value ? <CheckCircleIcon color="success" /> : <DoNotDisturbOnIcon color="error" />;
+      },
+    },
     {
       field: 'actions',
       headerName: 'Hành động',
@@ -51,7 +73,7 @@ const SizeList = () => {
       renderCell: (cell) => {
         return (
           <Fragment>
-            <Button variant="contained" component={Link} color="info" to={`/admin/management/size/${cell.value}`}>
+            <Button variant="contained" component={Link} color="info" to={`/admin/management/product/${cell.value}`}>
               <EditIcon />
             </Button>
             <span style={{ width: '10px' }}> </span>
@@ -71,55 +93,67 @@ const SizeList = () => {
   ];
 
   useEffect(() => {
-    try {
-      const fetchData = async () => {
-        try {
-          const { data } = await axios.get(`${END_POINT}/api/v1/sizes`);
-          let sizeData = [];
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(`${END_POINT}/api/v1/products`);
+        let productData = [];
 
-          data.sizes.forEach((size, index) => {
-            sizeData.push({
-              id: size._id,
-              name: size.name,
-              description: size.description,
-              actions: size._id,
-              sequense: index + 1,
-            });
+        data.products.forEach((product, index) => {
+          productData.push({
+            id: product._id,
+            name: product.name,
+            price: product.price,
+            salePrice: product.salePrice,
+            category: product.category.name,
+            sizes: product.sizes
+              .map((item) => {
+                return item.name;
+              })
+              .join(', '),
+            colors: product.colors
+              .map((item) => {
+                return item.name;
+              })
+              .join(', '),
+            stock: product.stock.reduce((acc, item) => {
+              return acc + item.quantity;
+            }, 0),
+            active: product.active,
+            actions: product._id,
+            image: product.images[0],
+            sold: product.sold,
+            sequense: index + 1,
           });
-          setSizes(sizeData);
-        } catch (error) {
-          toast.error(error.response.data.message);
-        }
-      };
-      fetchData();
-    } catch (error) {
-      toast.error(error.response.data.message);
-    }
+        });
+        setProducts(productData);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+    fetchData();
   }, []);
 
   const [filterModel, setFilterModel] = useState({
     items: [],
   });
+
   return (
     <Fragment>
       <TopNav />
       <SideNav>
         <main>
           <div class="container-fluid px-4">
-            <h1 className="my-4">Danh sách kích cỡ</h1>
-            {/* <Fragment>
-                <MDBDataTable data={setTableSizes()} className="px-3" bordered striped hover />
-              </Fragment> */}
+            <h1 className="my-4">Danh sách sản phẩm</h1>
             <Button
               variant="contained"
               component={Link}
-              color="primary"
-              to={`/admin/management/create-size`}
+              product="primary"
+              to={`/admin/management/create-product`}
               className="mb-3"
               sx={{
                 ':hover': {
                   bgcolor: 'primary.main', // theme.palette.primary.main
-                  color: 'white',
+                  product: 'white',
                 },
               }}
             >
@@ -130,7 +164,7 @@ const SizeList = () => {
                 <DataGrid
                   pageSize={pageSize}
                   onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                  rows={sizes}
+                  rows={products}
                   columns={columns}
                   rowsPerPageOptions={[5, 10, 20]}
                   components={{
@@ -150,4 +184,4 @@ const SizeList = () => {
   );
 };
 
-export default SizeList;
+export default ProductList;

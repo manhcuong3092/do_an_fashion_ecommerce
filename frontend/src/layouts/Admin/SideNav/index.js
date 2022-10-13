@@ -48,6 +48,9 @@ const SideNav = ({ children }) => {
                     <Link className="nav-link" to={'/admin/management/colors'}>
                       Màu sắc
                     </Link>
+                    <Link className="nav-link" to={'/admin/management/products'}>
+                      Sản phẩm
+                    </Link>
                   </nav>
                 </div>
               </Collapse>

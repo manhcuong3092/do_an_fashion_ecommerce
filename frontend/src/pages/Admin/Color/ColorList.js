@@ -69,7 +69,7 @@ const ColorList = () => {
       renderCell: (cell) => {
         return (
           <Fragment>
-            <Button variant="contained" component={Link} color="primary" to={`/admin/management/color/${cell.value}`}>
+            <Button variant="contained" component={Link} color="info" to={`/admin/management/color/${cell.value}`}>
               <EditIcon />
             </Button>
             <span style={{ width: '10px' }}> </span>
@@ -121,45 +121,43 @@ const ColorList = () => {
     <Fragment>
       <TopNav />
       <SideNav>
-        <div id="layoutSidenav_content">
-          <main>
-            <div class="container-fluid px-4">
-              <h1 className="my-4">Danh sách màu sắc</h1>
-              <Button
-                variant="contained"
-                component={Link}
-                color="primary"
-                to={`/admin/management/create-color`}
-                className="mb-3"
-                sx={{
-                  ':hover': {
-                    bgcolor: 'primary.main', // theme.palette.primary.main
-                    color: 'white',
-                  },
-                }}
-              >
-                Tạo mới
-              </Button>
-              <OutlineBox>
-                <div style={{ height: 700, width: '100%' }} className="p-3">
-                  <DataGrid
-                    pageSize={pageSize}
-                    onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                    rows={colors}
-                    columns={columns}
-                    rowsPerPageOptions={[5, 10, 20]}
-                    components={{
-                      Toolbar: GridToolbar,
-                    }}
-                    filterModel={filterModel}
-                    onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
-                    localeText={viVN.components.MuiDataGrid.defaultProps.localeText}
-                  />
-                </div>
-              </OutlineBox>
-            </div>
-          </main>
-        </div>
+        <main>
+          <div class="container-fluid px-4">
+            <h1 className="my-4">Danh sách màu sắc</h1>
+            <Button
+              variant="contained"
+              component={Link}
+              color="primary"
+              to={`/admin/management/create-color`}
+              className="mb-3"
+              sx={{
+                ':hover': {
+                  bgcolor: 'primary.main', // theme.palette.primary.main
+                  color: 'white',
+                },
+              }}
+            >
+              Tạo mới
+            </Button>
+            <OutlineBox>
+              <div style={{ height: 700, width: '100%' }} className="p-3">
+                <DataGrid
+                  pageSize={pageSize}
+                  onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                  rows={colors}
+                  columns={columns}
+                  rowsPerPageOptions={[5, 10, 20]}
+                  components={{
+                    Toolbar: GridToolbar,
+                  }}
+                  filterModel={filterModel}
+                  onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
+                  localeText={viVN.components.MuiDataGrid.defaultProps.localeText}
+                />
+              </div>
+            </OutlineBox>
+          </div>
+        </main>
         <FooterAdmin />
       </SideNav>
     </Fragment>

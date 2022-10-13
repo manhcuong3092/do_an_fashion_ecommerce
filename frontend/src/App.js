@@ -34,6 +34,7 @@ import UpdateColor from './pages/Admin/Color/UpdateColor';
 import CategoryList from './pages/Admin/Category/CategoryList';
 import CreateCategory from './pages/Admin/Category/CreateCategory';
 import UpdateCategory from './pages/Admin/Category/UpdateCategory';
+import ProductList from './pages/Admin/Product/ProductList';
 
 function App() {
   return (
@@ -69,6 +70,7 @@ function App() {
           <Route path="/admin/management/categories" element={<CategoryList />} />
           <Route path="/admin/management/create-category" element={<CreateCategory />} />
           <Route path="/admin/management/category/:categoryId" element={<UpdateCategory />} />
+          <Route path="/admin/management/products" element={<ProductList />} />
         </Routes>
       </Router>
     </Fragment>
