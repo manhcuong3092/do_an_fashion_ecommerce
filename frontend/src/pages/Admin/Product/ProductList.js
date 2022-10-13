@@ -49,7 +49,9 @@ const ProductList = () => {
       field: 'image',
       headerName: 'Ảnh',
       renderCell: (cell) => {
-        return <Avatar alt="Img" variant="square" src={cell.value} sx={{ width: 56, height: 56 }} />;
+        return (
+          <Avatar alt="Img" variant="square" src={cell.value ? cell.value.url : ''} sx={{ width: 56, height: 56 }} />
+        );
       },
     },
     { field: 'name', headerName: 'Tên', flex: 3 },
@@ -95,7 +97,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${END_POINT}/api/v1/products`);
+        const { data } = await axios.get(`/api/v1/admin/products`);
         let productData = [];
 
         data.products.forEach((product, index) => {
@@ -142,7 +144,7 @@ const ProductList = () => {
       <TopNav />
       <SideNav>
         <main>
-          <div class="container-fluid px-4">
+          <div className="container-fluid px-4">
             <h1 className="my-4">Danh sách sản phẩm</h1>
             <Button
               variant="contained"

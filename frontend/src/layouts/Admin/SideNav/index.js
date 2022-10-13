@@ -110,7 +110,7 @@ const SideNav = ({ children }) => {
                   </div>
                   <a
                     className="nav-link collapsed"
-                    href="#"
+                    href="#!"
                     data-bs-toggle="collapse"
                     data-bs-target="#pagesCollapseError"
                     aria-expanded="false"

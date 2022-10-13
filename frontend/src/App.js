@@ -35,6 +35,7 @@ import CategoryList from './pages/Admin/Category/CategoryList';
 import CreateCategory from './pages/Admin/Category/CreateCategory';
 import UpdateCategory from './pages/Admin/Category/UpdateCategory';
 import ProductList from './pages/Admin/Product/ProductList';
+import CreateProduct from './pages/Admin/Product/CreateProduct';
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
           <Route path="/admin/management/create-category" element={<CreateCategory />} />
           <Route path="/admin/management/category/:categoryId" element={<UpdateCategory />} />
           <Route path="/admin/management/products" element={<ProductList />} />
+          <Route path="/admin/management/create-product" element={<CreateProduct />} />
         </Routes>
       </Router>
     </Fragment>
