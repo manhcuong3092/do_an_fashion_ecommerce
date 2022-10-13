@@ -76,6 +76,21 @@ exports.getProducts = catchAsyncError(async (req, res, next) => {
   })
 });
 
+// get all products : /api/v1/admin/products
+exports.getAllProducts = catchAsyncError(async (req, res, next) => {
+  const products = await Product.find()
+    .populate('category')
+    .populate('sizes')
+    .populate('colors')
+    .populate('stock.size')
+    .populate('stock.color');
+
+  res.status(200).json({
+    success: true,
+    products,
+  })
+});
+
 // update : /api/v1/product/:id
 exports.updateProduct = catchAsyncError(async (req, res, next) => {
   let product = await Product.findById(req.params.id);

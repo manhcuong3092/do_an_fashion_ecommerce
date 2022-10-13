@@ -44,6 +44,10 @@ const productSchema = new mongoose.Schema({
       }
     }
   ],
+  gender: {
+    type: String,
+    default: 'Tất cả'
+  },
   category: {
     type: mongoose.Schema.ObjectId,
     ref: 'Category',
@@ -113,6 +117,10 @@ const productSchema = new mongoose.Schema({
   sold: {
     type: Number,
     default: 0
+  },
+  active: {
+    type: Boolean,
+    default: true
   },
   createdBy: {
     type: mongoose.Schema.ObjectId,
