@@ -6,8 +6,11 @@ dotenv.config({path: '.env'})
 
 var cors = require('cors')
 
+const corsConfig = {
+  origin: true,
+  credentials: true,
+};
 //Enable cors
-app.use(cors())
 
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -25,6 +28,8 @@ const contactRoute = require('./routes/contactRoute');
 const subscriberRoute = require('./routes/subscriberRoute');
 const orderRoute = require('./routes/orderRoute');
 const paymentRoute = require('./routes/paymentRoute');
+
+app.use(cors(corsConfig));
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }))
