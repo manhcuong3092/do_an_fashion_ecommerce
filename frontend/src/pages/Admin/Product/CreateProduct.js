@@ -10,6 +10,8 @@ import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import { Col, Row, Table } from 'react-bootstrap';
 import { Box, MenuItem, OutlinedInput, Select } from '@mui/material';
 import { END_POINT } from '~/config';
+import validator from 'validator';
+import Loader from '~/layouts/Loader';
 
 const CreateProduct = () => {
   const [name, setName] = useState('');
@@ -17,10 +19,10 @@ const CreateProduct = () => {
   const [description, setDescription] = useState('');
   const [detailDescription, setDetailDescription] = useState('');
   const [salePrice, setSalePrice] = useState('');
-  const [images, setImages] = useState('');
+  const [images, setImages] = useState([]);
   const [active, setActive] = useState(true);
   const [gender, setGender] = useState('Tất cả');
-  const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState('');
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
   const [stock, setStock] = useState([]);
@@ -32,6 +34,8 @@ const CreateProduct = () => {
 
   //Image preview
   const [imagesPreview, setImagesPreview] = useState([]);
+
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -59,6 +63,44 @@ const CreateProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (validator.isEmpty(name)) {
+      toast.warning('Hãy nhập tên sản phẩm');
+      return;
+    }
+    if (validator.isEmpty(description)) {
+      toast.warning('Hãy mô tả sản phẩm');
+      return;
+    }
+    if (validator.isEmpty(price)) {
+      toast.warning('Hãy nhập giá sản phẩm');
+      return;
+    } else if (validator.isNumeric(price) && price <= 0) {
+      toast.warning('Giá sản phẩm phải lớn hơn 0');
+      return;
+    }
+
+    if (!validator.isEmpty(salePrice) && validator.isNumeric(price) && salePrice < 0) {
+      toast.warning('Giá khuyến mại sản phẩm không được nhỏ hơn 0');
+      return;
+    }
+
+    if (!category) {
+      toast.warning('Hãy chọn danh mục');
+      return;
+    }
+    if (!sizes.length) {
+      toast.warning('Hãy chọn kích cỡ');
+      return;
+    }
+    if (!colors.length) {
+      toast.warning('Hãy chọn màu sắc');
+      return;
+    }
+    if (!images.length) {
+      toast.warning('Hãy tải lên ảnh sản phẩm');
+      return;
+    }
 
     const formData = new FormData();
     formData.set('name', name);
@@ -89,6 +131,8 @@ const CreateProduct = () => {
       formData.append('images', image);
     });
 
+    setLoading(true);
+
     try {
       const config = {
         headers: {
@@ -103,10 +147,12 @@ const CreateProduct = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     }
+    setLoading(false);
   };
 
   const handleColorChange = (e) => {
     let stockArr = [];
+    e.target.value.sort();
     sizes.forEach((size) => {
       e.target.value.forEach((color) => {
         stockArr.push({ size, color, quantity: 0 });
@@ -148,6 +194,7 @@ const CreateProduct = () => {
   return (
     <Fragment>
       <TopNav />
+      {loading && <Loader />}
       <SideNav>
         <main>
           <div className="container-fluid px-4">
