@@ -168,7 +168,14 @@ const UpdateProduct = () => {
     let stockArr = [];
     sizes.forEach((size) => {
       e.target.value.forEach((color) => {
-        stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), quantity: 0 });
+        const index = stock.findIndex(
+          (item) => item.size._id === JSON.parse(size)._id && item.color._id === JSON.parse(color)._id,
+        );
+        if (index !== -1) {
+          stockArr.push(stock[index]);
+        } else {
+          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), quantity: 0 });
+        }
       });
     });
     setStock(stockArr);
@@ -179,7 +186,14 @@ const UpdateProduct = () => {
     let stockArr = [];
     e.target.value.forEach((size) => {
       colors.forEach((color) => {
-        stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), quantity: 0 });
+        const index = stock.findIndex(
+          (item) => item.size._id === JSON.parse(size)._id && item.color._id === JSON.parse(color)._id,
+        );
+        if (index !== -1) {
+          stockArr.push(stock[index]);
+        } else {
+          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), quantity: 0 });
+        }
       });
     });
     setStock(stockArr);

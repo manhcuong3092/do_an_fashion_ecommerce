@@ -72,15 +72,15 @@ const CreateProduct = () => {
       toast.warning('Hãy mô tả sản phẩm');
       return;
     }
-    if (validator.isEmpty(price)) {
+    if (!price) {
       toast.warning('Hãy nhập giá sản phẩm');
       return;
-    } else if (validator.isNumeric(price) && price <= 0) {
+    } else if (price <= 0) {
       toast.warning('Giá sản phẩm phải lớn hơn 0');
       return;
     }
 
-    if (!validator.isEmpty(salePrice) && validator.isNumeric(price) && salePrice < 0) {
+    if (!salePrice && salePrice < 0) {
       toast.warning('Giá khuyến mại sản phẩm không được nhỏ hơn 0');
       return;
     }
@@ -108,16 +108,16 @@ const CreateProduct = () => {
     formData.set('salePrice', salePrice);
     formData.set('description', description);
     formData.set('detailDescription', detailDescription);
-    formData.set('category', category._id);
+    formData.set('category', JSON.parse(category)._id);
     formData.set('gender', gender);
     formData.set('active', active);
 
     sizes.forEach((size) => {
-      formData.append('sizes', size._id);
+      formData.append('sizes', JSON.parse(size)._id);
     });
 
     colors.forEach((color) => {
-      formData.append('colors', color._id);
+      formData.append('colors', JSON.parse(color)._id);
     });
 
     const stockArr = stock.map((item) => {
@@ -155,7 +155,14 @@ const CreateProduct = () => {
     let stockArr = [];
     sizes.forEach((size) => {
       e.target.value.forEach((color) => {
-        stockArr.push({ size, color, quantity: 0 });
+        const index = stock.findIndex(
+          (item) => item.size._id === JSON.parse(size)._id && item.color._id === JSON.parse(color)._id,
+        );
+        if (index !== -1) {
+          stockArr.push(stock[index]);
+        } else {
+          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), quantity: 0 });
+        }
       });
     });
     setStock(stockArr);
@@ -166,7 +173,14 @@ const CreateProduct = () => {
     let stockArr = [];
     e.target.value.forEach((size) => {
       colors.forEach((color) => {
-        stockArr.push({ size, color, quantity: 0 });
+        const index = stock.findIndex(
+          (item) => item.size._id === JSON.parse(size)._id && item.color._id === JSON.parse(color)._id,
+        );
+        if (index !== -1) {
+          stockArr.push(stock[index]);
+        } else {
+          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), quantity: 0 });
+        }
       });
     });
     setStock(stockArr);
@@ -249,9 +263,6 @@ const CreateProduct = () => {
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                         input={<OutlinedInput />}
-                        selectprops={{
-                          renderValue: (data) => <div>{data.map((item) => item.name).join(', ')}</div>,
-                        }}
                         MenuProps={{
                           sx: {
                             '&& .Mui-selected': {
@@ -261,7 +272,7 @@ const CreateProduct = () => {
                         }}
                       >
                         {categoriesData.map((item) => (
-                          <MenuItem key={item._id} value={item}>
+                          <MenuItem key={item._id} value={JSON.stringify(item)}>
                             {item.name}
                           </MenuItem>
                         ))}
@@ -284,12 +295,9 @@ const CreateProduct = () => {
                             },
                           },
                         }}
-                        selectprops={{
-                          renderValue: (data) => <div>{data.map((item) => item.name).join(', ')}</div>,
-                        }}
                       >
                         {sizesData.map((item) => (
-                          <MenuItem key={item._id} value={item}>
+                          <MenuItem key={item._id} value={JSON.stringify(item)}>
                             {item.name}
                           </MenuItem>
                         ))}
@@ -305,9 +313,6 @@ const CreateProduct = () => {
                         value={colors}
                         onChange={(e) => handleColorChange(e)}
                         input={<OutlinedInput />}
-                        selectprops={{
-                          renderValue: (data) => <div>{data.map((item) => item.name).join(', ')}</div>,
-                        }}
                         MenuProps={{
                           sx: {
                             '&& .Mui-selected': {
@@ -317,7 +322,7 @@ const CreateProduct = () => {
                         }}
                       >
                         {colorsData.map((item) => (
-                          <MenuItem key={item._id} value={item}>
+                          <MenuItem key={item._id} value={JSON.stringify(item)}>
                             <Box
                               sx={{
                                 width: 20,
