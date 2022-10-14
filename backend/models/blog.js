@@ -18,8 +18,15 @@ const blogSchema = new mongoose.Schema({
     require: [true, 'Hãy nhập nội dung bài viết'],
   },
   avatar: {
-    type: String,
-    require: false
+    type: {
+      public_id: {
+        type: String,
+      },
+      url: {
+        type: String,
+      },
+    },
+    require: [true, 'Hãy nhập ảnh đại diện.'],
   },
   createdAt: {
     type: Date,

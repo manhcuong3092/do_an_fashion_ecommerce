@@ -1,28 +1,46 @@
 const Blog = require('../models/blog');
 const catchAsyncError = require('../middlewares/catchAsyncErrors');
 const ErrorHandler = require('../utils/errorHandler');
+const cloudinary = require('cloudinary');
 
 
 exports.createBlog = catchAsyncError(async (req, res, next) => {
+  avatar = null;
+  if (req.body.avatar) {
+    try {
+      const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        folder: 'avatars',
+      });
+      avatar = {
+        public_id: result.public_id,
+        url: result.secure_url
+      }
+      req.body.avatar = avatar;
+    } catch (error) {
+      return next(new ErrorHandler(`Tải ảnh lên có kích thước nhỏ hơn 1 MB.`, 400));
+    }
+  } else {
+    return next(new ErrorHandler(`Hãy nhập ảnh đại diện của bài viết.`, 400));
+  }
   req.body.author = req.user._id;
   const blog = await Blog.create(req.body);
   res.status(201).json({
     success: true,
     blog
   });
-}) 
+})
 
 exports.getAllBlogs = catchAsyncError(async (req, res, next) => {
-  const blogs = await Blog.find();
+  const blogs = await Blog.find().populate('author');
   res.status(200).json({
     success: true,
     blogs
   });
-}) 
+})
 
 exports.getBlog = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;
-  const blog = await Blog.findById(id);
+  const blog = await Blog.findById(id).populate('author');
   if (!blog) {
     return next(new ErrorHandler(`Không tìm thấy blog: ${req.params.id}`, 404));
   }
@@ -30,9 +48,25 @@ exports.getBlog = catchAsyncError(async (req, res, next) => {
     success: true,
     blog
   });
-}) 
+})
 
 exports.updateBlog = catchAsyncError(async (req, res, next) => {
+  // Update avatar
+  if (req.body.avatar !== '') {
+    const blog = await Blog.findById(req.params.id);
+    const image_id = blog.avatar.public_id;
+    const res = await cloudinary.v2.uploader.destroy(image_id);
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: 'avatars',
+    });
+    req.body.avatar = {
+      public_id: result.public_id,
+      url: result.secure_url
+    }
+  } else {
+    delete req.body.avatar;
+  }
+
   const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -45,7 +79,7 @@ exports.updateBlog = catchAsyncError(async (req, res, next) => {
     success: true,
     blog
   });
-}) 
+})
 
 exports.deleteBlog = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;
@@ -53,6 +87,10 @@ exports.deleteBlog = catchAsyncError(async (req, res, next) => {
   if (!blog) {
     return next(new ErrorHandler(`Không tìm thấy blog: ${req.params.id}`, 404));
   }
+  
+  const image_id = blog.avatar.public_id;
+  await cloudinary.v2.uploader.destroy(image_id);
+
   await blog.remove();
   res.status(200).json({
     success: true,

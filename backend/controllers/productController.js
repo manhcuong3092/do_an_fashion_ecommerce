@@ -30,6 +30,9 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
   req.body.stock = req.body.stock.map(item => {
     return JSON.parse(item)
   });
+  if(!req.body.salePrice) {
+    req.body.salePrice = 0;
+  }
   const product = await Product.create(req.body);
   res.status(201).json({
     success: true,
@@ -126,6 +129,13 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
     req.body.images = imagesLink;
   }
 
+  req.body.stock = req.body.stock.map(item => {
+    return JSON.parse(item)
+  });
+
+  if(!req.body.salePrice) {
+    req.body.salePrice = 0;
+  }
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
