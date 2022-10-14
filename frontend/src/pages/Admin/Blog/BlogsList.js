@@ -90,7 +90,6 @@ const BlogsList = () => {
           let blogData = [];
 
           data.blogs.forEach((blog, index) => {
-            console.log(blog);
             const createdAt = new Date(Date.parse(blog.createdAt));
             blogData.push({
               id: blog._id,

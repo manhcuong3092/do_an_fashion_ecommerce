@@ -37,6 +37,7 @@ import CreateProduct from './pages/Admin/Product/CreateProduct';
 import UpdateProduct from './pages/Admin/Product/UpdateProduct';
 import BlogsList from './pages/Admin/Blog/BlogsList';
 import CreateBlog from './pages/Admin/Blog/CreateBlog';
+import UpdateBlog from './pages/Admin/Blog/UpdateBlog';
 
 function App() {
   return (
@@ -77,6 +78,7 @@ function App() {
           <Route path="/admin/management/product/:productId" element={<UpdateProduct />} />
           <Route path="/admin/management/blogs" element={<BlogsList />} />
           <Route path="/admin/management/create-blog" element={<CreateBlog />} />
+          <Route path="/admin/management/blog/:blogId" element={<UpdateBlog />} />
         </Routes>
       </Router>
     </Fragment>

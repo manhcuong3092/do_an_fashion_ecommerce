@@ -1,8 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SideNav from '~/layouts/Admin/SideNav';
 import TopNav from '~/layouts/Admin/TopNav';
 import OutlineBox from '~/components/OutlineBox';
@@ -11,17 +11,33 @@ import Loader from '~/layouts/Loader';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-const CreateBlog = () => {
+const UpdateBlog = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [avatar, setAvatar] = useState('');
   const [avatarPreview, setAvatarPreview] = useState();
-  const [loading, setLoading] = useState(false);
+  const [oldAvatar, setOldAvatar] = useState();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const { blogId } = useParams();
+
+  useEffect(() => {
+    const getBlog = async () => {
+      try {
+        const { data } = await axios.get(`/api/v1/admin/blog/${blogId}`);
+        setTitle(data.blog.title);
+        setContent(data.blog.content);
+        setOldAvatar(data.blog.avatar);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+    getBlog();
+  }, [blogId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formData = new FormData();
     formData.set('title', title);
     formData.set('content', content);
@@ -33,9 +49,9 @@ const CreateBlog = () => {
     };
     try {
       setLoading(true);
-      const { data } = await axios.post('/api/v1/admin/blog', formData, config);
+      const { data } = await axios.put(`/api/v1/admin/blog/${blogId}`, formData, config);
       if (data.success) {
-        toast.success('Tạo bài viết thành công.');
+        toast.success('Cập nhật bài viết thành công.');
         navigate('/admin/management/blogs');
       }
     } catch (error) {
@@ -46,6 +62,7 @@ const CreateBlog = () => {
 
   const hanleFileChange = (e) => {
     if (e.target.name === 'avatar') {
+      setOldAvatar('');
       const reader = new FileReader();
       reader.onload = () => {
         if (reader.readyState === 2) {
@@ -64,8 +81,8 @@ const CreateBlog = () => {
       {loading && <Loader />}
       <SideNav>
         <main>
-          <div class="container-fluid px-4">
-            <h1 className="my-4">Tạo bài viết</h1>
+          <div className="container-fluid px-4">
+            <h1 className="my-4">Cập nhật bài viết</h1>
             <OutlineBox>
               <Form className="form-control p-4" onSubmit={handleSubmit}>
                 <Form.Group>
@@ -91,6 +108,9 @@ const CreateBlog = () => {
                       width="200"
                       height="120"
                     />
+                  )}
+                  {oldAvatar && (
+                    <img src={oldAvatar.url} alt={oldAvatar.url} className="mt-3 mr-2" width="100" height="auto" />
                   )}
                 </Form.Group>
 
@@ -119,7 +139,7 @@ const CreateBlog = () => {
                 </Form.Group>
 
                 <button id="login_button" type="submit" className="btn btn-primary px-3">
-                  Tạo
+                  Cập nhật
                 </button>
               </Form>
             </OutlineBox>
@@ -131,4 +151,4 @@ const CreateBlog = () => {
   );
 };
 
-export default CreateBlog;
+export default UpdateBlog;
