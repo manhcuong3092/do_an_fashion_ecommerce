@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import OutlineBox from '~/components/OutlineBox';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import { Col, Row, Table } from 'react-bootstrap';
 import { Box, MenuItem, OutlinedInput, Select } from '@mui/material';
@@ -13,12 +13,12 @@ import { END_POINT } from '~/config';
 import validator from 'validator';
 import Loader from '~/layouts/Loader';
 
-const CreateProduct = () => {
+const UpdateProduct = () => {
   const [name, setName] = useState('');
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [detailDescription, setDetailDescription] = useState('');
-  const [salePrice, setSalePrice] = useState(0);
+  const [salePrice, setSalePrice] = useState('');
   const [images, setImages] = useState([]);
   const [active, setActive] = useState(true);
   const [gender, setGender] = useState('Tất cả');
@@ -34,10 +34,12 @@ const CreateProduct = () => {
 
   //Image preview
   const [imagesPreview, setImagesPreview] = useState([]);
+  const [oldImages, setOldImages] = useState([]);
 
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const { productId } = useParams();
 
   useEffect(() => {
     try {
@@ -46,10 +48,25 @@ const CreateProduct = () => {
           const promise1 = axios.get(`${END_POINT}/api/v1/sizes`);
           const promise2 = axios.get(`${END_POINT}/api/v1/colors`);
           const promise3 = axios.get(`${END_POINT}/api/v1/categories`);
-          Promise.all([promise1, promise2, promise3]).then((value) => {
+          const promise4 = axios.get(`${END_POINT}/api/v1/product/${productId}`);
+          Promise.all([promise1, promise2, promise3, promise4]).then((value) => {
             setSizesData(value[0].data.sizes);
             setColorsData(value[1].data.colors);
             setCategoriesData(value[2].data.categories);
+            const product = value[3].data.product;
+            setName(product.name);
+            setDescription(product.description);
+            setDetailDescription(product.detailDescription);
+            setPrice(product.price);
+            setSalePrice(product.salePrice);
+            setGender(product.gender);
+            setStock(product.stock);
+            setActive(product.active);
+            setOldImages(product.images);
+
+            setCategory(JSON.stringify(product.category));
+            setSizes(product.sizes.map((size) => JSON.stringify(size)));
+            setColors(product.colors.map((color) => JSON.stringify(color)));
           });
         } catch (error) {
           toast.error(error.response.data.message);
@@ -59,28 +76,28 @@ const CreateProduct = () => {
     } catch (error) {
       toast.error(error.response.data.message);
     }
-  }, []);
+  }, [productId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (validator.isEmpty(name)) {
+    if (!name) {
       toast.warning('Hãy nhập tên sản phẩm');
       return;
     }
-    if (validator.isEmpty(description)) {
+    if (!description) {
       toast.warning('Hãy mô tả sản phẩm');
       return;
     }
-    if (validator.isEmpty(price)) {
+    if (!price) {
       toast.warning('Hãy nhập giá sản phẩm');
       return;
-    } else if (validator.isNumeric(price) && price <= 0) {
+    } else if (validator.isNumeric(price + '') && price <= 0) {
       toast.warning('Giá sản phẩm phải lớn hơn 0');
       return;
     }
 
-    if (!validator.isEmpty(salePrice) && validator.isNumeric(price) && salePrice < 0) {
+    if (!validator.isEmpty(salePrice + '') && validator.isNumeric(price + '') && salePrice < 0) {
       toast.warning('Giá khuyến mại sản phẩm không được nhỏ hơn 0');
       return;
     }
@@ -97,10 +114,6 @@ const CreateProduct = () => {
       toast.warning('Hãy chọn màu sắc');
       return;
     }
-    if (!images.length) {
-      toast.warning('Hãy tải lên ảnh sản phẩm');
-      return;
-    }
 
     const formData = new FormData();
     formData.set('name', name);
@@ -108,16 +121,16 @@ const CreateProduct = () => {
     formData.set('salePrice', salePrice);
     formData.set('description', description);
     formData.set('detailDescription', detailDescription);
-    formData.set('category', category._id);
+    formData.set('category', JSON.parse(category)._id);
     formData.set('gender', gender);
     formData.set('active', active);
 
     sizes.forEach((size) => {
-      formData.append('sizes', size._id);
+      formData.append('sizes', JSON.parse(size)._id);
     });
 
     colors.forEach((color) => {
-      formData.append('colors', color._id);
+      formData.append('colors', JSON.parse(color)._id);
     });
 
     const stockArr = stock.map((item) => {
@@ -140,9 +153,9 @@ const CreateProduct = () => {
           'Content-Type': 'multipart/form-data',
         },
       };
-      const { data } = await axios.post('/api/v1/admin/product', formData, config);
+      const { data } = await axios.put(`/api/v1/admin/product/${productId}`, formData, config);
       if (data.success) {
-        toast.success('Tạo sản phẩm thành công.');
+        toast.success('Cập nhật sản phẩm thành công.');
         navigate('/admin/management/products');
       }
     } catch (error) {
@@ -155,7 +168,7 @@ const CreateProduct = () => {
     let stockArr = [];
     sizes.forEach((size) => {
       e.target.value.forEach((color) => {
-        stockArr.push({ size, color, quantity: 0 });
+        stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), quantity: 0 });
       });
     });
     setStock(stockArr);
@@ -166,7 +179,7 @@ const CreateProduct = () => {
     let stockArr = [];
     e.target.value.forEach((size) => {
       colors.forEach((color) => {
-        stockArr.push({ size, color, quantity: 0 });
+        stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), quantity: 0 });
       });
     });
     setStock(stockArr);
@@ -177,6 +190,7 @@ const CreateProduct = () => {
     const files = Array.from(e.target.files);
     setImagesPreview([]);
     setImages([]);
+    setOldImages([]);
 
     files.forEach((file) => {
       const reader = new FileReader();
@@ -249,9 +263,6 @@ const CreateProduct = () => {
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                         input={<OutlinedInput />}
-                        selectprops={{
-                          renderValue: (data) => <div>{data.map((item) => item.name).join(', ')}</div>,
-                        }}
                         MenuProps={{
                           sx: {
                             '&& .Mui-selected': {
@@ -261,7 +272,7 @@ const CreateProduct = () => {
                         }}
                       >
                         {categoriesData.map((item) => (
-                          <MenuItem key={item._id} value={item}>
+                          <MenuItem key={item._id} value={JSON.stringify(item)}>
                             {item.name}
                           </MenuItem>
                         ))}
@@ -284,12 +295,9 @@ const CreateProduct = () => {
                             },
                           },
                         }}
-                        selectprops={{
-                          renderValue: (data) => <div>{data.map((item) => item.name).join(', ')}</div>,
-                        }}
                       >
                         {sizesData.map((item) => (
-                          <MenuItem key={item._id} value={item}>
+                          <MenuItem key={item._id} value={JSON.stringify(item)}>
                             {item.name}
                           </MenuItem>
                         ))}
@@ -305,9 +313,6 @@ const CreateProduct = () => {
                         value={colors}
                         onChange={(e) => handleColorChange(e)}
                         input={<OutlinedInput />}
-                        selectprops={{
-                          renderValue: (data) => <div>{data.map((item) => item.name).join(', ')}</div>,
-                        }}
                         MenuProps={{
                           sx: {
                             '&& .Mui-selected': {
@@ -317,7 +322,7 @@ const CreateProduct = () => {
                         }}
                       >
                         {colorsData.map((item) => (
-                          <MenuItem key={item._id} value={item}>
+                          <MenuItem key={item._id} value={JSON.stringify(item)}>
                             <Box
                               sx={{
                                 width: 20,
@@ -405,6 +410,10 @@ const CreateProduct = () => {
                     Ảnh <span className="text-primary">(Chọn nhiều)</span>
                   </Form.Label>
                   <Form.Control type="file" multiple onChange={(e) => hanleFileChange(e)} />
+                  {oldImages &&
+                    oldImages.map((img) => (
+                      <img src={img.url} key={img} alt={img.url} className="mt-3 mr-2" width="100" height="100" />
+                    ))}
                   {imagesPreview.map((img) => (
                     <img src={img} key={img} alt="Product" className="mt-3 mr-2" width="100" height="100" />
                   ))}
@@ -420,8 +429,8 @@ const CreateProduct = () => {
                   />
                 </Form.Group>
 
-                <button id="login_button" type="submit" className="btn btn-primary px-3">
-                  Tạo
+                <button type="submit" className="btn btn-primary px-3">
+                  Cập nhật
                 </button>
               </Form>
             </OutlineBox>
@@ -433,4 +442,4 @@ const CreateProduct = () => {
   );
 };
 
-export default CreateProduct;
+export default UpdateProduct;
