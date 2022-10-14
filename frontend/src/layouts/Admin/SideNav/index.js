@@ -60,6 +60,12 @@ const SideNav = ({ children }) => {
                 </div>
                 Blog
               </Link>
+              <Link className="nav-link" to="/admin/management/contacts">
+                <div className="sb-nav-link-icon">
+                  <i className="fas fa-book-open"></i>
+                </div>
+                Liên hệ
+              </Link>
               <a
                 className="nav-link collapsed"
                 href="#"

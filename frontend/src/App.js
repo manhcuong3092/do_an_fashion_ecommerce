@@ -38,6 +38,8 @@ import UpdateProduct from './pages/Admin/Product/UpdateProduct';
 import BlogsList from './pages/Admin/Blog/BlogsList';
 import CreateBlog from './pages/Admin/Blog/CreateBlog';
 import UpdateBlog from './pages/Admin/Blog/UpdateBlog';
+import ContactList from './pages/Admin/Contact/ContactList';
+import RelpyContact from './pages/Admin/Contact/ReplyContact';
 
 function App() {
   return (
@@ -79,6 +81,8 @@ function App() {
           <Route path="/admin/management/blogs" element={<BlogsList />} />
           <Route path="/admin/management/create-blog" element={<CreateBlog />} />
           <Route path="/admin/management/blog/:blogId" element={<UpdateBlog />} />
+          <Route path="/admin/management/contacts" element={<ContactList />} />
+          <Route path="/admin/management/contact/:contactId" element={<RelpyContact />} />
         </Routes>
       </Router>
     </Fragment>
