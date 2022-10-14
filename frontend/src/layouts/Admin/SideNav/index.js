@@ -54,6 +54,12 @@ const SideNav = ({ children }) => {
                   </nav>
                 </div>
               </Collapse>
+              <Link className="nav-link" to="/admin/management/blogs">
+                <div className="sb-nav-link-icon">
+                  <i className="fas fa-book-open"></i>
+                </div>
+                Blog
+              </Link>
               <a
                 className="nav-link collapsed"
                 href="#"

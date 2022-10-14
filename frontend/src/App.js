@@ -1,8 +1,6 @@
 import './assets/css/bootstrap.min.css';
 import './assets/css/materialdesignicons.min.css';
 import './assets/css/responsive.css';
-// import '@fortawesome/fontawesome-free/css/all.min.css';
-// import 'mdbreact/dist/css/mdb.css';
 import './App.css';
 import './assets/css/admin.style.css';
 import { Fragment } from 'react';
@@ -37,6 +35,8 @@ import UpdateCategory from './pages/Admin/Category/UpdateCategory';
 import ProductList from './pages/Admin/Product/ProductList';
 import CreateProduct from './pages/Admin/Product/CreateProduct';
 import UpdateProduct from './pages/Admin/Product/UpdateProduct';
+import BlogsList from './pages/Admin/Blog/BlogsList';
+import CreateBlog from './pages/Admin/Blog/CreateBlog';
 
 function App() {
   return (
@@ -75,6 +75,8 @@ function App() {
           <Route path="/admin/management/products" element={<ProductList />} />
           <Route path="/admin/management/create-product" element={<CreateProduct />} />
           <Route path="/admin/management/product/:productId" element={<UpdateProduct />} />
+          <Route path="/admin/management/blogs" element={<BlogsList />} />
+          <Route path="/admin/management/create-blog" element={<CreateBlog />} />
         </Routes>
       </Router>
     </Fragment>
