@@ -1,9 +1,13 @@
 const Subscriber = require('../models/subscriber');
 const catchAsyncError = require('../middlewares/catchAsyncErrors');
 const ErrorHandler = require('../utils/errorHandler');
+const validator = require('validator');
 
 
 exports.createSubscriber = catchAsyncError(async (req, res, next) => {
+  if (!validator.isEmail(req.body.email)) {
+    return next(new ErrorHandler(`Email không hợp lệ: ${req.body.email}`, 404));
+  }
   const subscriber = await Subscriber.create(req.body);
   res.status(201).json({
     success: true,
