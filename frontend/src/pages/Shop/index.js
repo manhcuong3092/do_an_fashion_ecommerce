@@ -14,10 +14,12 @@ import Loader from '~/layouts/Loader';
 import { Pagination, Stack } from '@mui/material';
 import axios from 'axios';
 import { END_POINT } from '~/config';
+import { PRICE_RANGE_1, PRICE_RANGE_2, PRICE_RANGE_3, PRICE_RANGE_4 } from '~/constants/filterPrice';
 
 const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [category, setCategory] = useState('');
+  const [price, setPrice] = useState([null, null]);
 
   const { loading, products, error, productsCount, resPerPage, filteredProductsCount } = useSelector(
     (state) => state.products,
@@ -54,8 +56,8 @@ const Shop = () => {
       toast.error(error);
       return;
     }
-    dispatch(getProducts(keyword, currentPage, category));
-  }, [dispatch, error, keyword, currentPage, category]);
+    dispatch(getProducts(keyword, currentPage, category, price));
+  }, [dispatch, error, keyword, currentPage, category, price]);
 
   const handleChooseCategory = (e, id) => {
     setCategory(id);
@@ -103,16 +105,44 @@ const Shop = () => {
                   <div className="categories left-right-p">
                     <ul id="accordion" className="panel-group clearfix">
                       <li className="panel">
-                        <div className="medium-a">Dưới 300.000₫</div>
+                        <div
+                          className={`medium-a ${
+                            price[0] === PRICE_RANGE_1[0] && price[1] === PRICE_RANGE_1[1] && 'text-danger'
+                          }`}
+                          onClick={(e) => setPrice(PRICE_RANGE_1)}
+                        >
+                          Dưới 300.000₫
+                        </div>
                       </li>
                       <li className="panel">
-                        <div className="medium-a">300.000₫ - 500.000₫</div>
+                        <div
+                          className={`medium-a ${
+                            price[0] === PRICE_RANGE_2[0] && price[1] === PRICE_RANGE_2[1] && 'text-danger'
+                          }`}
+                          onClick={(e) => setPrice(PRICE_RANGE_2)}
+                        >
+                          300.000₫ - 500.000₫
+                        </div>
                       </li>
                       <li className="panel">
-                        <div className="medium-a">500.000₫ - 1.000.000₫</div>
+                        <div
+                          className={`medium-a ${
+                            price[0] === PRICE_RANGE_3[0] && price[1] === PRICE_RANGE_3[1] && 'text-danger'
+                          }`}
+                          onClick={(e) => setPrice(PRICE_RANGE_3)}
+                        >
+                          500.000₫ - 1.000.000₫
+                        </div>
                       </li>
                       <li className="panel">
-                        <div className="medium-a">Trên 1.000.000₫</div>
+                        <div
+                          className={`medium-a ${
+                            price[0] === PRICE_RANGE_4[0] && price[1] === PRICE_RANGE_4[1] && 'text-danger'
+                          }`}
+                          onClick={(e) => setPrice(PRICE_RANGE_4)}
+                        >
+                          Trên 1.000.000₫
+                        </div>
                       </li>
                     </ul>
                   </div>
