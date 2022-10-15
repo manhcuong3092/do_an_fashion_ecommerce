@@ -26,6 +26,7 @@ const CreateProduct = () => {
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
   const [stock, setStock] = useState([]);
+  const [isSale, setIsSale] = useState(false);
 
   //Get list from API
   const [sizesData, setSizesData] = useState([]);
@@ -111,6 +112,7 @@ const CreateProduct = () => {
     formData.set('category', JSON.parse(category)._id);
     formData.set('gender', gender);
     formData.set('active', active);
+    formData.set('isSale', isSale);
 
     sizes.forEach((size) => {
       formData.append('sizes', JSON.parse(size)._id);
@@ -227,7 +229,12 @@ const CreateProduct = () => {
 
                 <Form.Group className="my-3">
                   <Form.Label htmlFor="description_field">Mô tả</Form.Label>
-                  <Form.Control type="text" value={description} onChange={(e) => setDescription(e.target.value)} />
+                  <Form.Control
+                    as="textarea"
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
                 </Form.Group>
 
                 <Form.Group className="my-3">
@@ -251,6 +258,11 @@ const CreateProduct = () => {
                       <Form.Control type="number" value={salePrice} onChange={(e) => setSalePrice(e.target.value)} />
                     </Col>
                   </Row>
+                </Form.Group>
+
+                <Form.Group>
+                  <Form.Label htmlFor="description_field">Đang khuyến mại</Form.Label>
+                  <Form.Check value={isSale} onChange={(e) => setIsSale(e.target.checked)} />
                 </Form.Group>
 
                 <Form.Group className="my-3">

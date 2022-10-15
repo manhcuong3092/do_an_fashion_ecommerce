@@ -39,7 +39,7 @@ const UpdateColor = () => {
           'Content-Type': 'application/json',
         },
       };
-      const { data } = await axios.put(`/api/v1/admin/color/${colorId}`, { name, description }, config);
+      const { data } = await axios.put(`/api/v1/admin/color/${colorId}`, { name, description, hexCode }, config);
       if (data.success) {
         toast.success('Cập nhật màu sắc thành công.');
         navigate('/admin/management/colors');

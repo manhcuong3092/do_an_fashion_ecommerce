@@ -14,6 +14,7 @@ import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 import Avatar from '@mui/material/Avatar';
+import SellIcon from '@mui/icons-material/Sell';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -57,6 +58,14 @@ const ProductList = () => {
     { field: 'name', headerName: 'Tên', flex: 3 },
     { field: 'price', headerName: 'Giá', flex: 1 },
     { field: 'salePrice', headerName: 'Giá khuyến mại', flex: 1 },
+    {
+      field: 'isSale',
+      headerName: 'Khuyến mại',
+      flex: 1,
+      renderCell: (cell) => {
+        return cell.value && <SellIcon color="primary" />;
+      },
+    },
     { field: 'category', headerName: 'Danh mục', flex: 1 },
     { field: 'sizes', headerName: 'Kích cỡ', flex: 1 },
     { field: 'colors', headerName: 'Màu', flex: 1 },
@@ -120,6 +129,7 @@ const ProductList = () => {
             stock: product.stock.reduce((acc, item) => {
               return acc + item.quantity;
             }, 0),
+            isSale: product.isSale,
             active: product.active,
             actions: product._id,
             image: product.images[0],
