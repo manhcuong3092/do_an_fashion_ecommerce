@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ALL_PRODUCTS_FAIL, ALL_PRODUCTS_REQUEST, ALL_PRODUCTS_SUCCESS } from '../types/productActionType';
 
 export const getProducts =
-  (keyword = '', currentPage = 1, category, price = [null, null], color, size) =>
+  (keyword = '', currentPage = 1, category, price = [null, null], color, size, gender) =>
   async (dispatch) => {
     try {
       dispatch({ type: ALL_PRODUCTS_REQUEST });
@@ -25,6 +25,9 @@ export const getProducts =
       }
       if (size) {
         link += `&sizes=${size}`;
+      }
+      if (gender) {
+        link += `&gender=${gender}`;
       }
 
       console.log(link);

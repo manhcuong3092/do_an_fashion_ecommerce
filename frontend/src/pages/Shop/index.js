@@ -22,15 +22,19 @@ const Shop = () => {
   const [price, setPrice] = useState([null, null]);
   const [size, setSize] = useState('');
   const [color, setColor] = useState('');
+  const [gender, setGender] = useState('');
+
+  const [allCategory, setAllCategory] = useState([]);
+  const [allSize, setAllSize] = useState([]);
+  const [allColor, setAllColor] = useState([]);
+
+  const [searchParams] = useSearchParams('');
+
+  const keyword = searchParams.get('keyword');
 
   const { loading, products, error, productsCount, resPerPage, filteredProductsCount } = useSelector(
     (state) => state.products,
   );
-  const [searchParams] = useSearchParams('');
-  const keyword = searchParams.get('keyword');
-  const [allCategory, setAllCategory] = useState([]);
-  const [allSize, setAllSize] = useState([]);
-  const [allColor, setAllColor] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -58,8 +62,8 @@ const Shop = () => {
       toast.error(error);
       return;
     }
-    dispatch(getProducts(keyword, currentPage, category, price, color, size));
-  }, [dispatch, error, keyword, currentPage, category, price, color, size]);
+    dispatch(getProducts(keyword, currentPage, category, price, color, size, gender));
+  }, [dispatch, error, keyword, currentPage, category, price, color, size, gender]);
 
   const handleChooseCategory = (e, id) => {
     setCategory(id);
@@ -197,6 +201,36 @@ const Shop = () => {
                       ></span>
                     ))}
                     {/* <span className="outline"></span> */}
+                  </div>
+                </div>
+                <div className="s-side-text">
+                  <div className="sidebar-title clearfix">
+                    <h4 className="floatleft">Giới tính</h4>
+                    <h5 className="floatright">
+                      <p onClick={(e) => setGender('')} className={`${gender === '' ? 'text-danger' : ''}`}>
+                        Tất cả
+                      </p>
+                    </h5>
+                  </div>
+                  <div className="categories left-right-p">
+                    <ul id="accordion" className="panel-group clearfix">
+                      <li className="panel">
+                        <div
+                          className={`medium-a ${gender === 'Nam' ? 'text-danger' : ''}`}
+                          onClick={(e) => setGender('Nam')}
+                        >
+                          Nam
+                        </div>
+                      </li>
+                      <li className="panel">
+                        <div
+                          className={`medium-a ${gender === 'Nữ' ? 'text-danger' : ''}`}
+                          onClick={(e) => setGender('Nữ')}
+                        >
+                          Nữ
+                        </div>
+                      </li>
+                    </ul>
                   </div>
                 </div>
                 <div className="s-side-text">
