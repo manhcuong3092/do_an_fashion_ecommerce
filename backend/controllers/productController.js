@@ -15,13 +15,17 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
 
   let imagesLink = [];
   for (let i = 0; i < images.length; i++) {
-    const result = await clouldinary.v2.uploader.upload(images[i], {
-      folder: 'products'
-    });
-    imagesLink.push({
-      public_id: result.public_id,
-      url: result.secure_url
-    });
+    try {
+      const result = await clouldinary.v2.uploader.upload(images[i], {
+        folder: 'products'
+      });
+      imagesLink.push({
+        public_id: result.public_id,
+        url: result.secure_url
+      });
+    } catch (error) {
+      return next(new ErrorHandler('Tải ảnh có kích thước nhỏ hơn 1MB', 404));
+    }
   }
 
   req.body.images = imagesLink;
@@ -117,13 +121,17 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
 
     let imagesLink = [];
     for (let i = 0; i < images.length; i++) {
-      const result = await clouldinary.v2.uploader.upload(images[i], {
-        folder: 'products'
-      });
-      imagesLink.push({
-        public_id: result.public_id,
-        url: result.secure_url
-      });
+      try {
+        const result = await clouldinary.v2.uploader.upload(images[i], {
+          folder: 'products'
+        });
+        imagesLink.push({
+          public_id: result.public_id,
+          url: result.secure_url
+        });
+      } catch (error) {
+        return next(new ErrorHandler('Tải ảnh có kích thước nhỏ hơn 1MB', 404));
+      }
     }
     
     req.body.images = imagesLink;

@@ -18,6 +18,10 @@ const productSchema = new mongoose.Schema({
     maxLength: [12, 'Giá sản phẩm không quá 12 ký tự'],
     default: 0.0,
   },
+  isSale: {
+    type: Boolean,
+    default: false
+  },
   description: {
     type: String,
     required: [true, 'Nhập mô tả cho sản phẩm'],
