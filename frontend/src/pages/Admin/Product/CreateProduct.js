@@ -21,7 +21,7 @@ const CreateProduct = () => {
   const [salePrice, setSalePrice] = useState(0);
   const [images, setImages] = useState([]);
   const [active, setActive] = useState(true);
-  const [gender, setGender] = useState('Tất cả');
+  const [gender, setGender] = useState('Nam');
   const [category, setCategory] = useState('');
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
@@ -367,13 +367,10 @@ const CreateProduct = () => {
                           },
                         }}
                       >
-                        <MenuItem key={1} value={'Tất cả'}>
-                          Tất cả
-                        </MenuItem>
-                        <MenuItem key={2} value={'Nam'}>
+                        <MenuItem key={1} value={'Nam'}>
                           Nam
                         </MenuItem>
-                        <MenuItem key={3} value={'Nữ'}>
+                        <MenuItem key={2} value={'Nữ'}>
                           Nữ
                         </MenuItem>
                       </Select>

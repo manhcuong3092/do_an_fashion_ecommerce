@@ -384,13 +384,10 @@ const UpdateProduct = () => {
                           },
                         }}
                       >
-                        <MenuItem key={1} value={'Tất cả'}>
-                          Tất cả
-                        </MenuItem>
-                        <MenuItem key={2} value={'Nam'}>
+                        <MenuItem key={1} value={'Nam'}>
                           Nam
                         </MenuItem>
-                        <MenuItem key={3} value={'Nữ'}>
+                        <MenuItem key={2} value={'Nữ'}>
                           Nữ
                         </MenuItem>
                       </Select>
