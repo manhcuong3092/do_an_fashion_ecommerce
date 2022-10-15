@@ -39,7 +39,7 @@ const GridProduct = ({ products }) => {
             <Row>
               {products &&
                 products.map((product) => (
-                  <Col md={6} lg={4} className="mb-4">
+                  <Col md={6} lg={4} className="mb-4" key={product._id}>
                     <div className="single-product">
                       <div className="product-img">
                         <div className="pro-type">
@@ -53,7 +53,15 @@ const GridProduct = ({ products }) => {
                         <p>
                           <Link to={product.slug}>{product.name}</Link>
                         </p>
-                        <span>{product.price}đ</span>
+                        <p className="text-decoration-line-through">
+                          {product.isSale && `${product.price.toLocaleString('vi-VN')}₫`}
+                        </p>
+                        <span>
+                          {product.isSale
+                            ? product.salePrice.toLocaleString('vi-VN')
+                            : product.price.toLocaleString('vi-VN')}
+                          ₫
+                        </span>
                       </div>
                     </div>
                   </Col>

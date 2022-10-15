@@ -12,6 +12,8 @@ import { getProducts } from '~/redux/actions/productActions';
 import { useSearchParams } from 'react-router-dom';
 import Loader from '~/layouts/Loader';
 import { Pagination, Stack } from '@mui/material';
+import axios from 'axios';
+import { END_POINT } from '~/config';
 
 const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,8 +24,30 @@ const Shop = () => {
   );
   const [searchParams] = useSearchParams('');
   const keyword = searchParams.get('keyword');
+  const [allCategory, setAllCategory] = useState([]);
+  const [allSize, setAllSize] = useState([]);
+  const [allColor, setAllColor] = useState([]);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const promise1 = axios.get(`${END_POINT}/api/v1/categories`);
+        const promise2 = axios.get(`${END_POINT}/api/v1/sizes`);
+        const promise3 = axios.get(`${END_POINT}/api/v1/colors`);
+        Promise.all([promise1, promise2, promise3]).then((result) => {
+          setAllCategory(result[0].data.categories);
+          setAllSize(result[1].data.sizes);
+          setAllColor(result[2].data.colors);
+        });
+      } catch (error) {
+        toast.error(error);
+        return;
+      }
+    };
+    getData();
+  }, []);
 
   useEffect(() => {
     if (error) {
@@ -32,6 +56,10 @@ const Shop = () => {
     }
     dispatch(getProducts(keyword, currentPage, category));
   }, [dispatch, error, keyword, currentPage, category]);
+
+  const handleChooseCategory = (e, id) => {
+    setCategory(id);
+  };
 
   return (
     <Fragment>
@@ -52,27 +80,41 @@ const Shop = () => {
                   </div>
                   <div className="categories left-right-p">
                     <ul id="accordion" className="panel-group clearfix">
-                      <li className="panel">
-                        <div className="medium-a">Áo phông</div>
-                      </li>
-                      <li className="panel">
-                        <div className="medium-a">Quần âu</div>
-                      </li>
-                      <li className="panel">
-                        <div className="medium-a">Áo khoác</div>
-                      </li>
+                      {allCategory.map((item) => (
+                        <li className="panel" key={item._id}>
+                          <div
+                            className={`medium-a ${category === item._id && 'text-danger'}`}
+                            onClick={(e) => handleChooseCategory(e, item._id)}
+                          >
+                            {item.name}
+                          </div>
+                        </li>
+                      ))}
                     </ul>
                   </div>
                 </div>
                 <div className="s-side-text">
-                  <div className="sidebar-title">
-                    <h4>Giá</h4>
+                  <div className="sidebar-title clearfix">
+                    <h4 className="floatleft">Giá</h4>
+                    <h5 className="floatright">
+                      <a href="#!">Tất cả</a>
+                    </h5>
                   </div>
-                  <div className="range-slider clearfix">
-                    <label>
-                      <span>Khoảng giá</span> <input type="text" id="amount" />
-                    </label>
-                    <div id="slider-range"></div>
+                  <div className="categories left-right-p">
+                    <ul id="accordion" className="panel-group clearfix">
+                      <li className="panel">
+                        <div className="medium-a">Dưới 300.000₫</div>
+                      </li>
+                      <li className="panel">
+                        <div className="medium-a">300.000₫ - 500.000₫</div>
+                      </li>
+                      <li className="panel">
+                        <div className="medium-a">500.000₫ - 1.000.000₫</div>
+                      </li>
+                      <li className="panel">
+                        <div className="medium-a">Trên 1.000.000₫</div>
+                      </li>
+                    </ul>
                   </div>
                 </div>
                 <div className="s-side-text">
@@ -83,11 +125,11 @@ const Shop = () => {
                     </h5>
                   </div>
                   <div className="size-select clearfix">
-                    <a href="#">m</a>
-                    <a href="#">s</a>
-                    <a href="#">l</a>
-                    <a href="#">xl</a>
-                    <a href="#">xll</a>
+                    {allSize.map((item) => (
+                      <a href="#!" key={item._id}>
+                        {item.name}
+                      </a>
+                    ))}
                   </div>
                 </div>
                 <div className="s-side-text">
@@ -98,13 +140,10 @@ const Shop = () => {
                     </h5>
                   </div>
                   <div className="color-select clearfix">
-                    <span></span>
-                    <span></span>
-                    <span className="outline"></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                    {allColor.map((item) => (
+                      <span style={{ background: item.hexCode }} key={item._id}></span>
+                    ))}
+                    {/* <span className="outline"></span> */}
                   </div>
                 </div>
                 <div className="s-side-text">
@@ -129,7 +168,7 @@ const Shop = () => {
                     <div className="pagnation-ul">
                       <Stack spacing={2}>
                         <Pagination
-                          count={Math.ceil(filteredProductsCount / resPerPage)}
+                          count={filteredProductsCount / resPerPage && Math.ceil(filteredProductsCount / resPerPage)}
                           onChange={(e, page) => {
                             setCurrentPage(page);
                           }}

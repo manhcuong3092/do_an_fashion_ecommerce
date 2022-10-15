@@ -1920,38 +1920,16 @@ table tbody i.mdi-information:hover {
   display: block;
   float: left;
   height: 19px;
-  margin-right: 11.58px;
+  margin: 4px;
   width: 19px;
   cursor: pointer;
 }
-.color-select span:nth-child(1) {
-  background: #ffa07a none repeat scroll 0 0;
-}
-.color-select span:nth-child(2) {
-  background: #00eeee none repeat scroll 0 0;
-}
-.color-select span:nth-child(3) {
-  background: #ff7f24 none repeat scroll 0 0;
-}
-.color-select span:nth-child(4) {
-  background: #fe5858 none repeat scroll 0 0;
-}
-.color-select span:nth-child(5) {
-  background: #e9967a none repeat scroll 0 0;
-}
-.color-select span:nth-child(6) {
-  background: #00b2ee none repeat scroll 0 0;
-}
-.color-select span:nth-child(7) {
-  background: #1874cd none repeat scroll 0 0;
-}
+
 .color-select span.outline {
   outline: 1px solid #fe5858;
   outline-offset: 2px;
 }
-.color-select span:last-child {
-  margin-right: 0;
-}
+
 .brands-select li {
   border-right: 1px solid #eeecec;
   float: left;
@@ -2801,4 +2779,8 @@ table td .submit-text > a {
 
 .pagnation-ul {
   padding: 5px;
+}
+
+.categories ul li :hover {
+  color: #fe5858;
 }
