@@ -40,15 +40,27 @@ const SideNav = ({ children }) => {
                 <div>
                   <nav className="sb-sidenav-menu-nested nav ml-5">
                     <Link className="nav-link" to={'/admin/management/categories'}>
+                      <div className="sb-nav-link-icon">
+                        <i class="fa-solid fa-list"></i>
+                      </div>
                       Danh mục
                     </Link>
                     <Link className="nav-link" to={'/admin/management/sizes'}>
+                      <div className="sb-nav-link-icon">
+                        <i class="fa-solid fa-text-width"></i>
+                      </div>
                       Kích cỡ
                     </Link>
                     <Link className="nav-link" to={'/admin/management/colors'}>
+                      <div className="sb-nav-link-icon">
+                        <i class="fa-solid fa-palette"></i>
+                      </div>
                       Màu sắc
                     </Link>
                     <Link className="nav-link" to={'/admin/management/products'}>
+                      <div className="sb-nav-link-icon">
+                        <i class="fa-solid fa-shirt"></i>
+                      </div>
                       Sản phẩm
                     </Link>
                   </nav>
@@ -62,13 +74,13 @@ const SideNav = ({ children }) => {
               </Link>
               <Link className="nav-link" to="/admin/management/contacts">
                 <div className="sb-nav-link-icon">
-                  <i className="fas fa-book-open"></i>
+                  <i class="fa-solid fa-address-book"></i>
                 </div>
                 Liên hệ
               </Link>
               <Link className="nav-link" to="/admin/management/subscribers">
                 <div className="sb-nav-link-icon">
-                  <i className="fas fa-book-open"></i>
+                  <i class="fa-solid fa-envelope"></i>
                 </div>
                 Đăng ký
               </Link>
