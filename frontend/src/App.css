@@ -2794,6 +2794,11 @@ table td .submit-text > a {
 .mainmenu nav ul li,
 .blog-share li,
 .rating ul li,
+.pagnation-ul ul li,
 .pages-title-text ul li {
   float: left;
+}
+
+.pagnation-ul {
+  padding: 5px;
 }
