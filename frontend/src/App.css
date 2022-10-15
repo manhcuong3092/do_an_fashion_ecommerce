@@ -1606,7 +1606,7 @@ header.header-one.header-page {
 .share-tag a:hover,
 .author-des > span a:hover,
 .author-des > h4 a:hover,
-.sidebar-title h5 a:hover {
+.sidebar-title h5 p:hover {
   color: #fe5858;
 }
 /*-------------------------------------
@@ -1793,10 +1793,12 @@ header.header-one.header-page {
   font-size: 20px;
   font-weight: 700;
 }
-.sidebar-title h5 a {
+.sidebar-title h5 p {
   font-size: 15px;
   color: #999;
   font-weight: 600;
+  padding-top: 3px;
+  cursor: pointer;
 }
 .medium-a {
   border-bottom: 1px solid #eeecec;
@@ -1923,6 +1925,7 @@ table tbody i.mdi-information:hover {
   margin: 4px;
   width: 19px;
   cursor: pointer;
+  border: rgb(184, 184, 184) 1px solid;
 }
 
 .color-select span.outline {
@@ -2783,4 +2786,10 @@ table td .submit-text > a {
 
 .categories ul li :hover {
   color: #fe5858;
+}
+
+.selected-size {
+  background: #fe5858 none repeat scroll 0 0;
+  border-color: transparent;
+  color: #fff !important;
 }

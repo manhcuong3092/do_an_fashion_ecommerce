@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
-const GridProduct = ({ products }) => {
+const GridProduct = ({ products, resPerPage, filteredProductsCount, currentPage }) => {
   return (
     <Fragment>
       <Row>
@@ -14,19 +14,10 @@ const GridProduct = ({ products }) => {
             <ul>
               <li>
                 <ul className="nav-view nav">
-                  <li>
-                    <a className="active" data-bs-toggle="tab" href="#grid">
-                      {' '}
-                      <i className="mdi mdi-view-module"></i>{' '}
-                    </a>
+                  <li className="sort-by floatright">
+                    Hiện thị {resPerPage * (currentPage - 1) + 1} - {resPerPage * currentPage} của{' '}
+                    {filteredProductsCount} sản phẩm tìm thấy
                   </li>
-                  <li>
-                    <a data-bs-toggle="tab" href="#list">
-                      {' '}
-                      <i className="mdi mdi-view-list"></i>{' '}
-                    </a>
-                  </li>
-                  <li className="sort-by floatright">Showing 1-9 of 89 Results</li>
                 </ul>
               </li>
             </ul>
