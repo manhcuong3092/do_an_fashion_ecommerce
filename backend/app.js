@@ -28,6 +28,7 @@ const contactRoute = require('./routes/contactRoute');
 const subscriberRoute = require('./routes/subscriberRoute');
 const orderRoute = require('./routes/orderRoute');
 const paymentRoute = require('./routes/paymentRoute');
+const cartRoute = require('./routes/cartRoute');
 
 app.use(cors(corsConfig));
 
@@ -51,6 +52,7 @@ app.use('/api/v1', contactRoute);
 app.use('/api/v1', subscriberRoute);
 app.use('/api/v1', orderRoute);
 app.use('/api/v1', paymentRoute);
+app.use('/api/v1', cartRoute);
 
 
 // Midlleware to handle error

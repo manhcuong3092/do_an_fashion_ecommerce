@@ -62,6 +62,24 @@ exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
   })
 });
 
+// get : /api/v1/product/:slug
+exports.getProductBySlug = catchAsyncError(async (req, res, next) => {
+  const product = await Product.findOne({slug: req.params.slug})      
+    .populate('category')
+    .populate('sizes')
+    .populate('colors')
+    .populate('stock.size')
+    .populate('stock.color');
+  if (!product) {
+    return next(new ErrorHandler('Không tìm thấy sản phẩm', 404));
+  }
+
+  res.status(200).json({
+    success: true,
+    product
+  })
+});
+
 // get products : /api/v1/products
 exports.getProducts = catchAsyncError(async (req, res, next) => {
   const resPerPage = 4;
