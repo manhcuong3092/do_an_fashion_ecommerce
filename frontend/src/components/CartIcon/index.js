@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getUserCart, removeItemFromCart } from '~/redux/actions/cartActions';
 
@@ -10,14 +11,15 @@ const CartIcon = () => {
 
   const totalPrice = cartItems.reduce((acc, item) => {
     if (item.isSale) {
-      return acc + item.product.salePrice;
+      return acc + item.product.salePrice * item.quantity;
     } else {
-      return acc + item.product.price;
+      return acc + item.product.price * item.quantity;
     }
   }, 0);
 
-  const removeCartItemHandler = (id) => {
-    dispatch(removeItemFromCart(id));
+  const removeCartItemHandler = (productId, colorId, sizeId) => {
+    dispatch(removeItemFromCart(productId, colorId, sizeId, user));
+    toast.info('Đã xóa sản phẩm');
   };
 
   useEffect(() => {
@@ -33,25 +35,25 @@ const CartIcon = () => {
       <div className="cart-itmes">
         <a className="cart-itme-a" href="cart.html">
           <i className="mdi mdi-cart"></i>
-          {cartItems.length !== 0 ? cartItems.length : 0} Sản phẩm :{' '}
-          <strong>{totalPrice.toLocaleString('vi-VN')}₫</strong>
+          {cartItems.length !== 0 ? cartItems.length : 0} SP : <strong>{totalPrice.toLocaleString('vi-VN')}₫</strong>
         </a>
         <div className="cartdrop">
-          {cartItems.map((item) => (
-            <div className="sin-itme clearfix">
+          {cartItems.map((item, index) => (
+            <div className="sin-itme clearfix" key={index}>
               <i
                 className="mdi mdi-close"
                 onClick={() => removeCartItemHandler(item.product._id, item.color._id, item.size._id)}
               ></i>
-              <a className="cart-img" href="cart.html">
+              <Link className="cart-img" to={`/product/${item.product.slug}`}>
                 <img src={item.product.images[0] ? item.product.images[0].url : ''} alt="" />
-              </a>
+              </Link>
               <div className="menu-cart-text">
                 <a>
                   <h6>{item.product.name}</h6>
                 </a>
                 <span>Màu : {item.color.name}</span>
-                <span>Size : {item.size.name}</span>
+                <span>Kích cỡ : {item.size.name}</span>
+                <span>Số lượng : {item.quantity}</span>
                 <strong>
                   {(item.product.isSale ? item.product.salePrice : item.product.price).toLocaleString('vi-VN')}₫
                 </strong>
@@ -60,7 +62,7 @@ const CartIcon = () => {
           ))}
           <div className="total">
             <span>
-              total <strong>= $306.00</strong>
+              Tổng cộng <span className="text-danger">{totalPrice.toLocaleString('vi-VN')}₫</span>
             </span>
           </div>
           <a className="goto" href="cart.html">

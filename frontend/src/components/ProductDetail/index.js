@@ -3,11 +3,23 @@ import QuickImages from './QuickImages';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Dropdown } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItemToCart } from '~/redux/actions/cartActions';
+import { toast } from 'react-toastify';
 
 const ProductDetail = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState(product.sizes[0]);
   const [color, setColor] = useState(product.colors[0]);
+
+  const { user } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+
+  const addToCart = () => {
+    dispatch(addItemToCart(product, color, size, quantity, user));
+    toast.success('Đã thêm sản phẩm vào giỏ');
+  };
 
   const handleDecrease = (e) => {
     if (quantity === 1) {
@@ -47,6 +59,7 @@ const ProductDetail = ({ product }) => {
                 <div className="color-select clearfix pt-1">
                   {product.colors.map((item) => (
                     <span
+                      key={item._id}
                       style={{ background: item.hexCode }}
                       onClick={(e) => setColor(item)}
                       className={color._id === item._id ? 'outline' : ''}
@@ -79,7 +92,7 @@ const ProductDetail = ({ product }) => {
                     <a className="dec qtybutton" onClick={(e) => handleDecrease(e)}>
                       -
                     </a>
-                    <input type="text" value={quantity} name="qtybutton" className="plus-minus-box" />
+                    <input type="text" readOnly value={quantity} name="qtybutton" className="plus-minus-box" />
                     <a className="inc qtybutton" onClick={(e) => handleIncrease(e)}>
                       +
                     </a>
@@ -88,11 +101,7 @@ const ProductDetail = ({ product }) => {
               </div>
             </div>
             <div className="list-btn">
-              <a href="#">add to cart</a>
-              <a href="#">wishlist</a>
-              <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view">
-                zoom
-              </a>
+              <button onClick={(e) => addToCart()}>Thêm vào giỏ</button>
             </div>
             <div className="share-tag clearfix">
               <ul className="blog-share floatleft">

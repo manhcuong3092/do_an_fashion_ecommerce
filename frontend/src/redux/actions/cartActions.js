@@ -30,26 +30,33 @@ export const getUserCart = (user) => async (dispatch, getState) => {
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
 };
 
-export const addItemToCart = (id, quantity) => async (dispatch, getState) => {
-  const { data } = await axios.get(`/api/v1/product/${id}`);
+export const addItemToCart = (product, color, size, quantity, user) => async (dispatch, getState) => {
   dispatch({
     type: ADD_TO_CART,
     payload: {
-      product: data.product,
-      size: data.size,
-      color: data.color,
+      product,
+      size,
+      color,
       quantity,
     },
   });
 
-  localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+  if (user) {
+    await axios.put(`/api/v1/cart`, { cartItems: getState().cart.cartItems });
+  } else {
+    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+  }
 };
 
-export const removeItemFromCart = (productId, colorId, sizeId) => async (dispatch, getState) => {
+export const removeItemFromCart = (productId, colorId, sizeId, user) => async (dispatch, getState) => {
   dispatch({
     type: REMOVE_ITEM_CART,
     payload: { productId, colorId, sizeId },
   });
 
-  localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+  if (user) {
+    await axios.put(`/api/v1/cart`, { cartItems: getState().cart.cartItems });
+  } else {
+    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+  }
 };
