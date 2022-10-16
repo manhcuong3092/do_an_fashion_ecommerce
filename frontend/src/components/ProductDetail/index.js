@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import QuickImages from './QuickImages';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Dropdown } from 'react-bootstrap';
 
 const ProductDetail = ({ product }) => {
+  const [quantity, setQuantity] = useState(1);
+  const [size, setSize] = useState(product.sizes[0]);
+  const [color, setColor] = useState(product.colors[0]);
+
+  const handleDecrease = (e) => {
+    if (quantity === 1) {
+      return;
+    } else {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const handleIncrease = (e) => {
+    setQuantity(quantity + 1);
+  };
+
   return (
     <Row className="single-list-view">
       <QuickImages images={product.images} />
@@ -21,7 +37,7 @@ const ProductDetail = ({ product }) => {
               <i className="mdi mdi-star-outline"></i>
             </div>
             <h5>
-              {product.isSale && `${product.price.toLocaleString('vi-VN')}₫`}{' '}
+              <del>{product.isSale && `${product.price.toLocaleString('vi-VN')}₫`}</del>{' '}
               {product.isSale ? `${product.salePrice.toLocaleString('vi-VN')}` : product.price.toLocaleString('vi-VN')}₫
             </h5>
             <p>{product.description}</p>
@@ -30,7 +46,11 @@ const ProductDetail = ({ product }) => {
                 <h5>Màu sắc</h5>
                 <div className="color-select clearfix pt-1">
                   {product.colors.map((item) => (
-                    <span style={{ background: item.hexCode }}></span>
+                    <span
+                      style={{ background: item.hexCode }}
+                      onClick={(e) => setColor(item)}
+                      className={color._id === item._id ? 'outline' : ''}
+                    ></span>
                   ))}
                 </div>
               </div>
@@ -39,12 +59,14 @@ const ProductDetail = ({ product }) => {
                 <div className="size-drop">
                   <Dropdown className="btn-group">
                     <button type="button" className="btn">
-                      XL
+                      {size.name}
                     </button>
                     <Dropdown.Toggle></Dropdown.Toggle>
                     <Dropdown.Menu>
                       {product.sizes.map((item) => (
-                        <Dropdown.Item key={item._id}>{item.name}</Dropdown.Item>
+                        <Dropdown.Item key={item._id} onClick={(e) => setSize(item)}>
+                          {item.name}
+                        </Dropdown.Item>
                       ))}
                     </Dropdown.Menu>
                   </Dropdown>
@@ -54,9 +76,13 @@ const ProductDetail = ({ product }) => {
                 <h5>Số lượng</h5>
                 <form action="#">
                   <div className="plus-minus">
-                    <a className="dec qtybutton">-</a>
-                    <input type="text" value="02" name="qtybutton" className="plus-minus-box" />
-                    <a className="inc qtybutton">+</a>
+                    <a className="dec qtybutton" onClick={(e) => handleDecrease(e)}>
+                      -
+                    </a>
+                    <input type="text" value={quantity} name="qtybutton" className="plus-minus-box" />
+                    <a className="inc qtybutton" onClick={(e) => handleIncrease(e)}>
+                      +
+                    </a>
                   </div>
                 </form>
               </div>
