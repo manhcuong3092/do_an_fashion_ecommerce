@@ -42,7 +42,7 @@ const GridProduct = ({ products, resPerPage, filteredProductsCount, currentPage 
                       </div>
                       <div className="product-dsc">
                         <p>
-                          <Link to={product.slug}>{product.name}</Link>
+                          <Link to={`/product/${product.slug}`}>{product.name}</Link>
                         </p>
                         <p className="text-decoration-line-through">
                           {product.isSale && `${product.price.toLocaleString('vi-VN')}₫`}

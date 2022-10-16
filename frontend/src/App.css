@@ -2497,8 +2497,9 @@ table td .submit-text > a {
 .s-shoose h5 {
   float: left;
   font-size: 13px;
-  width: 65px;
+  width: 80px;
   margin: 0;
+  padding-top: 8px;
 }
 .all-choose .color-select,
 .size-drop .dropdown-menu {
@@ -2583,7 +2584,7 @@ table td .submit-text > a {
 }
 .quick-thumb li {
   margin-right: 10px;
-  width: 22.92%;
+  width: 22.2%;
 }
 .quick-thumb li:last-child {
   margin: 0;
