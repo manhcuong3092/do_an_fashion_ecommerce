@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ADD_TO_CART, GET_USER_CART, REMOVE_ITEM_CART } from '../types/cartActionTypes';
+import { ADD_TO_CART, GET_USER_CART, REMOVE_ITEM_CART, UPDATE_ITEM_CART } from '../types/cartActionTypes';
 
 export const getUserCart = (user) => async (dispatch, getState) => {
   if (!user) {
@@ -33,6 +33,24 @@ export const getUserCart = (user) => async (dispatch, getState) => {
 export const addItemToCart = (product, color, size, quantity, user) => async (dispatch, getState) => {
   dispatch({
     type: ADD_TO_CART,
+    payload: {
+      product,
+      size,
+      color,
+      quantity,
+    },
+  });
+
+  if (user) {
+    await axios.put(`/api/v1/cart`, { cartItems: getState().cart.cartItems });
+  } else {
+    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+  }
+};
+
+export const updateItemInCart = (product, color, size, quantity, user) => async (dispatch, getState) => {
+  dispatch({
+    type: UPDATE_ITEM_CART,
     payload: {
       product,
       size,

@@ -10,7 +10,7 @@ const CartIcon = () => {
   const { cartItems } = useSelector((state) => state.cart);
 
   const totalPrice = cartItems.reduce((acc, item) => {
-    if (item.isSale) {
+    if (item.product.isSale) {
       return acc + item.product.salePrice * item.quantity;
     } else {
       return acc + item.product.price * item.quantity;
@@ -65,12 +65,12 @@ const CartIcon = () => {
               Tổng cộng <span className="text-danger">{totalPrice.toLocaleString('vi-VN')}₫</span>
             </span>
           </div>
-          <a className="goto" href="cart.html">
-            go to cart
-          </a>
-          <a className="out-menu" href="checkout.html">
-            Check out
-          </a>
+          <Link className="goto" to="/cart">
+            Vào giỏ hàng
+          </Link>
+          <Link className="out-menu" to="/checkout">
+            Thanh toán
+          </Link>
         </div>
       </div>
     </div>
