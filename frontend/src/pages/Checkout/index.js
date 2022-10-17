@@ -1,9 +1,28 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Col, Collapse, Container, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import validator from 'validator';
 import Footer from '../../layouts/Footer';
 import Header from '../../layouts/Header';
 import PageTitle from '../../layouts/PageTitle';
+
+import { CardCvcElement, CardExpiryElement, CardNumberElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { toast } from 'react-toastify';
+import { FREE_SHIP_MINIMUM, NOT_PAID, PAYMENT_COD, PAYMENT_ONLINE, SHIPPING_PRICE } from '~/constants/payment';
+import axios from 'axios';
+import { END_POINT } from '~/config';
+import { useNavigate } from 'react-router-dom';
+
+const options = {
+  style: {
+    base: {
+      fontSize: '16px',
+    },
+    invalid: {
+      color: '#9e2146',
+    },
+  },
+};
 
 const Checkout = () => {
   const [name, setName] = useState('');
@@ -12,10 +31,14 @@ const Checkout = () => {
   const [city, setCity] = useState('');
   const [address, setAddress] = useState('');
 
-  const [paymentType, setPaymentType] = useState('cod');
+  const [paymentType, setPaymentType] = useState(PAYMENT_COD);
 
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
+  const navigate = useNavigate();
+
+  const stripe = useStripe();
+  const elements = useElements();
 
   const subTotal = cartItems.reduce((acc, item) => {
     if (item.product.isSale) {
@@ -25,7 +48,7 @@ const Checkout = () => {
     }
   }, 0);
 
-  const shippingPrice = subTotal < 500000 ? 30000 : 0;
+  const shippingPrice = subTotal < FREE_SHIP_MINIMUM ? SHIPPING_PRICE : 0;
 
   useEffect(() => {
     if (user) {
@@ -36,6 +59,81 @@ const Checkout = () => {
       setEmail(user.email);
     }
   }, [user]);
+
+  const validateData = () => {
+    if (!name) {
+      toast.warn('Vui lòng nhập họ tên');
+      return false;
+    }
+    if (!email) {
+      toast.warn('Vui lòng nhập email');
+      return false;
+    } else if (!validator.isEmail(email)) {
+      toast.warn('Email không hợp lệ');
+      return false;
+    }
+    if (!phoneNo) {
+      toast.warn('Vui lòng nhập số điện thoại');
+      return false;
+    } else if (!validator.isNumeric(phoneNo)) {
+      toast.warn('Số điện thoại không hợp lệ');
+      return false;
+    }
+    if (!city) {
+      toast.warn('Vui lòng nhập tỉnh/thành phố');
+      return false;
+    }
+    if (!address) {
+      toast.warn('Vui lòng nhập địa chỉ');
+      return false;
+    }
+    return true;
+  };
+
+  const submitHandler = async (e) => {
+    if (!validateData()) {
+      return;
+    }
+
+    if (paymentType === PAYMENT_COD) {
+      const orderItems = cartItems.map((item) => {
+        const orderItem = {
+          price: item.product.isSale ? item.product.salePrice : item.product.price,
+          product: item.product._id,
+          size: item.size._id,
+          color: item.color._id,
+          quantity: item.quantity,
+        };
+        return orderItem;
+      });
+      const shippingInfo = {
+        name,
+        email,
+        phoneNo,
+        city,
+        address,
+      };
+      const orderData = {
+        orderItems,
+        shippingInfo,
+        paymentStatus: NOT_PAID,
+        paymentType: PAYMENT_COD,
+        user: user ? user._id : null,
+        itemsPrice: subTotal,
+        shippingPrice,
+        totalPrice: subTotal - shippingPrice,
+      };
+
+      try {
+        const { data } = await axios.post(`${END_POINT}/api/v1/order`, orderData, { withCredentials: true });
+        console.log(data);
+        toast.success('Đặt hàng thành công');
+        navigate('/order-complete');
+      } catch (error) {
+        toast.error(error);
+      }
+    }
+  };
 
   return (
     <Fragment>
@@ -167,21 +265,26 @@ const Checkout = () => {
                     <strong>Phương thức thanh toán</strong>
                   </h3>
                 </div>
-                <div className="categories">
+                <div className="">
                   <ul id="accordion" className="panel-group clearfix">
                     <li className="panel">
-                      <div data-bs-toggle="collapse" data-bs-target="#collapse1" onClick={(e) => setPaymentType('cod')}>
-                        <div className="medium-a">
-                          <input type="radio" checked={paymentType === 'cod' ? true : false} />
+                      <div
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapse1"
+                        onClick={(e) => setPaymentType(PAYMENT_COD)}
+                      >
+                        <div className="medium-a align-middle">
+                          <input readOnly type="radio" checked={paymentType === PAYMENT_COD ? true : false} />
                           <span className="payment-type-title">Thanh toán khi nhận hàng</span>
                         </div>
                       </div>
-                      <Collapse in={paymentType === 'cod' ? true : false} id="collapse1" data-bs-parent="#accordion">
-                        <div className="normal-a">
-                          <p>
-                            Lorem Ipsum is simply in dummy text of the printing and typesetting industry. Lorem Ipsum
-                            has been the industry.
-                          </p>
+                      <Collapse
+                        in={paymentType === PAYMENT_COD ? true : false}
+                        id="collapse1"
+                        data-bs-parent="#accordion"
+                      >
+                        <div className="normal-a border">
+                          <p>Thanh toán bằng tiền mặt khi nhận hàng</p>
                         </div>
                       </Collapse>
                     </li>
@@ -189,25 +292,57 @@ const Checkout = () => {
                       <div
                         data-bs-toggle="collapse"
                         data-bs-target="#collapse3"
-                        onClick={(e) => setPaymentType('online')}
+                        onClick={(e) => setPaymentType(PAYMENT_ONLINE)}
                       >
-                        <div className="medium-a">
-                          <input type="radio" checked={paymentType === 'online' ? true : false} />
+                        <div className="medium-a align-middle">
+                          <input readOnly type="radio" checked={paymentType === PAYMENT_ONLINE ? true : false} />
                           <span className="payment-type-title">Thanh toán online</span>
                         </div>
                       </div>
-                      <Collapse in={paymentType === 'online' ? true : false} id="collapse3" data-bs-parent="#accordion">
-                        <div className="normal-a">
-                          <p>
-                            Lorem Ipsum is simply in dummy text of the printing and typesetting industry. Lorem Ipsum
-                            has been the industry.
-                          </p>
+                      <Collapse
+                        in={paymentType === PAYMENT_ONLINE ? true : false}
+                        id="collapse3"
+                        data-bs-parent="#accordion"
+                      >
+                        <div className="normal-a border p-4">
+                          <Form className="" onSubmit={submitHandler}>
+                            <h2 className="mb-4">Thông tin thẻ</h2>
+                            <div className="form-group">
+                              <label htmlFor="card_num_field">Số thẻ</label>
+                              <CardNumberElement
+                                type="text"
+                                id="card_num_field"
+                                className="form-control"
+                                options={options}
+                              />
+                            </div>
+
+                            <div className="form-group mt-3">
+                              <label htmlFor="card_exp_field">Hết hạn</label>
+                              <CardExpiryElement
+                                type="text"
+                                id="card_exp_field"
+                                className="form-control"
+                                options={options}
+                              />
+                            </div>
+
+                            <div className="form-group mt-3">
+                              <label htmlFor="card_cvc_field">Số CVC</label>
+                              <CardCvcElement
+                                type="text"
+                                id="card_cvc_field"
+                                className="form-control"
+                                options={options}
+                              />
+                            </div>
+                          </Form>
                         </div>
                       </Collapse>
                     </li>
                   </ul>
                   <div className="submit-text">
-                    <a href="#">Đặt hàng</a>
+                    <button onClick={(e) => submitHandler(e)}>Đặt hàng</button>
                   </div>
                 </div>
               </div>

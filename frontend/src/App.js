@@ -3,10 +3,13 @@ import './assets/css/materialdesignicons.min.css';
 import './assets/css/responsive.css';
 import './App.css';
 import './assets/css/admin.style.css';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import BlogList from './pages/BlogList';
@@ -41,8 +44,22 @@ import UpdateBlog from './pages/Admin/Blog/UpdateBlog';
 import ContactList from './pages/Admin/Contact/ContactList';
 import RelpyContact from './pages/Admin/Contact/ReplyContact';
 import SubscriberList from './pages/Admin/Subscriber/SubscriberList';
+import axios from 'axios';
+import { END_POINT } from './config';
+import OrderComplete from './pages/Order/OrderComplete';
 
 function App() {
+  const [stripeApiKey, setStripeApiKey] = useState('');
+
+  useEffect(() => {
+    async function getStripeApiKey() {
+      const { data } = await axios.get(`${END_POINT}/api/v1/stripeapi`);
+      setStripeApiKey(data.stripeApiKey);
+    }
+
+    getStripeApiKey();
+  }, []);
+
   return (
     <Fragment>
       <ToastContainer />
@@ -56,6 +73,16 @@ function App() {
           <Route path="/blogdetail" element={<Blog />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/cart" element={<Cart />} />
+          {stripeApiKey && (
+            <Route
+              path="/checkout"
+              element={
+                <Elements stripe={loadStripe(stripeApiKey)}>
+                  <Checkout />
+                </Elements>
+              }
+            />
+          )}
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -64,6 +91,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/orders" element={<OrderHistory />} />
           <Route path="/order-detail" element={<OrderDetail />} />
+          <Route path="/order-complete" element={<OrderComplete />} />
 
           {/* admin path */}
           <Route path="/admin/dashboard" element={<Dashboard />} />
