@@ -1,7 +1,7 @@
 import { Avatar } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Collapse, Form } from 'react-bootstrap';
+import { Collapse } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -10,7 +10,7 @@ import Loader from '~/layouts/Loader';
 
 const ProfileForm = () => {
   const { user } = useSelector((state) => state.auth);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -99,7 +99,7 @@ const ProfileForm = () => {
       setOpen(!open);
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     } catch (error) {
-      toast.error(error);
+      toast.error(error.response.data.message);
     }
     setLoading(false);
   };
