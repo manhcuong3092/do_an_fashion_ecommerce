@@ -8,10 +8,11 @@ import PageTitle from '../../layouts/PageTitle';
 
 import { CardCvcElement, CardExpiryElement, CardNumberElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { toast } from 'react-toastify';
-import { FREE_SHIP_MINIMUM, NOT_PAID, PAYMENT_COD, PAYMENT_ONLINE, SHIPPING_PRICE } from '~/constants/payment';
+import { FREE_SHIP_MINIMUM, NOT_PAID, PAID, PAYMENT_COD, PAYMENT_ONLINE, SHIPPING_PRICE } from '~/constants/payment';
 import axios from 'axios';
 import { END_POINT } from '~/config';
 import { useNavigate } from 'react-router-dom';
+import Loader from '~/layouts/Loader';
 
 const options = {
   style: {
@@ -30,6 +31,7 @@ const Checkout = () => {
   const [phoneNo, setPhoneNo] = useState('');
   const [city, setCity] = useState('');
   const [address, setAddress] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const [paymentType, setPaymentType] = useState(PAYMENT_COD);
 
@@ -47,6 +49,8 @@ const Checkout = () => {
       return acc + item.product.price * item.quantity;
     }
   }, 0);
+
+  const totalPrice = subTotal + SHIPPING_PRICE;
 
   const shippingPrice = subTotal < FREE_SHIP_MINIMUM ? SHIPPING_PRICE : 0;
 
@@ -95,24 +99,27 @@ const Checkout = () => {
       return;
     }
 
-    if (paymentType === PAYMENT_COD) {
-      const orderItems = cartItems.map((item) => {
-        const orderItem = {
-          price: item.product.isSale ? item.product.salePrice : item.product.price,
-          product: item.product._id,
-          size: item.size._id,
-          color: item.color._id,
-          quantity: item.quantity,
-        };
-        return orderItem;
-      });
-      const shippingInfo = {
-        name,
-        email,
-        phoneNo,
-        city,
-        address,
+    setLoading(true);
+
+    const orderItems = cartItems.map((item) => {
+      const orderItem = {
+        price: item.product.isSale ? item.product.salePrice : item.product.price,
+        product: item.product._id,
+        size: item.size._id,
+        color: item.color._id,
+        quantity: item.quantity,
       };
+      return orderItem;
+    });
+    const shippingInfo = {
+      name,
+      email,
+      phoneNo,
+      city,
+      address,
+    };
+
+    if (paymentType === PAYMENT_COD) {
       const orderData = {
         orderItems,
         shippingInfo,
@@ -121,7 +128,7 @@ const Checkout = () => {
         user: user ? user._id : null,
         itemsPrice: subTotal,
         shippingPrice,
-        totalPrice: subTotal - shippingPrice,
+        totalPrice: totalPrice,
       };
 
       try {
@@ -132,13 +139,69 @@ const Checkout = () => {
       } catch (error) {
         toast.error(error);
       }
+    } else if (paymentType === PAYMENT_ONLINE) {
+      try {
+        const config = {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        };
+        const res = await axios.post('/api/v1/payment/process/stripe', { amount: totalPrice, currency: 'vnd' }, config);
+        const clientSecret = res.data.client_secret;
+        if (!stripe || !elements) {
+          return;
+        }
+        const result = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: elements.getElement(CardNumberElement),
+            billing_details: {
+              name,
+              email,
+            },
+          },
+        });
+
+        if (result.error) {
+          toast.error(result.error.message);
+        } else {
+          //The payment is processed or not
+          if (result.paymentIntent.status === 'succeeded') {
+            const orderData = {
+              orderItems,
+              shippingInfo,
+              paymentStatus: PAID,
+              paymentType: PAYMENT_ONLINE,
+              user: user ? user._id : null,
+              itemsPrice: subTotal,
+              shippingPrice,
+              totalPrice: totalPrice,
+              onlinePaymentInfo: {
+                id: result.paymentIntent.id,
+                status: result.paymentIntent.status,
+              },
+            };
+
+            const { data } = await axios.post(`${END_POINT}/api/v1/order`, orderData, { withCredentials: true });
+            console.log(data);
+            toast.success('Đặt hàng thành công');
+            navigate('/order-complete');
+          } else {
+            toast.error('Có lỗi xảy ra trong khi thanh toán.');
+          }
+        }
+      } catch (error) {
+        toast.error(error);
+      }
     }
+
+    setLoading(false);
   };
 
   return (
     <Fragment>
       <Header />
       <PageTitle title="Thanh toán" />
+      {loading && <Loader />}
       <section className="pages checkout section-padding">
         <Container>
           <Row>
@@ -249,7 +312,7 @@ const Checkout = () => {
                     <tfoot>
                       <tr>
                         <th>Tổng thanh toán</th>
-                        <td>{(subTotal - shippingPrice).toLocaleString('vi-VN')}₫</td>
+                        <td>{totalPrice.toLocaleString('vi-VN')}₫</td>
                       </tr>
                     </tfoot>
                   </table>
