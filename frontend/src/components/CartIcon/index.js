@@ -38,28 +38,35 @@ const CartIcon = () => {
           {cartItems.length !== 0 ? cartItems.length : 0} SP : <strong>{totalPrice.toLocaleString('vi-VN')}₫</strong>
         </a>
         <div className="cartdrop">
-          {cartItems.map((item, index) => (
-            <div className="sin-itme clearfix" key={index}>
-              <i
-                className="mdi mdi-close"
-                onClick={() => removeCartItemHandler(item.product._id, item.color._id, item.size._id)}
-              ></i>
-              <Link className="cart-img" to={`/product/${item.product.slug}`}>
-                <img src={item.product.images[0] ? item.product.images[0].url : ''} alt="" />
-              </Link>
-              <div className="menu-cart-text">
-                <a>
-                  <h6>{item.product.name}</h6>
-                </a>
-                <span>Màu : {item.color.name}</span>
-                <span>Kích cỡ : {item.size.name}</span>
-                <span>Số lượng : {item.quantity}</span>
-                <strong>
-                  {(item.product.isSale ? item.product.salePrice : item.product.price).toLocaleString('vi-VN')}₫
-                </strong>
+          {cartItems.length !== 0 ? (
+            cartItems.map((item, index) => (
+              <div className="sin-itme clearfix" key={index}>
+                <i
+                  className="mdi mdi-close"
+                  onClick={() => removeCartItemHandler(item.product._id, item.color._id, item.size._id)}
+                ></i>
+                <Link className="cart-img" to={`/product/${item.product.slug}`}>
+                  <img src={item.product.images[0] ? item.product.images[0].url : ''} alt="" />
+                </Link>
+                <div className="menu-cart-text">
+                  <a>
+                    <h6>{item.product.name}</h6>
+                  </a>
+                  <span>Màu : {item.color.name}</span>
+                  <span>Kích cỡ : {item.size.name}</span>
+                  <span>Số lượng : {item.quantity}</span>
+                  <strong>
+                    {(
+                      (item.product.isSale ? item.product.salePrice : item.product.price) * item.quantity
+                    ).toLocaleString('vi-VN')}
+                    ₫
+                  </strong>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <h5>Giỏ hàng trống</h5>
+          )}
           <div className="total">
             <span>
               Tổng cộng <span className="text-danger">{totalPrice.toLocaleString('vi-VN')}₫</span>

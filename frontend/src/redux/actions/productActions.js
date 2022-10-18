@@ -30,8 +30,6 @@ export const getProducts =
         link += `&gender=${gender}`;
       }
 
-      console.log(link);
-
       const { data } = await axios.get(link);
       dispatch({
         type: ALL_PRODUCTS_SUCCESS,

@@ -49,10 +49,8 @@ const Checkout = () => {
       return acc + item.product.price * item.quantity;
     }
   }, 0);
-
-  const totalPrice = subTotal + SHIPPING_PRICE;
-
   const shippingPrice = subTotal < FREE_SHIP_MINIMUM ? SHIPPING_PRICE : 0;
+  const totalPrice = subTotal + SHIPPING_PRICE;
 
   useEffect(() => {
     if (user) {
@@ -89,6 +87,10 @@ const Checkout = () => {
     }
     if (!address) {
       toast.warn('Vui lòng nhập địa chỉ');
+      return false;
+    }
+    if (cartItems.length === 0) {
+      toast.warn('Bạn chưa có hàng trong giỏ');
       return false;
     }
     return true;
@@ -133,9 +135,13 @@ const Checkout = () => {
 
       try {
         const { data } = await axios.post(`${END_POINT}/api/v1/order`, orderData, { withCredentials: true });
-        console.log(data);
         toast.success('Đặt hàng thành công');
-        navigate('/order-complete');
+        if (user) {
+          await axios.put(`/api/v1/cart`, { cartItems: [] });
+        } else {
+          localStorage.setItem('cartItems', []);
+        }
+        navigate('/order-complete', { replace: true, state: data.order });
       } catch (error) {
         toast.error(error);
       }
@@ -182,9 +188,13 @@ const Checkout = () => {
             };
 
             const { data } = await axios.post(`${END_POINT}/api/v1/order`, orderData, { withCredentials: true });
-            console.log(data);
             toast.success('Đặt hàng thành công');
-            navigate('/order-complete');
+            if (user) {
+              await axios.put(`/api/v1/cart`, { cartItems: [] });
+            } else {
+              localStorage.setItem('cartItems', []);
+            }
+            navigate('/order-complete', { replace: true, state: data.order });
           } else {
             toast.error('Có lỗi xảy ra trong khi thanh toán.');
           }
