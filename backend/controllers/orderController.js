@@ -18,9 +18,7 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     user
   } = req.body;
 
-  console.log(req.body);
-
-  const order = await Order.create({
+  let order = await Order.create({
     orderItems,
     shippingInfo,
     itemsPrice,
@@ -29,9 +27,14 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     paymentInfo,
     paymentType,
     paymentStatus,
-    paidAt: Date.now(),
+    paidAt: paymentStatus ? Date.now() : null,
     user
   })
+
+  order = await Order.findById(order.id)
+    .populate('orderItems.product')
+    .populate('orderItems.size')
+    .populate('orderItems.color')
 
   res.status(200).json({
     success: true,

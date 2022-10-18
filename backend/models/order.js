@@ -101,15 +101,4 @@ const orderSchema = mongoose.Schema({
   },
 });
 
-
-orderSchema.pre('save', async function (next) {
-  if (this.isModified('paymentStatus')) {
-    if (this.paymentStatus) {
-      this.paidAt = Date.now()
-    }
-  } else {
-    next();
-  }
-})
-
 module.exports = mongoose.model('Order', orderSchema);
