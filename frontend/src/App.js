@@ -48,6 +48,7 @@ import axios from 'axios';
 import { END_POINT } from './config';
 import OrderComplete from './pages/Order/OrderComplete';
 import ProtectRoute from './route/ProtectRoute';
+import OrderList from './pages/Admin/Order/OrderList';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState('');
@@ -265,6 +266,14 @@ function App() {
             element={
               <ProtectRoute isAdmin={true}>
                 <SubscriberList />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/orders"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <OrderList />
               </ProtectRoute>
             }
           />

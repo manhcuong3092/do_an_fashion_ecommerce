@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import Collapse from 'react-bootstrap/Collapse';
 import { Link } from 'react-router-dom';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import CalendarViewMonthOutlinedIcon from '@mui/icons-material/CalendarViewMonthOutlined';
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
+import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
+import HeightOutlinedIcon from '@mui/icons-material/HeightOutlined';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
+import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
+import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
+import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 
 const SideNav = ({ children }) => {
   const [open, setOpen] = useState(false);
@@ -11,10 +21,10 @@ const SideNav = ({ children }) => {
         <nav className="sb-sidenav accordion sb-sidenav-custom" id="sidenavAccordion">
           <div className="sb-sidenav-menu">
             <div className="nav">
-              <div className="sb-sidenav-menu-heading">Core</div>
+              <div className="sb-sidenav-menu-heading">Trang chủ</div>
               <Link className="nav-link" to="/admin/dashboard">
                 <div className="sb-nav-link-icon">
-                  <i className="fas fa-tachometer-alt"></i>
+                  <DashboardOutlinedIcon />
                 </div>
                 Dashboard
               </Link>
@@ -29,7 +39,7 @@ const SideNav = ({ children }) => {
                 aria-controls="collapseLayouts"
               >
                 <div className="sb-nav-link-icon">
-                  <i className="fas fa-columns"></i>
+                  <CalendarViewMonthOutlinedIcon />
                 </div>
                 Sản phẩm
                 <div className="sb-sidenav-collapse-arrow">
@@ -41,149 +51,55 @@ const SideNav = ({ children }) => {
                   <nav className="sb-sidenav-menu-nested nav ml-5">
                     <Link className="nav-link" to={'/admin/management/categories'}>
                       <div className="sb-nav-link-icon">
-                        <i class="fa-solid fa-list"></i>
+                        <CategoryOutlinedIcon />
                       </div>
                       Danh mục
                     </Link>
                     <Link className="nav-link" to={'/admin/management/sizes'}>
                       <div className="sb-nav-link-icon">
-                        <i class="fa-solid fa-text-width"></i>
+                        <HeightOutlinedIcon />
                       </div>
                       Kích cỡ
                     </Link>
                     <Link className="nav-link" to={'/admin/management/colors'}>
                       <div className="sb-nav-link-icon">
-                        <i class="fa-solid fa-palette"></i>
+                        <ColorLensOutlinedIcon />
                       </div>
                       Màu sắc
                     </Link>
                     <Link className="nav-link" to={'/admin/management/products'}>
                       <div className="sb-nav-link-icon">
-                        <i class="fa-solid fa-shirt"></i>
+                        <LocalOfferOutlinedIcon />
                       </div>
                       Sản phẩm
                     </Link>
                   </nav>
                 </div>
               </Collapse>
+              <Link className="nav-link" to="/admin/management/orders">
+                <div className="sb-nav-link-icon">
+                  <ShoppingCartOutlinedIcon />
+                </div>
+                Đơn hàng
+              </Link>
               <Link className="nav-link" to="/admin/management/blogs">
                 <div className="sb-nav-link-icon">
-                  <i className="fas fa-book-open"></i>
+                  <LibraryBooksOutlinedIcon />
                 </div>
                 Blog
               </Link>
               <Link className="nav-link" to="/admin/management/contacts">
                 <div className="sb-nav-link-icon">
-                  <i class="fa-solid fa-address-book"></i>
+                  <ContactMailOutlinedIcon />
                 </div>
                 Liên hệ
               </Link>
               <Link className="nav-link" to="/admin/management/subscribers">
                 <div className="sb-nav-link-icon">
-                  <i class="fa-solid fa-envelope"></i>
+                  <SubscriptionsOutlinedIcon />
                 </div>
                 Đăng ký
               </Link>
-              <a
-                className="nav-link collapsed"
-                href="#"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapsePages"
-                aria-expanded="false"
-                aria-controls="collapsePages"
-              >
-                <div className="sb-nav-link-icon">
-                  <i className="fas fa-book-open"></i>
-                </div>
-                Pages
-                <div className="sb-sidenav-collapse-arrow">
-                  <i className="fas fa-angle-down"></i>
-                </div>
-              </a>
-              <div
-                className="collapse"
-                id="collapsePages"
-                aria-labelledby="headingTwo"
-                data-bs-parent="#sidenavAccordion"
-              >
-                <nav className="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                  <a
-                    className="nav-link collapsed"
-                    href="#"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#pagesCollapseAuth"
-                    aria-expanded="false"
-                    aria-controls="pagesCollapseAuth"
-                  >
-                    Authentication
-                    <div className="sb-sidenav-collapse-arrow">
-                      <i className="fas fa-angle-down"></i>
-                    </div>
-                  </a>
-                  <div
-                    className="collapse"
-                    id="pagesCollapseAuth"
-                    aria-labelledby="headingOne"
-                    data-bs-parent="#sidenavAccordionPages"
-                  >
-                    <nav className="sb-sidenav-menu-nested nav">
-                      <a className="nav-link" href="login.html">
-                        Login
-                      </a>
-                      <a className="nav-link" href="register.html">
-                        Register
-                      </a>
-                      <a className="nav-link" href="password.html">
-                        Forgot Password
-                      </a>
-                    </nav>
-                  </div>
-                  <a
-                    className="nav-link collapsed"
-                    href="#!"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#pagesCollapseError"
-                    aria-expanded="false"
-                    aria-controls="pagesCollapseError"
-                  >
-                    Error
-                    <div className="sb-sidenav-collapse-arrow">
-                      <i className="fas fa-angle-down"></i>
-                    </div>
-                  </a>
-                  <div
-                    className="collapse"
-                    id="pagesCollapseError"
-                    aria-labelledby="headingOne"
-                    data-bs-parent="#sidenavAccordionPages"
-                  >
-                    <nav className="sb-sidenav-menu-nested nav">
-                      <a className="nav-link" href="401.html">
-                        401 Page
-                      </a>
-                      <a className="nav-link" href="404.html">
-                        404 Page
-                      </a>
-                      <a className="nav-link" href="500.html">
-                        500 Page
-                      </a>
-                    </nav>
-                  </div>
-                </nav>
-              </div>
-              <div className="sb-sidenav-menu-heading">Addons</div>
-              <a className="nav-link" href="charts.html">
-                <div className="sb-nav-link-icon">
-                  <i className="fas fa-chart-area"></i>
-                </div>
-                Charts
-              </a>
-              <a className="nav-link" href="tables.html">
-                <div className="sb-nav-link-icon">
-                  <i className="fas fa-table"></i>
-                </div>
-                Tables
-              </a>
             </div>
           </div>
           <div className="sb-sidenav-footer">
