@@ -98,7 +98,7 @@ function App() {
             }
           />
           <Route
-            path="/orders"
+            path="/order-history"
             element={
               <ProtectRoute>
                 <OrderHistory />
@@ -106,7 +106,7 @@ function App() {
             }
           />
           <Route
-            path="/order-detail"
+            path="/order-detail/:orderId"
             element={
               <ProtectRoute>
                 <OrderDetail />

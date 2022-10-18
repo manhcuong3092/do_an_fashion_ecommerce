@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeItemFromCart, updateItemInCart } from '~/redux/actions/cartActions';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const ItemList = () => {
   const dispatch = useDispatch();
@@ -57,12 +58,12 @@ const ItemList = () => {
               {cartItems.map((item, index) => (
                 <tr key={index}>
                   <td className="td-img text-left">
-                    <a href="#">
+                    <Link to={`/product/${item.product.slug}`}>
                       <img src={item.product.images[0] ? item.product.images[0].url : ''} alt="Add Product" />
-                    </a>
+                    </Link>
                     <div className="items-dsc">
                       <h5>
-                        <a href="#">{item.product.name}</a>
+                        <Link to={`/product/${item.product.slug}`}>{item.product.name}</Link>
                       </h5>
                       <p className="itemcolor">
                         Màu: <span>{item.color.name}</span>
