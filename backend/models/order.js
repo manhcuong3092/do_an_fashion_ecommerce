@@ -2,6 +2,14 @@ const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema({
   shippingInfo: {
+    name: {
+      type: String,
+      required: true
+    },
+    email: {
+      type: String,
+      required: true
+    },
     address: {
       type: String,
       required: true
@@ -17,15 +25,10 @@ const orderSchema = mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
     ref: 'User'
   },
   orderItems: [
     {
-      name: {
-        type: String,
-        required: true
-      },
       size: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -40,10 +43,6 @@ const orderSchema = mongoose.Schema({
         type: Number,
         required: true
       },
-      image: {
-        type: String,
-        required: true
-      },
       price: {
         type: Number,
         required: true
@@ -55,7 +54,7 @@ const orderSchema = mongoose.Schema({
       },
     }
   ],
-  paymentInfo: {
+  onlinePaymentInfo: {
     id: {
       type: String
     },
@@ -67,17 +66,13 @@ const orderSchema = mongoose.Schema({
     type: String
   },
   paymentStatus: {
-    type: Boolean
+    type: Boolean,
+    default: false
   },
   paidAt: {
     type: Date
   },
   itemsPrice: {
-    type: Number,
-    required: true,
-    default: 0.0
-  },
-  taxPrice: {
     type: Number,
     required: true,
     default: 0.0
@@ -99,12 +94,22 @@ const orderSchema = mongoose.Schema({
   },
   deliveredAt: {
     type: Date,
-    default: Date.now
   },
   createdAt: {
     type: Date,
     default: Date.now
   },
+});
+
+
+orderSchema.pre('save', async function (next) {
+  if (this.isModified('paymentStatus')) {
+    if (this.paymentStatus) {
+      this.paidAt = Date.now()
+    }
+  } else {
+    next();
+  }
 })
 
 module.exports = mongoose.model('Order', orderSchema);
