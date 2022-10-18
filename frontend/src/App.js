@@ -47,6 +47,7 @@ import SubscriberList from './pages/Admin/Subscriber/SubscriberList';
 import axios from 'axios';
 import { END_POINT } from './config';
 import OrderComplete from './pages/Order/OrderComplete';
+import ProtectRoute from './route/ProtectRoute';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState('');
@@ -88,31 +89,185 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/password/forgot" element={<ForgotPassword />} />
           <Route path="/password/reset/:token" element={<ResetPassword />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/orders" element={<OrderHistory />} />
-          <Route path="/order-detail" element={<OrderDetail />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectRoute>
+                <Profile />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <ProtectRoute>
+                <OrderHistory />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/order-detail"
+            element={
+              <ProtectRoute>
+                <OrderDetail />
+              </ProtectRoute>
+            }
+          />
           <Route path="/order-complete" element={<OrderComplete />} />
 
           {/* admin path */}
-          <Route path="/admin/dashboard" element={<Dashboard />} />
-          <Route path="/admin/management/sizes" element={<SizeList />} />
-          <Route path="/admin/management/create-size" element={<CreateSize />} />
-          <Route path="/admin/management/size/:sizeId" element={<UpdateSize />} />
-          <Route path="/admin/management/colors" element={<ColorList />} />
-          <Route path="/admin/management/create-color" element={<CreateColor />} />
-          <Route path="/admin/management/color/:colorId" element={<UpdateColor />} />
-          <Route path="/admin/management/categories" element={<CategoryList />} />
-          <Route path="/admin/management/create-category" element={<CreateCategory />} />
-          <Route path="/admin/management/category/:categoryId" element={<UpdateCategory />} />
-          <Route path="/admin/management/products" element={<ProductList />} />
-          <Route path="/admin/management/create-product" element={<CreateProduct />} />
-          <Route path="/admin/management/product/:productId" element={<UpdateProduct />} />
-          <Route path="/admin/management/blogs" element={<BlogsList />} />
-          <Route path="/admin/management/create-blog" element={<CreateBlog />} />
-          <Route path="/admin/management/blog/:blogId" element={<UpdateBlog />} />
-          <Route path="/admin/management/contacts" element={<ContactList />} />
-          <Route path="/admin/management/contact/:contactId" element={<RelpyContact />} />
-          <Route path="/admin/management/subscribers" element={<SubscriberList />} />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <Dashboard />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/sizes"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <SizeList />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/create-size"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <CreateSize />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/size/:sizeId"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <UpdateSize />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/colors"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <ColorList />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/create-color"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <CreateColor />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/color/:colorId"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <UpdateColor />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/categories"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <CategoryList />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/create-category"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <CreateCategory />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/category/:categoryId"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <UpdateCategory />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/products"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <ProductList />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/create-product"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <CreateProduct />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/product/:productId"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <UpdateProduct />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/blogs"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <BlogsList />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/create-blog"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <CreateBlog />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/blog/:blogId"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <UpdateBlog />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/contacts"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <ContactList />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/contact/:contactId"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <RelpyContact />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/subscribers"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <SubscriberList />
+              </ProtectRoute>
+            }
+          />
         </Routes>
       </Router>
     </Fragment>
