@@ -18,6 +18,11 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     user
   } = req.body;
 
+<<<<<<< HEAD
+=======
+  console.log(req.body);
+
+>>>>>>> c7e6ac7d0414852f56e8dbb0ac3bdd5ea50e5338
   let order = await Order.create({
     orderItems,
     shippingInfo,
