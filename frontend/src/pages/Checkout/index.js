@@ -80,6 +80,9 @@ const Checkout = () => {
     } else if (!validator.isNumeric(phoneNo)) {
       toast.warn('Số điện thoại không hợp lệ');
       return false;
+    } else if (phoneNo.length !== 10 || phoneNo.length !== 11) {
+      toast.warn('Số điện thoại không hợp lệ');
+      return false;
     }
     if (!city) {
       toast.warn('Vui lòng nhập tỉnh/thành phố');

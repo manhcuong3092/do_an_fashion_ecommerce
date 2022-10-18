@@ -1,26 +1,28 @@
-import React, { Fragment } from 'react'
-import { Link } from 'react-router-dom'
-import ChangePassword from '../../components/ChangePasswordForm'
-import PageTitle from '../../layouts/PageTitle'
-import ProfileForm from '../../components/ProfileForm'
+import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import ChangePassword from '../../components/ChangePasswordForm';
+import PageTitle from '../../layouts/PageTitle';
+import ProfileForm from '../../components/ProfileForm';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import Header from '../../layouts/Header'
-import Footer from '../../layouts/Footer'
+import Header from '../../layouts/Header';
+import Footer from '../../layouts/Footer';
 
 const Profile = () => {
   return (
     <Fragment>
       <Header />
-      <PageTitle title={"Thông tin cá nhân"} />
+      <PageTitle title={'Thông tin cá nhân'} />
       <section className="pages my-account-page section-padding">
         <Container>
           <Row>
             <Col md={6}>
               <div className="padding60">
                 <div className="log-title">
-                  <h3><strong>Thông tin các nhân</strong></h3>
+                  <h3>
+                    <strong>Thông tin các nhân</strong>
+                  </h3>
                 </div>
                 <div className="prament-area main-input">
                   <ul className="panel-group" id="accordion">
@@ -41,7 +43,7 @@ const Profile = () => {
       </section>
       <Footer />
     </Fragment>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;
