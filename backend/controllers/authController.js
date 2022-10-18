@@ -166,7 +166,6 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
     name: req.body.name,
-    email: req.body.email.toLowerCase(),
     phoneNo: req.body.phoneNo,
     city: req.body.city,
     address: req.body.address
