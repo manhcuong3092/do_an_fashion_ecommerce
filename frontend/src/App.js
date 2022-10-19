@@ -49,6 +49,7 @@ import { END_POINT } from './config';
 import OrderComplete from './pages/Order/OrderComplete';
 import ProtectRoute from './route/ProtectRoute';
 import OrderList from './pages/Admin/Order/OrderList';
+import UpdateOrder from './pages/Admin/Order/UpdateOrder';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState('');
@@ -274,6 +275,14 @@ function App() {
             element={
               <ProtectRoute isAdmin={true}>
                 <OrderList />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/management/order/:orderId"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <UpdateOrder />
               </ProtectRoute>
             }
           />

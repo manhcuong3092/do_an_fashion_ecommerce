@@ -8,9 +8,10 @@ import SideNav from '~/layouts/Admin/SideNav';
 import { DataGrid, GridToolbar, viVN } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined';
 import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
+import { ORDER_CANCEL, ORDER_DELIVERING, ORDER_PENDING, ORDER_SUCCESS } from '~/constants/order';
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
@@ -41,7 +42,7 @@ const OrderList = () => {
 
   const columns = [
     { field: 'sequense', headerName: 'STT' },
-    { field: 'id', headerName: 'ID', flex: 1, hide: true },
+    { field: 'id', headerName: 'ID', flex: 1 },
     { field: 'name', headerName: 'Họ tên', flex: 1 },
     { field: 'email', headerName: 'Email', flex: 1 },
     { field: 'shippingInfo', headerName: 'Địa chỉ', flex: 1 },
@@ -55,7 +56,24 @@ const OrderList = () => {
       },
     },
     { field: 'paymentType', headerName: 'Phương thức', flex: 1 },
-    { field: 'orderStatus', headerName: 'Trạng thái' },
+    {
+      field: 'orderStatus',
+      headerName: 'Trạng thái',
+      flex: 1,
+      renderCell: (cell) => {
+        return cell.value === ORDER_PENDING ? (
+          <span className="text-primary">{ORDER_PENDING}</span>
+        ) : cell.value === ORDER_DELIVERING ? (
+          <span className="text-warning">{ORDER_DELIVERING}</span>
+        ) : cell.value === ORDER_SUCCESS ? (
+          <span className="text-success">{ORDER_SUCCESS}</span>
+        ) : cell.value === ORDER_CANCEL ? (
+          <span className="text-danger">{ORDER_CANCEL}</span>
+        ) : (
+          ''
+        );
+      },
+    },
     {
       field: 'actions',
       headerName: 'Hành động',
@@ -64,7 +82,7 @@ const OrderList = () => {
         return (
           <Fragment>
             <Button variant="contained" component={Link} color="info" to={`/admin/management/order/${cell.value}`}>
-              <EditIcon />
+              <LocalShippingOutlinedIcon />
             </Button>
             <span style={{ width: '10px' }}> </span>
             <Button
