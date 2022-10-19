@@ -11,6 +11,7 @@ import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
 import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
 const SideNav = ({ children }) => {
   const [open, setOpen] = useState(false);
@@ -26,7 +27,7 @@ const SideNav = ({ children }) => {
                 <div className="sb-nav-link-icon">
                   <DashboardOutlinedIcon />
                 </div>
-                Dashboard
+                Bảng điều khiển
               </Link>
               <div className="sb-sidenav-menu-heading">Quản lý</div>
               <a
@@ -99,6 +100,12 @@ const SideNav = ({ children }) => {
                   <SubscriptionsOutlinedIcon />
                 </div>
                 Đăng ký
+              </Link>
+              <Link className="nav-link" to="/admin/management/users">
+                <div className="sb-nav-link-icon">
+                  <PersonOutlineOutlinedIcon />
+                </div>
+                Người dùng
               </Link>
             </div>
           </div>
