@@ -47,6 +47,7 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
 exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id)
     .populate('user', 'name email')
+    .populate('orderItems.product')
     .populate('orderItems.size', 'name')
     .populate('orderItems.color', 'name');
   if (!order) {
@@ -98,19 +99,35 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
   }
 
   if (req.body.status === DELIVERING) {
+    let check = true;
+    for (let item of order.orderItems) {
+      check = await checkStock(item.product, item.size, item.color, item.quantity);
+      if (!check) {
+        break;
+      }
+    };
+    if(!check) {
+      return next(new ErrorHandler('Không đủ hàng trong kho', 400));
+    }
+
     order.orderItems.forEach(async item => {
       await updateStock(item.product, item.size, item.color, item.quantity);
     });
-  
     order.orderStatus = req.body.status;
     order.deliveredAt = Date.now();
+  
   } else if (req.body.status === CANCELLED) {
     order.orderStatus = req.body.status;
+    order.orderItems.forEach(async item => {
+      await updateStock(item.product, item.size, item.color, -item.quantity);
+    });
   } else if (req.body.status === SUCCEEDED) {
     if (order.orderStatus === PENDING) {
       return next(new ErrorHandler('Đơn hàng chưa được giao', 400));
     }
     order.orderStatus = req.body.status;
+    order.paymentStatus = true;
+    order.paidAt = Date.now();
   }
   
   await order.save()
@@ -121,6 +138,20 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
   })
 })
 
+
+async function checkStock(id, size, color, quantity) {
+  const product = await Product.findById(id);
+  let check = true;
+  product.stock.forEach((item, index) => {
+    if (item.size.toString() === size.toString() && item.color.toString() === color.toString()) {
+      if (product.stock[index].quantity - quantity < 0) {
+        check = false;
+        return;
+      }
+    }
+  })
+  return check;
+}
 
 async function updateStock(id, size, color, quantity) {
   const product = await Product.findById(id);
