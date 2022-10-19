@@ -30,7 +30,7 @@ const ProfileForm = () => {
       setEmail(user.email);
       setAddress(user.address);
       setPhoneNo(user.phoneNo);
-      setCity(user.phoneNo);
+      setCity(user.city);
       setCurentAvatar(user.avatar);
     }
   }, [user]);
@@ -57,11 +57,8 @@ const ProfileForm = () => {
     if (!phoneNo) {
       toast.warn('Vui lòng nhập số điện thoại');
       return false;
-    } else if (!validator.isNumeric(phoneNo)) {
-      toast.warn('Số điện thoại không hợp lệ');
-      return false;
-    } else if (phoneNo.length !== 10 || phoneNo.length !== 11) {
-      toast.warn('Số điện thoại không hợp lệ');
+    } else if (!phoneNo.match(/\d{10,11}/)) {
+      toast.warn('Số điện thoại gồm 10 - 11 số');
       return false;
     }
     if (!city) {

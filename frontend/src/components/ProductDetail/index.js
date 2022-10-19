@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import QuickImages from './QuickImages';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -11,12 +11,26 @@ const ProductDetail = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const [size, setSize] = useState(product.sizes[0]);
   const [color, setColor] = useState(product.colors[0]);
+  const [stock, setStock] = useState('');
 
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.cart);
 
   const dispatch = useDispatch();
 
   const addToCart = () => {
+    const existIndex = product.stock.findIndex((i) => i.size._id === size._id && i.color._id === color._id);
+    if (existIndex === -1) {
+      return;
+    }
+    const cartItemIndex = cartItems.findIndex((i) => i.size._id === size._id && i.color._id === color._id);
+    if (cartItemIndex !== -1) {
+      if (cartItems[cartItemIndex].quantity + quantity > product.stock[existIndex].quantity) {
+        toast.info('Trong kho chỉ có ' + product.stock[existIndex].quantity + ' sản phẩm. Xem lại giỏ hàng');
+        return;
+      }
+    }
+
     dispatch(addItemToCart(product, color, size, quantity, user));
     toast.success('Đã thêm sản phẩm vào giỏ');
   };
@@ -30,8 +44,17 @@ const ProductDetail = ({ product }) => {
   };
 
   const handleIncrease = (e) => {
+    if (quantity >= stock) {
+      return;
+    }
     setQuantity(quantity + 1);
   };
+
+  useEffect(() => {
+    const stockIndex = product.stock.findIndex((stock) => stock.size._id === size._id && stock.color._id === color._id);
+    setStock(product.stock[stockIndex].quantity);
+    setQuantity(1);
+  }, [product, size, color]);
 
   return (
     <Row className="single-list-view">
@@ -99,10 +122,19 @@ const ProductDetail = ({ product }) => {
                   </div>
                 </form>
               </div>
+              <div className="s-shoose">
+                <p>Số lượng trong kho: {stock}</p>
+              </div>
             </div>
-            <div className="list-btn">
-              <button onClick={(e) => addToCart()}>Thêm vào giỏ</button>
-            </div>
+            {stock !== 0 ? (
+              <div className="list-btn">
+                <button onClick={(e) => addToCart()}>Thêm vào giỏ</button>
+              </div>
+            ) : (
+              <div className="list-btn">
+                <button>Đã hết hàng</button>
+              </div>
+            )}
             <div className="share-tag clearfix">
               <ul className="blog-share floatleft">
                 <li>

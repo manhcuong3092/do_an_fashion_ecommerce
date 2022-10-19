@@ -17,9 +17,7 @@ const ItemList = () => {
   };
 
   const increaseQty = (product, color, size, quantity) => {
-    console.log(quantity);
     const newQty = quantity + 1;
-    console.log(newQty);
     const existIndex = product.stock.findIndex((i) => i.size === size._id && i.color === color._id);
     if (existIndex === -1) {
       return;
