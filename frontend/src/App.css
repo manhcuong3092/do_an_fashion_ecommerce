@@ -1020,7 +1020,7 @@ header.header-one {
   float: left;
   line-height: 50px;
   text-align: center;
-  width: 50%;
+  width: 100%;
 }
 .date-read > a:first-child {
   border-right: 1px solid #eee;
@@ -1740,6 +1740,8 @@ header.header-one.header-page {
   float: left;
   margin-right: 15px;
   padding-left: 30px;
+  width: 100px;
+  height: 50px;
 }
 .recent-post li {
   border-bottom: 1px solid #dcdcdc;
@@ -2784,4 +2786,26 @@ table td .submit-text > a {
 
 .payment-type-title {
   margin-left: 6px;
+}
+
+.container-blog-avatar {
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+
+.blog-avatar {
+  object-fit: cover;
+  width: 100%;
+  max-height: 281px;
+  object-position: center;
+}
+
+.short-content {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  height: 17px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }

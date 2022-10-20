@@ -1,43 +1,57 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { END_POINT } from '~/config';
 
 const SideBarBlog = () => {
+  const [recentBlogs, setRecentBlogs] = useState(null);
+
+  useEffect(() => {
+    const getRecentBlogs = async () => {
+      const { data } = await axios.get(`${END_POINT}/api/v1/blogs?page=1&limit=3`, { withCredentials: true });
+      setRecentBlogs(data.blogs);
+    };
+    getRecentBlogs();
+  }, []);
+
   return (
-    <div class="sidebar left-sidebar">
-      <div class="s-side-text">
-        <div class="sidebar-title clearfix">
-          <h4 class="floatleft">Bài viết gần đây</h4>
+    <div className="sidebar left-sidebar">
+      <div className="s-side-text">
+        <div className="sidebar-title clearfix">
+          <h4 className="floatleft">Bài viết gần đây</h4>
         </div>
-        <div class="recent-post clearfix">
+        <div className="recent-post clearfix">
           <ul>
-            <li>
-              <a href="#"><img src="img/blog/r1.jpg" alt="" /></a>
-              <h5><a href="#">Thời trang nữ</a></h5>
-              <span>Jun 25, 2021</span>
-            </li>
-            <li>
-              <a href="#"><img src="img/blog/r2.jpg" alt="" /></a>
-              <h5><a href="#">Thời trang nam</a></h5>
-              <span>Jun 24, 2021</span>
-            </li>
-            <li>
-              <a href="#"><img src="img/blog/r3.jpg" alt="" /></a>
-              <h5><a href="#">Thời trang mùa hè</a></h5>
-              <span>Jun 22, 2021</span>
-            </li>
+            {recentBlogs &&
+              recentBlogs.map((item, index) => (
+                <li key={index}>
+                  <Link to={`/blog/${item._id}`}>
+                    <img src={item.avatar ? item.avatar.url : ''} alt="" />
+                  </Link>
+                  <h5>
+                    <Link to={`/blog/${item._id}`} href="#">
+                      {item.title}
+                    </Link>
+                  </h5>
+                  <span>{new Date(Date.parse(item.createdAt)).toLocaleDateString('vi-VN')}</span>
+                </li>
+              ))}
           </ul>
         </div>
       </div>
-      <div class="s-side-text">
-        <div class="banner clearfix">
-          <a href="#"><img src="img/products/banner.jpg" alt="" /></a>
-          <div class="banner-text">
+      <div className="s-side-text">
+        <div className="banner clearfix">
+          <a href="#">
+            <img src="img/products/banner.jpg" alt="" />
+          </a>
+          <div className="banner-text">
             <h2>best</h2> <br />
-            <h2 class="banner-brand">brand</h2>
+            <h2 className="banner-brand">brand</h2>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SideBarBlog
+export default SideBarBlog;

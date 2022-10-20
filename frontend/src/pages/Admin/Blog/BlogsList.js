@@ -86,7 +86,7 @@ const BlogsList = () => {
     try {
       const fetchData = async () => {
         try {
-          const { data } = await axios.get(`${END_POINT}/api/v1/blogs`);
+          const { data } = await axios.get(`${END_POINT}/api/v1/admin/blogs`, { withCredentials: true });
           let blogData = [];
 
           data.blogs.forEach((blog, index) => {
