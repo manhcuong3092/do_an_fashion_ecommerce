@@ -25,11 +25,11 @@ const SideBarBlog = () => {
             {recentBlogs &&
               recentBlogs.map((item, index) => (
                 <li key={index}>
-                  <Link to={`/blog/${item._id}`}>
+                  <Link to={`/blog/${item.slug}`}>
                     <img src={item.avatar ? item.avatar.url : ''} alt="" />
                   </Link>
                   <h5>
-                    <Link to={`/blog/${item._id}`} href="#">
+                    <Link to={`/blog/${item.slug}`} href="#">
                       {item.title}
                     </Link>
                   </h5>
@@ -42,7 +42,7 @@ const SideBarBlog = () => {
       <div className="s-side-text">
         <div className="banner clearfix">
           <a href="#">
-            <img src="img/products/banner.jpg" alt="" />
+            <img src="/img/products/banner.jpg" alt="" />
           </a>
           <div className="banner-text">
             <h2>best</h2> <br />

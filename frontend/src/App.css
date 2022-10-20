@@ -1629,8 +1629,7 @@ header.header-one.header-page {
 .single-blog-area .post-title > h3 {
   color: #333;
   font-size: 22px;
-  font-family: Bree Serif;
-  font-weight: 400;
+  font-weight: 600;
 }
 .single-blog-page .post-title li,
 .post-title li a,
@@ -1739,8 +1738,8 @@ header.header-one.header-page {
 .recent-post a img {
   float: left;
   margin-right: 15px;
-  padding-left: 30px;
-  width: 100px;
+  padding-left: 20px;
+  width: 90px;
   height: 50px;
 }
 .recent-post li {
@@ -2808,4 +2807,11 @@ table td .submit-text > a {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+.single-blog-img img {
+  object-fit: cover;
+  width: 100%;
+  max-height: 400px;
+  object-position: center;
 }

@@ -76,7 +76,7 @@ function App() {
           <Route path="/shop" element={<Shop />} />
           <Route path="/product/:slug" element={<Product />} />
           <Route path="/blog" element={<BlogList />} />
-          <Route path="/blogdetail" element={<Blog />} />
+          <Route path="/blog/:slug" element={<Blog />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/cart" element={<Cart />} />
           {stripeApiKey && (

@@ -13,7 +13,7 @@ const GridBlog = ({ blogs }) => {
               <Col md={6} className="mb-4" key={item._id}>
                 <div className="l-blog-text">
                   <div className="banner">
-                    <Link to={`/blog/${item._id}`}>
+                    <Link to={`/blog/${item.slug}`}>
                       <div className="container-blog-avatar">
                         <img src={item.avatar ? item.avatar.url : ''} alt="" className="blog-avatar" />
                       </div>
@@ -21,7 +21,7 @@ const GridBlog = ({ blogs }) => {
                   </div>
                   <div className="s-blog-text">
                     <h4>
-                      <Link to={`/blog/${item._id}`}>{item.title}</Link>
+                      <Link to={`/blog/${item.slug}`}>{item.title}</Link>
                     </h4>
                     <span>
                       Tác giả : <a href="#!">{item.author.name}</a> |{' '}
@@ -33,7 +33,7 @@ const GridBlog = ({ blogs }) => {
                     <div dangerouslySetInnerHTML={{ __html: item.content }} className="short-content" />
                   </div>
                   <div className="date-read clearfix">
-                    <Link to={`/blog/${item._id}`}>Đọc thêm</Link>
+                    <Link to={`/blog/${item.slug}`}>Đọc thêm</Link>
                   </div>
                 </div>
               </Col>
