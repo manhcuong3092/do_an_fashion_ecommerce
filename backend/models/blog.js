@@ -28,10 +28,29 @@ const blogSchema = new mongoose.Schema({
     },
     require: [true, 'Hãy nhập ảnh đại diện.'],
   },
+  slug: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now
   },
 });
+
+blogSchema.pre('save', async function (next) {
+  if (!this.isModified('title')) {
+    next();
+  }
+  const slug = require('slug');
+  this.slug = `${slug(this.title)}-${Date.now()}`
+})
+
+blogSchema.pre('findByIdAndUpdate', async function (next) {
+  if (!this.isModified('title')) {
+    next();
+  }
+  const slug = require('slug');
+  this.slug = `${slug(this.title)}-${Date.now()}`
+})
 
 module.exports = mongoose.model('Blog', blogSchema);

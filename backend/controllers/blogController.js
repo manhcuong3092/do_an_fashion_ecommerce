@@ -2,6 +2,7 @@ const Blog = require('../models/blog');
 const catchAsyncError = require('../middlewares/catchAsyncErrors');
 const ErrorHandler = require('../utils/errorHandler');
 const cloudinary = require('cloudinary');
+const blog = require('../models/blog');
 
 
 exports.createBlog = catchAsyncError(async (req, res, next) => {
@@ -30,13 +31,36 @@ exports.createBlog = catchAsyncError(async (req, res, next) => {
   });
 })
 
-exports.getAllBlogs = catchAsyncError(async (req, res, next) => {
-  const blogs = await Blog.find().populate('author');
+exports.getBlogs = catchAsyncError(async (req, res, next) => {
+  const blogsCount = await Blog.countDocuments();
+  let resPerPage = 4;
+  const currentPage = Number(req.query.page) || 1;
+  const skip = resPerPage * (currentPage - 1);
+  if (req.query.limit) {
+    resPerPage = Number(req.query.limit);
+  }
+
+  const blogs = await Blog.find().limit(resPerPage).skip(skip).populate('author');
   res.status(200).json({
     success: true,
-    blogs
+    blogs,
+    resPerPage,
+    filteredBlogsCount: blogsCount
+  });
+});
+
+exports.getBlogBySlug = catchAsyncError(async (req, res, next) => {
+  const slug = req.params.slug;
+  const blog = await Blog.findOne({slug}).populate('author');
+  if (!blog) {
+    return next(new ErrorHandler(`Không tìm thấy blog`, 404));
+  }
+  res.status(200).json({
+    success: true,
+    blog
   });
 })
+
 
 exports.getBlog = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;
@@ -96,3 +120,11 @@ exports.deleteBlog = catchAsyncError(async (req, res, next) => {
     success: true,
   });
 }) 
+
+exports.getAllBlogs = catchAsyncError(async (req, res, next) => {
+  const blogs = await Blog.find().populate('author');
+  res.status(200).json({
+    success: true,
+    blogs,
+  });
+})
