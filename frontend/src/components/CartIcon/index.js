@@ -33,10 +33,10 @@ const CartIcon = () => {
   return (
     <div>
       <div className="cart-itmes">
-        <a className="cart-itme-a" href="cart.html">
+        <Link className="cart-itme-a" to="/cart">
           <i className="mdi mdi-cart"></i>
           {cartItems.length !== 0 ? cartItems.length : 0} SP : <strong>{totalPrice.toLocaleString('vi-VN')}₫</strong>
-        </a>
+        </Link>
         <div className="cartdrop">
           {cartItems.length !== 0 ? (
             cartItems.map((item, index) => (

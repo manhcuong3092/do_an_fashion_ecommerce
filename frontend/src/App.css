@@ -2815,3 +2815,7 @@ table td .submit-text > a {
   max-height: 400px;
   object-position: center;
 }
+
+.dropdown-nav-menu li {
+  float: none !important;
+}
