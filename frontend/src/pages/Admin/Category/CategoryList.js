@@ -23,8 +23,9 @@ const CategoryList = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true,
       };
-      const { data } = await axios.delete(`/api/v1/admin/category/${id}`, config);
+      const { data } = await axios.delete(`${END_POINT}/api/v1/admin/category/${id}`, config);
       if (data.success) {
         toast.success('Xóa danh mục thành công.');
         navigate('/admin/management/categories');
@@ -74,7 +75,7 @@ const CategoryList = () => {
     try {
       const fetchData = async () => {
         try {
-          const { data } = await axios.get(`${END_POINT}/api/v1/categories`);
+          const { data } = await axios.get(`${END_POINT}/api/v1/categories`, { withCredentials: true });
           let categoryData = [];
 
           data.categories.forEach((category, index) => {

@@ -3,9 +3,8 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Collapse } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import validator from 'validator';
+import { END_POINT } from '~/config';
 import Loader from '~/layouts/Loader';
 
 const ProfileForm = () => {
@@ -21,8 +20,6 @@ const ProfileForm = () => {
   const [curentAvatar, setCurentAvatar] = useState('');
   const [avatarPreview, setAvatarPreview] = useState('');
   const [loading, setLoading] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -90,8 +87,9 @@ const ProfileForm = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       };
-      await axios.put('/api/v1/me/update', formData, config);
+      await axios.put(`${END_POINT}/api/v1/me/update`, formData, config);
       toast.success('Cập nhật thông tin thành công.');
       setOpen(!open);
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });

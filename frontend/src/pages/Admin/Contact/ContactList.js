@@ -24,8 +24,9 @@ const ContactList = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true,
       };
-      const { data } = await axios.delete(`/api/v1/admin/contact/${id}`, config);
+      const { data } = await axios.delete(`${END_POINT}/api/v1/admin/contact/${id}`, config);
       if (data.success) {
         toast.success('Xóa liên hệ thành công.');
         navigate('/admin/management/contacts');
@@ -92,7 +93,7 @@ const ContactList = () => {
     try {
       const fetchData = async () => {
         try {
-          const { data } = await axios.get(`/api/v1/admin/contacts`);
+          const { data } = await axios.get(`${END_POINT}/api/v1/admin/contacts`, { withCredentials: true });
           let contactData = [];
 
           data.contacts.forEach((contact, index) => {

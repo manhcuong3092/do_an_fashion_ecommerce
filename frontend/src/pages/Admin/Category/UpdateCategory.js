@@ -7,6 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
+import { END_POINT } from '~/config';
 
 const UpdateCategory = () => {
   const [name, setName] = useState('');
@@ -18,7 +19,7 @@ const UpdateCategory = () => {
   useEffect(() => {
     const getCategory = async () => {
       try {
-        const { data } = await axios.get(`/api/v1/admin/category/${categoryId}`);
+        const { data } = await axios.get(`${END_POINT}/api/v1/admin/category/${categoryId}`, { withCredentials: true });
         setName(data.category.name);
         setDescription(data.category.description);
       } catch (error) {

@@ -23,8 +23,9 @@ const SizeList = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true,
       };
-      const { data } = await axios.delete(`/api/v1/admin/size/${id}`, config);
+      const { data } = await axios.delete(`${END_POINT}/api/v1/admin/size/${id}`, config);
       if (data.success) {
         toast.success('Xóa kích cỡ thành công.');
         navigate('/admin/management/sizes');
@@ -74,7 +75,7 @@ const SizeList = () => {
     try {
       const fetchData = async () => {
         try {
-          const { data } = await axios.get(`${END_POINT}/api/v1/sizes`);
+          const { data } = await axios.get(`${END_POINT}/api/v1/sizes`, { withCredentials: true });
           let sizeData = [];
 
           data.sizes.forEach((size, index) => {

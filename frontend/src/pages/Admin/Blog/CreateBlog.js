@@ -10,6 +10,7 @@ import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import Loader from '~/layouts/Loader';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { END_POINT } from '~/config';
 
 const CreateBlog = () => {
   const [title, setTitle] = useState('');
@@ -26,10 +27,11 @@ const CreateBlog = () => {
       headers: {
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     };
     try {
       setLoading(true);
-      const { data } = await axios.post('/api/v1/admin/blog', { title, content, avatar }, config);
+      const { data } = await axios.post(`${END_POINT}/api/v1/admin/blog`, { title, content, avatar }, config);
       if (data.success) {
         toast.success('Tạo bài viết thành công.');
         navigate('/admin/management/blogs');

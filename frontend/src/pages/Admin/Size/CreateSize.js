@@ -7,6 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
+import { END_POINT } from '~/config';
 
 const CreateSize = () => {
   const [name, setName] = useState('');
@@ -20,8 +21,9 @@ const CreateSize = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true,
       };
-      const { data } = await axios.post('/api/v1/admin/size', { name, description }, config);
+      const { data } = await axios.post(`${END_POINT}/api/v1/admin/size`, { name, description }, config);
       if (data.success) {
         toast.success('Tạo kích cỡ thành công.');
         navigate('/admin/management/sizes');

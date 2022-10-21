@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { END_POINT } from '~/config';
 import { ADD_TO_CART, GET_USER_CART, REMOVE_ITEM_CART, UPDATE_ITEM_CART } from '../types/cartActionTypes';
 
 export const getUserCart = (user) => async (dispatch, getState) => {
@@ -13,9 +14,9 @@ export const getUserCart = (user) => async (dispatch, getState) => {
   }
 
   let cart;
-  const { data } = await axios.get(`/api/v1/cart`);
+  const { data } = await axios.get(`${END_POINT}/api/v1/cart`, { withCredentials: true });
   if (!data.cart) {
-    const { result } = await axios.post(`/api/v1/cart`);
+    const { result } = await axios.post(`${END_POINT}/api/v1/cart`, { withCredentials: true });
     cart = result.cart;
   } else {
     cart = data.cart;
@@ -42,7 +43,7 @@ export const addItemToCart = (product, color, size, quantity, user) => async (di
   });
 
   if (user) {
-    await axios.put(`/api/v1/cart`, { cartItems: getState().cart.cartItems });
+    await axios.put(`${END_POINT}/api/v1/cart`, { cartItems: getState().cart.cartItems }, { withCredentials: true });
   } else {
     localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
   }
@@ -60,7 +61,7 @@ export const updateItemInCart = (product, color, size, quantity, user) => async 
   });
 
   if (user) {
-    await axios.put(`/api/v1/cart`, { cartItems: getState().cart.cartItems });
+    await axios.put(`${END_POINT}/api/v1/cart`, { cartItems: getState().cart.cartItems }, { withCredentials: true });
   } else {
     localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
   }
@@ -73,7 +74,7 @@ export const removeItemFromCart = (productId, colorId, sizeId, user) => async (d
   });
 
   if (user) {
-    await axios.put(`/api/v1/cart`, { cartItems: getState().cart.cartItems });
+    await axios.put(`${END_POINT}/api/v1/cart`, { cartItems: getState().cart.cartItems }, { withCredentials: true });
   } else {
     localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
   }

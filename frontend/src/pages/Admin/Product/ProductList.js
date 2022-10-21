@@ -27,8 +27,9 @@ const ProductList = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true,
       };
-      const { data } = await axios.delete(`/api/v1/admin/product/${id}`, config);
+      const { data } = await axios.delete(`${END_POINT}/api/v1/admin/product/${id}`, config);
       if (data.success) {
         toast.success('Xóa sản phẩm thành công.');
         navigate('/admin/management/products');
@@ -106,7 +107,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`/api/v1/admin/products`);
+        const { data } = await axios.get(`${END_POINT}/api/v1/admin/products`, { withCredentials: true });
         let productData = [];
 
         data.products.forEach((product, index) => {

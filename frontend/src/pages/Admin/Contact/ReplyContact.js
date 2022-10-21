@@ -41,9 +41,10 @@ const RelpyContact = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true,
       };
       setLoading(true);
-      const { data } = await axios.put(`/api/v1/admin/contact/${contactId}`, { content }, config);
+      const { data } = await axios.put(`${END_POINT}/api/v1/admin/contact/${contactId}`, { content }, config);
       if (data.success) {
         toast.success('Gửi email phản hồi thành công.');
         navigate('/admin/management/contacts');

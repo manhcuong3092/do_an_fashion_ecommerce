@@ -7,6 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
+import { END_POINT } from '~/config';
 
 const UpdateColor = () => {
   const [name, setName] = useState('');
@@ -19,7 +20,7 @@ const UpdateColor = () => {
   useEffect(() => {
     const getColor = async () => {
       try {
-        const { data } = await axios.get(`/api/v1/admin/color/${colorId}`);
+        const { data } = await axios.get(`${END_POINT}/api/v1/admin/color/${colorId}`, { withCredentials: true });
         setName(data.color.name);
         setDescription(data.color.description);
         setHexCode(data.color.hexCode);
@@ -38,8 +39,13 @@ const UpdateColor = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true,
       };
-      const { data } = await axios.put(`/api/v1/admin/color/${colorId}`, { name, description, hexCode }, config);
+      const { data } = await axios.put(
+        `${END_POINT}/api/v1/admin/color/${colorId}`,
+        { name, description, hexCode },
+        config,
+      );
       if (data.success) {
         toast.success('Cập nhật màu sắc thành công.');
         navigate('/admin/management/colors');

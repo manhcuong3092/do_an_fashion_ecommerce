@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Collapse } from 'react-bootstrap';
 import { toast } from 'react-toastify';
+import { END_POINT } from '~/config';
 import Loader from '~/layouts/Loader';
 
 const ChangePassword = () => {
@@ -28,8 +29,9 @@ const ChangePassword = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+        withCredentials: true,
       };
-      const { data } = await axios.put('/api/v1/password/update', formData, config);
+      const { data } = await axios.put(`${END_POINT}/api/v1/password/update`, formData, config);
       if (data.success) {
         toast.success('Đổi mật khẩu thành công.');
         setOldPassword('');

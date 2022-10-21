@@ -25,8 +25,9 @@ const UserList = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true,
       };
-      const { data } = await axios.delete(`/api/v1/admin/user/${id}`, config);
+      const { data } = await axios.delete(`${END_POINT}/api/v1/admin/user/${id}`, config);
       if (data.success) {
         toast.success('Xóa người dùng thành công.');
         navigate('/admin/management/users');

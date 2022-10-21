@@ -7,6 +7,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
+import { END_POINT } from '~/config';
 
 const CreateCategory = () => {
   const [name, setName] = useState('');
@@ -20,8 +21,9 @@ const CreateCategory = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true,
       };
-      const { data } = await axios.post('/api/v1/admin/category', { name, description }, config);
+      const { data } = await axios.post(`${END_POINT}/api/v1/admin/category`, { name, description }, config);
       if (data.success) {
         toast.success('Tạo danh mục thành công.');
         navigate('/admin/management/categories');

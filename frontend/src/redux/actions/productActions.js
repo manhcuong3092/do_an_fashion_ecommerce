@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { END_POINT } from '~/config';
 import { ALL_PRODUCTS_FAIL, ALL_PRODUCTS_REQUEST, ALL_PRODUCTS_SUCCESS } from '../types/productActionType';
 
 export const getProducts =
@@ -6,7 +7,7 @@ export const getProducts =
   async (dispatch) => {
     try {
       dispatch({ type: ALL_PRODUCTS_REQUEST });
-      let link = `/api/v1/products?page=${currentPage}`;
+      let link = `${END_POINT}/api/v1/products?page=${currentPage}`;
 
       if (keyword) {
         link += `&keyword=${keyword}`;
@@ -30,7 +31,7 @@ export const getProducts =
         link += `&gender=${gender}`;
       }
 
-      const { data } = await axios.get(link);
+      const { data } = await axios.get(link, { withCredentials: true });
       dispatch({
         type: ALL_PRODUCTS_SUCCESS,
         payload: data,

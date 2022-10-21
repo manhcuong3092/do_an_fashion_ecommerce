@@ -23,8 +23,9 @@ const ColorList = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true,
       };
-      const { data } = await axios.delete(`/api/v1/admin/color/${id}`, config);
+      const { data } = await axios.delete(`${END_POINT}/api/v1/admin/color/${id}`, config);
       if (data.success) {
         toast.success('Xóa màu thành công.');
         navigate('/admin/management/colors');
