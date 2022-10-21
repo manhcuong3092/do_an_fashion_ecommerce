@@ -34,7 +34,7 @@ exports.getColor = catchAsyncError(async (req, res, next) => {
 exports.updateColor = catchAsyncError(async (req, res, next) => {
   const newColor = {
     name: req.body.name,
-    description: req.body.name,
+    description: req.body.description,
     hexCode: req.body.hexCode
   }
   const color = await Color.findByIdAndUpdate(req.params.id, newColor, {

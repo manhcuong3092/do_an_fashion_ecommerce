@@ -44,7 +44,11 @@ const ProductReview = ({ product }) => {
         toast.success('Gửi đánh giá thành công.');
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      if (error.response.status === 401) {
+        toast.error('Bạn phải đăng nhập mới có thể bình luận');
+      } else {
+        toast.error(error.response.data.message);
+      }
     }
   };
 

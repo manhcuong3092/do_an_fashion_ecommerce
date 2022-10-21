@@ -137,7 +137,7 @@ const Checkout = () => {
         const { data } = await axios.post(`${END_POINT}/api/v1/order`, orderData, { withCredentials: true });
         toast.success('Đặt hàng thành công');
         if (user) {
-          await axios.put(`/api/v1/cart`, { cartItems: [] });
+          await axios.put(`${END_POINT}/api/v1/cart`, { cartItems: [] }, { withCredentials: true });
         } else {
           localStorage.setItem('cartItems', []);
         }
@@ -151,6 +151,7 @@ const Checkout = () => {
           headers: {
             'Content-Type': 'application/json',
           },
+          withCredentials: true,
         };
         const res = await axios.post('/api/v1/payment/process/stripe', { amount: totalPrice, currency: 'vnd' }, config);
         const clientSecret = res.data.client_secret;
@@ -190,7 +191,7 @@ const Checkout = () => {
             const { data } = await axios.post(`${END_POINT}/api/v1/order`, orderData, { withCredentials: true });
             toast.success('Đặt hàng thành công');
             if (user) {
-              await axios.put(`/api/v1/cart`, { cartItems: [] });
+              await axios.put(`${END_POINT}/api/v1/cart`, { cartItems: [] }, { withCredentials: true });
             } else {
               localStorage.setItem('cartItems', []);
             }

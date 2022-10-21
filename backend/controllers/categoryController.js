@@ -34,7 +34,7 @@ exports.getCategory = catchAsyncError(async (req, res, next) => {
 exports.updateCategory = catchAsyncError(async (req, res, next) => {
   const newCategory = {
     name: req.body.name,
-    description: req.body.name
+    description: req.body.description
   }
   const category = await Category.findByIdAndUpdate(req.params.id, newCategory, {
     new: true,

@@ -4,6 +4,10 @@ const app = express();
 const dotenv = require('dotenv')
 dotenv.config({path: '.env'})
 
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload')
+
 var cors = require('cors')
 
 const corsConfig = {
@@ -12,9 +16,14 @@ const corsConfig = {
 };
 //Enable cors
 
-const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
-const fileUpload = require('express-fileupload')
+app.use(express.json({limit: '25mb'}));
+app.use(express.urlencoded({limit: '25mb', extended: true}));
+
+app.use(cors(corsConfig));
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cookieParser());
+app.use(fileUpload());
+
 
 const errorMiddleware = require('./middlewares/errors');
 const sizeRoute = require('./routes/sizeRoute');
@@ -29,13 +38,6 @@ const subscriberRoute = require('./routes/subscriberRoute');
 const orderRoute = require('./routes/orderRoute');
 const paymentRoute = require('./routes/paymentRoute');
 const cartRoute = require('./routes/cartRoute');
-
-app.use(cors(corsConfig));
-
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cookieParser());
-app.use(fileUpload());
 
 app.get('/', (req, res, next) => {
   res.status(200).send('It work!')

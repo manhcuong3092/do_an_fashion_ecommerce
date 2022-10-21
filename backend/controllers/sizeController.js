@@ -34,7 +34,7 @@ exports.getSize = catchAsyncError(async (req, res, next) => {
 exports.updateSize = catchAsyncError(async (req, res, next) => {
   const newSize = {
     name: req.body.name,
-    description: req.body.name
+    description: req.body.description
   }
   const size = await Size.findByIdAndUpdate(req.params.id, newSize, {
     new: true,

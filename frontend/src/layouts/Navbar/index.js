@@ -37,6 +37,9 @@ const Navbar = () => {
                       <li>
                         <Link to="/checkout">Thanh toán</Link>
                       </li>
+                      <li>
+                        <Link to="/order-history">Lịch sử đặt hàng</Link>
+                      </li>
                     </ul>
                   </li>
                   <li>
