@@ -22,18 +22,14 @@ const CreateBlog = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.set('title', title);
-    formData.set('content', content);
-    formData.set('avatar', avatar);
     const config = {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     };
     try {
       setLoading(true);
-      const { data } = await axios.post('/api/v1/admin/blog', formData, config);
+      const { data } = await axios.post('/api/v1/admin/blog', { title, content, avatar }, config);
       if (data.success) {
         toast.success('Tạo bài viết thành công.');
         navigate('/admin/management/blogs');

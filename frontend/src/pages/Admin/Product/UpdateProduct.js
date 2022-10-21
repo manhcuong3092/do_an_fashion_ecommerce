@@ -117,23 +117,28 @@ const UpdateProduct = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.set('name', name);
-    formData.set('price', price);
-    formData.set('salePrice', salePrice);
-    formData.set('description', description);
-    formData.set('detailDescription', detailDescription);
-    formData.set('category', JSON.parse(category)._id);
-    formData.set('gender', gender);
-    formData.set('active', active);
-    formData.set('isSale', isSale);
+    const productData = {
+      name,
+      price,
+      salePrice,
+      description,
+      detailDescription,
+      category: JSON.parse(category)._id,
+      gender,
+      active,
+      isSale,
+      sizes: [],
+      colors: [],
+      stock: [],
+      images,
+    };
 
     sizes.forEach((size) => {
-      formData.append('sizes', JSON.parse(size)._id);
+      productData.sizes.push(JSON.parse(size)._id);
     });
 
     colors.forEach((color) => {
-      formData.append('colors', JSON.parse(color)._id);
+      productData.colors.push(JSON.parse(color)._id);
     });
 
     const stockArr = stock.map((item) => {
@@ -141,11 +146,7 @@ const UpdateProduct = () => {
     });
 
     stockArr.forEach((stockItem) => {
-      formData.append('stock', JSON.stringify(stockItem));
-    });
-
-    images.forEach((image) => {
-      formData.append('images', image);
+      productData.stock.push(JSON.stringify(stockItem));
     });
 
     setLoading(true);
@@ -153,10 +154,11 @@ const UpdateProduct = () => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
+        withCredentials: true,
       };
-      const { data } = await axios.put(`/api/v1/admin/product/${productId}`, formData, config);
+      const { data } = await axios.put(`${END_POINT}/api/v1/admin/product/${productId}`, productData, config);
       if (data.success) {
         toast.success('Cập nhật sản phẩm thành công.');
         navigate('/admin/management/products');

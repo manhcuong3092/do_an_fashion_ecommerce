@@ -38,18 +38,15 @@ const UpdateBlog = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.set('title', title);
-    formData.set('content', content);
-    formData.set('avatar', avatar);
+
     const config = {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     };
     try {
       setLoading(true);
-      const { data } = await axios.put(`/api/v1/admin/blog/${blogId}`, formData, config);
+      const { data } = await axios.put(`/api/v1/admin/blog/${blogId}`, { title, content, avatar }, config);
       if (data.success) {
         toast.success('Cập nhật bài viết thành công.');
         navigate('/admin/management/blogs');

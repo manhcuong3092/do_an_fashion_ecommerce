@@ -103,23 +103,28 @@ const CreateProduct = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.set('name', name);
-    formData.set('price', price);
-    formData.set('salePrice', salePrice);
-    formData.set('description', description);
-    formData.set('detailDescription', detailDescription);
-    formData.set('category', JSON.parse(category)._id);
-    formData.set('gender', gender);
-    formData.set('active', active);
-    formData.set('isSale', isSale);
+    const productData = {
+      name,
+      price,
+      salePrice,
+      description,
+      detailDescription,
+      category: JSON.parse(category)._id,
+      gender,
+      active,
+      isSale,
+      sizes: [],
+      colors: [],
+      stock: [],
+      images,
+    };
 
     sizes.forEach((size) => {
-      formData.append('sizes', JSON.parse(size)._id);
+      productData.sizes.push(JSON.parse(size)._id);
     });
 
     colors.forEach((color) => {
-      formData.append('colors', JSON.parse(color)._id);
+      productData.colors.push(JSON.parse(color)._id);
     });
 
     const stockArr = stock.map((item) => {
@@ -127,11 +132,7 @@ const CreateProduct = () => {
     });
 
     stockArr.forEach((stockItem) => {
-      formData.append('stock', JSON.stringify(stockItem));
-    });
-
-    images.forEach((image) => {
-      formData.append('images', image);
+      productData.stock.push(JSON.stringify(stockItem));
     });
 
     setLoading(true);
@@ -139,10 +140,11 @@ const CreateProduct = () => {
     try {
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
+        withCredentials: true,
       };
-      const { data } = await axios.post('/api/v1/admin/product', formData, config);
+      const { data } = await axios.post(`${END_POINT}/api/v1/admin/product`, productData, config);
       if (data.success) {
         toast.success('Tạo sản phẩm thành công.');
         navigate('/admin/management/products');
@@ -292,7 +294,9 @@ const CreateProduct = () => {
                     </Col>
 
                     <Col md={3}>
-                      <Form.Label>Kích cỡ</Form.Label>
+                      <Form.Label>
+                        Kích cỡ <span className="text-primary">(Chọn nhiều)</span>
+                      </Form.Label>
                       <br />
                       <Select
                         sx={{ minWidth: 200 }}
@@ -317,7 +321,9 @@ const CreateProduct = () => {
                     </Col>
 
                     <Col md={3}>
-                      <Form.Label>Màu sắc</Form.Label>
+                      <Form.Label>
+                        Màu sắc <span className="text-primary">(Chọn nhiều)</span>
+                      </Form.Label>
                       <br />
                       <Select
                         sx={{ minWidth: 200, maxWidth: 350 }}

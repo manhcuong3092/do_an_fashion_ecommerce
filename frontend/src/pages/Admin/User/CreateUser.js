@@ -69,26 +69,27 @@ const CreateUser = () => {
       toast.error('Nhập lại mật khẩu không khớp');
       return;
     }
-    const formData = new FormData();
-    formData.set('name', name);
-    formData.set('email', email);
-    formData.set('password', password);
-    formData.set('phoneNo', phoneNo);
-    formData.set('city', city);
-    formData.set('address', address);
-    formData.set('role', role);
-    formData.set('avatar', avatar);
+    const userData = {
+      name,
+      email,
+      password,
+      phoneNo,
+      city,
+      address,
+      role,
+      avatar,
+    };
 
     setLoading(true);
 
     try {
       const config = {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
         withCredentials: true,
       };
-      const { data } = await axios.post(`${END_POINT}/api/v1/admin/user`, formData, config);
+      const { data } = await axios.post(`${END_POINT}/api/v1/admin/user`, userData, config);
       if (data.success) {
         toast.success('Tạo người dùng thành công.');
         navigate('/admin/management/users');
