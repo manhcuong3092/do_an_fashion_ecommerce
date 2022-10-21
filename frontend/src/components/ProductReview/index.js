@@ -1,9 +1,52 @@
-import React, { useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import axios from 'axios';
+import { END_POINT } from '~/config';
+import { toast } from 'react-toastify';
 
 const ProductReview = ({ product }) => {
   const [tab, setTab] = useState(1);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState('');
+
+  const [reviews, setReviews] = useState(null);
+
+  useEffect(() => {
+    const getReviews = async () => {
+      try {
+        const config = {
+          headers: {
+            'Content-type': 'application/json',
+          },
+          withCredentials: true,
+        };
+        const { data } = await axios.get(`${END_POINT}/api/v1/reviews?productId=${product._id}`, config);
+        setReviews(data.reviews);
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
+    };
+    getReviews();
+  }, [product]);
+
+  const reviewHandler = async (e) => {
+    e.preventDefault();
+    try {
+      const reviewData = { rating, comment, productId: product._id };
+      const config = {
+        withCredentials: true,
+      };
+      const { data } = await axios.put(`${END_POINT}/api/v1/review`, reviewData, config);
+      if (data.success) {
+        setReviews(data.reviews);
+        setComment('');
+        toast.success('Gửi đánh giá thành công.');
+      }
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
 
   return (
     <Row>
@@ -48,58 +91,60 @@ const ProductReview = ({ product }) => {
               </p>
             </div>
             <div className={`info-reviews moreinfo tab-pane fade ${tab !== 1 ? 'show active' : ''}`} id="reviews">
-              <div className="about-author">
-                <div className="autohr-text">
-                  <img src="img/blog/author1.png" alt="" />
-                  <div className="author-des">
-                    <h4>
-                      <a href="#">Nam Trần</a>
-                    </h4>
-                    <span className="floatright ratting">
-                      <i className="mdi mdi-star"></i>
-                      <i className="mdi mdi-star"></i>
-                      <i className="mdi mdi-star"></i>
-                      <i className="mdi mdi-star-half"></i>
-                      <i className="mdi mdi-star-outline"></i>
-                    </span>
-                    <span>27 Jun, 2021 at 2:30pm</span>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer accumsan egestas eleifend.
-                      Phasellus a felis at est bibenes dum feugiat ut eget eni Praesent et messages in consectetur.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <hr />
+              {reviews && reviews.length > 0 ? (
+                reviews.map((item, index) => (
+                  <Fragment>
+                    <div className="about-author" key={index}>
+                      <div className="autohr-text">
+                        <img src={item.user.avatar && item.user.avatar.url} alt="" />
+                        <div className="author-des">
+                          <h4>
+                            <a href="#!">{item.user.name}</a>
+                          </h4>
+                          <span className="floatright ratting">
+                            {(() => {
+                              let stars = [];
+                              for (let i = 1; i <= 5; i++) {
+                                if (item.rating >= i) {
+                                  stars.push(<i className="mdi mdi-star" key={i}></i>);
+                                } else {
+                                  stars.push(<i className="mdi mdi-star-outline" key={i}></i>);
+                                }
+                              }
+                              return stars;
+                            })()}
+                          </span>
+                          <span>{new Date(Date.parse(item.createdAt)).toLocaleDateString('vi-VN')}</span>
+                          <p>{item.comment}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <hr />
+                  </Fragment>
+                ))
+              ) : (
+                <h6>Chưa có nhận xét</h6>
+              )}
               <div className="your-rating log-title">
-                <h3>leave your review</h3>
-                <h5>Your rating</h5>
+                <h3>Để lại bình luận của bạn</h3>
+                <h6>Đánh giá</h6>
                 <div className="rating clearfix">
                   <ul>
                     <li>
-                      <a href="#">
+                      <a className={rating === 1 ? 'rating-active' : ''} onClick={() => setRating(1)}>
                         <i className="mdi mdi-star-outline"></i>
                       </a>
                       <span>|</span>
                     </li>
                     <li>
-                      <a href="#">
-                        <i className="mdi mdi-star-outline"></i>
-                        <i className="mdi mdi-star-outline"></i>
-                      </a>
-                      <span>|</span>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="mdi mdi-star-outline"></i>
+                      <a className={rating === 2 ? 'rating-active' : ''} onClick={() => setRating(2)}>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
                       </a>
                       <span>|</span>
                     </li>
                     <li>
-                      <a href="#">
-                        <i className="mdi mdi-star-outline"></i>
+                      <a className={rating === 3 ? 'rating-active' : ''} onClick={() => setRating(3)}>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
@@ -107,7 +152,16 @@ const ProductReview = ({ product }) => {
                       <span>|</span>
                     </li>
                     <li>
-                      <a href="#">
+                      <a className={rating === 4 ? 'rating-active' : ''} onClick={() => setRating(4)}>
+                        <i className="mdi mdi-star-outline"></i>
+                        <i className="mdi mdi-star-outline"></i>
+                        <i className="mdi mdi-star-outline"></i>
+                        <i className="mdi mdi-star-outline"></i>
+                      </a>
+                      <span>|</span>
+                    </li>
+                    <li>
+                      <a className={rating === 5 ? 'rating-active' : ''} onClick={() => setRating(5)}>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
@@ -119,29 +173,19 @@ const ProductReview = ({ product }) => {
                 </div>
               </div>
               <div className="custom-input">
-                <form action="#">
-                  <Row>
-                    <Col md={6}>
-                      <div className="input-mail">
-                        <input type="text" name="name" placeholder="Your Name" />
-                      </div>
-                    </Col>
-                    <Col md={6}>
-                      <div className="input-mail">
-                        <input type="text" name="email" placeholder="Your Email" />
-                      </div>
-                    </Col>
-                    <Col>
-                      <div className="custom-mess">
-                        <textarea name="message" placeholder="Your Review" rows="2"></textarea>
-                      </div>
-                    </Col>
-                    <Col>
-                      <div className="submit-text">
-                        <button type="submit">submit review</button>
-                      </div>
-                    </Col>
-                  </Row>
+                <form onSubmit={reviewHandler}>
+                  <div className="custom-mess">
+                    <textarea
+                      name="message"
+                      placeholder="Nhận xét"
+                      rows="2"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                    ></textarea>
+                  </div>
+                  <div className="submit-text">
+                    <button type="submit">Gửi đánh giá</button>
+                  </div>
                 </form>
               </div>
             </div>

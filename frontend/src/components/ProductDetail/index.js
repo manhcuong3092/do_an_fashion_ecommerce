@@ -56,6 +56,8 @@ const ProductDetail = ({ product }) => {
     setQuantity(1);
   }, [product, size, color]);
 
+  console.log(product.ratings);
+
   return (
     <Row className="single-list-view">
       <QuickImages images={product.images} />
@@ -63,14 +65,19 @@ const ProductDetail = ({ product }) => {
         <div className="quick-right">
           <div className="list-text">
             <h3>{product.name}</h3>
-            <div className="ratting floatright">
-              <p>( {product.reviews ? product.reviews.length : 0} Đánh giá )</p>
-              <i className="mdi mdi-star"></i>
-              <i className="mdi mdi-star"></i>
-              <i className="mdi mdi-star"></i>
-              <i className="mdi mdi-star-half"></i>
-              <i className="mdi mdi-star-outline"></i>
-            </div>
+            <span className="floatright ratting">
+              {(() => {
+                let stars = [];
+                for (let i = 1; i <= 5; i++) {
+                  if (Math.round(product.ratings) >= i) {
+                    stars.push(<i className="mdi mdi-star" key={i}></i>);
+                  } else {
+                    stars.push(<i className="mdi mdi-star-outline" key={i}></i>);
+                  }
+                }
+                return stars;
+              })()}
+            </span>
             <h5>
               <del>{product.isSale && `${product.price.toLocaleString('vi-VN')}₫`}</del>{' '}
               {product.isSale ? `${product.salePrice.toLocaleString('vi-VN')}` : product.price.toLocaleString('vi-VN')}₫

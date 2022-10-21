@@ -1707,6 +1707,9 @@ header.header-one.header-page {
 .autohr-text > img {
   float: left;
   margin-right: 20px;
+  width: 90px;
+  height: 100px;
+  object-fit: cover;
 }
 .leave-comment {
   margin-top: 60px;
@@ -2818,4 +2821,12 @@ table td .submit-text > a {
 
 .dropdown-nav-menu li {
   float: none !important;
+}
+
+.rating-active {
+  color: #fe5858;
+}
+
+.rating ul li:hover {
+  cursor: pointer;
 }

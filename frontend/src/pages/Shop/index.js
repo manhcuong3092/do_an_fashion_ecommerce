@@ -260,7 +260,7 @@ const Shop = () => {
                     <div className="pagnation-ul">
                       <Stack spacing={2}>
                         <Pagination
-                          count={filteredProductsCount / resPerPage && Math.ceil(filteredProductsCount / resPerPage)}
+                          count={filteredProductsCount && resPerPage && Math.ceil(filteredProductsCount / resPerPage)}
                           onChange={(e, page) => {
                             setCurrentPage(page);
                           }}
