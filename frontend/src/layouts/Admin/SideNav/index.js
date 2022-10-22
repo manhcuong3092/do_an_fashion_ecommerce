@@ -12,6 +12,7 @@ import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
 import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 
 const SideNav = ({ children }) => {
   const [open, setOpen] = useState(false);
@@ -73,6 +74,12 @@ const SideNav = ({ children }) => {
                         <LocalOfferOutlinedIcon />
                       </div>
                       Sản phẩm
+                    </Link>
+                    <Link className="nav-link" to={'/admin/management/reviews'}>
+                      <div className="sb-nav-link-icon">
+                        <CommentOutlinedIcon />
+                      </div>
+                      Nhận xét
                     </Link>
                   </nav>
                 </div>
