@@ -13,8 +13,6 @@ const TopNav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  console.log(user);
-
   const logoutHandler = () => {
     dispatch(logout());
     toast.success('Đăng xuất thành công.');
