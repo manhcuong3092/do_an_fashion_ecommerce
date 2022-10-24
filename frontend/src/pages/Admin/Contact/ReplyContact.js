@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import { END_POINT } from '~/config';
 import Loader from '~/layouts/Loader';
+import Metadata from '~/layouts/Metadata';
 
 const RelpyContact = () => {
   const [contact, setContact] = useState({});
@@ -57,6 +58,7 @@ const RelpyContact = () => {
 
   return (
     <Fragment>
+      <Metadata title={'Phản hồi liên hệ'} />
       <TopNav />
       {loading && <Loader />}
       <SideNav>

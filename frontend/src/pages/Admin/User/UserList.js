@@ -13,6 +13,7 @@ import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import { Avatar } from '@mui/material';
 import { ROLE_ADMIN, ROLE_USER } from '~/constants/role';
+import Metadata from '~/layouts/Metadata';
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -130,10 +131,11 @@ const UserList = () => {
   });
   return (
     <Fragment>
+      <Metadata title={'Danh sách người dùng'} />
       <TopNav />
       <SideNav>
         <main>
-          <div class="container-fluid px-4">
+          <div className="container-fluid px-4">
             <h1 className="my-4">Danh sách người dùng</h1>
             <Button
               variant="contained"

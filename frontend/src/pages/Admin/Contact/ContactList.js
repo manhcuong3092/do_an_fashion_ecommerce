@@ -12,6 +12,7 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import { CONTACT_PENDING } from '~/constants/contact';
+import Metadata from '~/layouts/Metadata';
 
 const ContactList = () => {
   const [contacts, setContacts] = useState([]);
@@ -123,14 +124,12 @@ const ContactList = () => {
   });
   return (
     <Fragment>
+      <Metadata title={'Danh sách liên hệ'} />
       <TopNav />
       <SideNav>
         <main>
-          <div class="container-fluid px-4">
+          <div className="container-fluid px-4">
             <h1 className="my-4">Danh sách liên hệ</h1>
-            {/* <Fragment>
-                <MDBDataTable data={setTableSizes()} className="px-3" bordered striped hover />
-              </Fragment> */}
             <OutlineBox>
               <div style={{ height: 700, width: '100%' }} className="p-3">
                 <DataGrid

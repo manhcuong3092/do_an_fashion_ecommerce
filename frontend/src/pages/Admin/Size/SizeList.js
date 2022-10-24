@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
+import Metadata from '~/layouts/Metadata';
 
 const SizeList = () => {
   const [sizes, setSizes] = useState([]);
@@ -103,14 +104,12 @@ const SizeList = () => {
   });
   return (
     <Fragment>
+      <Metadata title={'Danh sách kích cỡ'} />
       <TopNav />
       <SideNav>
         <main>
-          <div class="container-fluid px-4">
+          <div className="container-fluid px-4">
             <h1 className="my-4">Danh sách kích cỡ</h1>
-            {/* <Fragment>
-                <MDBDataTable data={setTableSizes()} className="px-3" bordered striped hover />
-              </Fragment> */}
             <Button
               variant="contained"
               component={Link}

@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import { END_POINT } from '~/config';
+import Metadata from '~/layouts/Metadata';
 
 const UpdateColor = () => {
   const [name, setName] = useState('');
@@ -57,6 +58,7 @@ const UpdateColor = () => {
 
   return (
     <Fragment>
+      <Metadata title={'Cập nhật màu'} />
       <TopNav />
       <SideNav>
         <main>

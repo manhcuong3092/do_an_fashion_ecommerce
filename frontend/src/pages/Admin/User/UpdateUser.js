@@ -12,6 +12,7 @@ import { ROLE_ADMIN, ROLE_USER } from '~/constants/role';
 import { Avatar } from '@mui/material';
 import { END_POINT } from '~/config';
 import Loader from '~/layouts/Loader';
+import Metadata from '~/layouts/Metadata';
 
 const UpdateUser = () => {
   const [user, setUser] = useState({
@@ -116,10 +117,11 @@ const UpdateUser = () => {
   return (
     <Fragment>
       <TopNav />
+      <Metadata title={'Cập nhật người dùng'} />
       {loading && <Loader />}
       <SideNav>
         <main>
-          <div class="container-fluid px-4">
+          <div className="container-fluid px-4">
             <h1 className="my-4">Cập nhật người dùng</h1>
             <OutlineBox>
               <Form className="form-control p-4" onSubmit={submitHandler}>

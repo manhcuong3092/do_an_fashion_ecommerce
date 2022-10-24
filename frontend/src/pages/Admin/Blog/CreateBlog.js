@@ -11,6 +11,7 @@ import Loader from '~/layouts/Loader';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { END_POINT } from '~/config';
+import Metadata from '~/layouts/Metadata';
 
 const CreateBlog = () => {
   const [title, setTitle] = useState('');
@@ -58,11 +59,12 @@ const CreateBlog = () => {
 
   return (
     <Fragment>
+      <Metadata title={'Tạo bài viết'} />
       <TopNav />
       {loading && <Loader />}
       <SideNav>
         <main>
-          <div class="container-fluid px-4">
+          <div className="container-fluid px-4">
             <h1 className="my-4">Tạo bài viết</h1>
             <OutlineBox>
               <Form className="form-control p-4" onSubmit={handleSubmit}>

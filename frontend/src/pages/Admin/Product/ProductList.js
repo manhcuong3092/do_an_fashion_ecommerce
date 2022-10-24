@@ -15,6 +15,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
 import Avatar from '@mui/material/Avatar';
 import SellIcon from '@mui/icons-material/Sell';
+import Metadata from '~/layouts/Metadata';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -152,6 +153,7 @@ const ProductList = () => {
 
   return (
     <Fragment>
+      <Metadata title={'Danh sách sản phẩm'} />
       <TopNav />
       <SideNav>
         <main>

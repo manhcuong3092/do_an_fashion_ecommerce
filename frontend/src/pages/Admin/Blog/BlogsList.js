@@ -12,6 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import { Avatar } from '@mui/material';
+import Metadata from '~/layouts/Metadata';
 
 const BlogsList = () => {
   const [blogs, setBlogs] = useState([]);
@@ -121,10 +122,11 @@ const BlogsList = () => {
 
   return (
     <Fragment>
+      <Metadata title={'Danh sách bài viết'} />
       <TopNav />
       <SideNav>
         <main>
-          <div class="container-fluid px-4">
+          <div className="container-fluid px-4">
             <h1 className="my-4">Danh sách bài viết</h1>
             <Button
               variant="contained"

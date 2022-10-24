@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import { END_POINT } from '~/config';
+import Metadata from '~/layouts/Metadata';
 
 const CreateColor = () => {
   const [name, setName] = useState('');
@@ -36,10 +37,11 @@ const CreateColor = () => {
 
   return (
     <Fragment>
+      <Metadata title={'Tạo màu'} />
       <TopNav />
       <SideNav>
         <main>
-          <div class="container-fluid px-4">
+          <div className="container-fluid px-4">
             <h1 className="my-4">Tạo màu sắc</h1>
             <OutlineBox>
               <Form className="form-control p-4" onSubmit={handleSubmit}>

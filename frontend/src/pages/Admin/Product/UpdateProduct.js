@@ -12,6 +12,7 @@ import { Box, MenuItem, OutlinedInput, Select } from '@mui/material';
 import { END_POINT } from '~/config';
 import validator from 'validator';
 import Loader from '~/layouts/Loader';
+import Metadata from '~/layouts/Metadata';
 
 const UpdateProduct = () => {
   const [name, setName] = useState('');
@@ -226,6 +227,7 @@ const UpdateProduct = () => {
 
   return (
     <Fragment>
+      <Metadata title={'Cập nhật sản phẩm'} />
       <TopNav />
       {loading && <Loader />}
       <SideNav>

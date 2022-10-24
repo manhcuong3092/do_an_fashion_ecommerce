@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
+import Metadata from '~/layouts/Metadata';
 
 const SubscriberList = () => {
   const [subscribers, setSubcribers] = useState([]);
@@ -96,6 +97,7 @@ const SubscriberList = () => {
   });
   return (
     <Fragment>
+      <Metadata title={'Danh sách đăng ký nhận tin'} />
       <TopNav />
       <SideNav>
         <main>

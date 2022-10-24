@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import { END_POINT } from '~/config';
+import Metadata from '~/layouts/Metadata';
 
 const UpdateCategory = () => {
   const [name, setName] = useState('');
@@ -49,10 +50,11 @@ const UpdateCategory = () => {
 
   return (
     <Fragment>
+      <Metadata title={'Cập nhật danh mục'} />
       <TopNav />
       <SideNav>
         <main>
-          <div class="container-fluid px-4">
+          <div className="container-fluid px-4">
             <h1 className="my-4">Cập nhật danh mục</h1>
             <OutlineBox>
               <Form className="form-control p-4" onSubmit={handleSubmit}>

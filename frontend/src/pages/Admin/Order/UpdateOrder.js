@@ -10,6 +10,7 @@ import { END_POINT } from '~/config';
 import { DataGrid, GridToolbar, viVN } from '@mui/x-data-grid';
 import { Avatar } from '@mui/material';
 import { ORDER_CANCEL, ORDER_DELIVERING, ORDER_PENDING, ORDER_SUCCESS } from '~/constants/order';
+import Metadata from '~/layouts/Metadata';
 
 const UpdateOrder = () => {
   const [order, setOrder] = useState(null);
@@ -95,10 +96,11 @@ const UpdateOrder = () => {
 
   return (
     <Fragment>
+      <Metadata title={'Cập nhật đơn hàng'} />
       <TopNav />
       <SideNav>
         <main>
-          <div class="container-fluid px-4">
+          <div className="container-fluid px-4">
             <h1 className="my-4">Xử lý đơn hàng</h1>
             {order && (
               <OutlineBox>

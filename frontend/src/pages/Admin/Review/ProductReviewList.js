@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
+import Metadata from '~/layouts/Metadata';
 
 const ProductReviewList = () => {
   const [reviews, setReviews] = useState([]);
@@ -103,6 +104,7 @@ const ProductReviewList = () => {
   });
   return (
     <Fragment>
+      <Metadata title={'Danh sách đánh giá'} />
       <TopNav />
       <SideNav>
         <main>

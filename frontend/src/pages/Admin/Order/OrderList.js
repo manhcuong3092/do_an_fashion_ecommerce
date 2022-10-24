@@ -12,6 +12,7 @@ import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined
 import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import { ORDER_CANCEL, ORDER_DELIVERING, ORDER_PENDING, ORDER_SUCCESS } from '~/constants/order';
+import Metadata from '~/layouts/Metadata';
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
@@ -144,6 +145,7 @@ const OrderList = () => {
   });
   return (
     <Fragment>
+      <Metadata title={'Danh sách đơn hàng'} />
       <TopNav />
       <SideNav>
         <main>

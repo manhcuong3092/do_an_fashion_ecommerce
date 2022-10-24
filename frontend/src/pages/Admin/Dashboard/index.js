@@ -15,6 +15,7 @@ import { blue, cyan, green, orange, red, yellow } from '@mui/material/colors';
 import axios from 'axios';
 import { END_POINT } from '~/config';
 import { ORDER_CANCEL, ORDER_DELIVERING, ORDER_PENDING, ORDER_SUCCESS } from '~/constants/order';
+import Metadata from '~/layouts/Metadata';
 
 const Dashboard = () => {
   const [orders, setOrders] = useState(null);
@@ -81,6 +82,7 @@ const Dashboard = () => {
 
   return (
     <Fragment>
+      <Metadata title={'Bảng điều khiển'} />
       <TopNav />
       <SideNav>
         <main>

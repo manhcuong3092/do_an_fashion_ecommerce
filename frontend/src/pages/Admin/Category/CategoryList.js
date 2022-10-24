@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
+import Metadata from '~/layouts/Metadata';
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
@@ -103,10 +104,11 @@ const CategoryList = () => {
   });
   return (
     <Fragment>
+      <Metadata title={'Danh sách bài viết'} />
       <TopNav />
       <SideNav>
         <main>
-          <div class="container-fluid px-4">
+          <div className="container-fluid px-4">
             <h1 className="my-4">Danh sách danh mục</h1>
             <Button
               variant="contained"

@@ -11,6 +11,7 @@ import Loader from '~/layouts/Loader';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { END_POINT } from '~/config';
+import Metadata from '~/layouts/Metadata';
 
 const UpdateBlog = () => {
   const [title, setTitle] = useState('');
@@ -76,6 +77,7 @@ const UpdateBlog = () => {
 
   return (
     <Fragment>
+      <Metadata title={'Cập nhật bài viết'} />
       <TopNav />
       {loading && <Loader />}
       <SideNav>
