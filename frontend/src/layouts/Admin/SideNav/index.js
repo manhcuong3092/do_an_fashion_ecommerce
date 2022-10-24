@@ -13,9 +13,11 @@ import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
+import { useSelector } from 'react-redux';
 
 const SideNav = ({ children }) => {
   const [open, setOpen] = useState(false);
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <div id="layoutSidenav">
@@ -117,8 +119,8 @@ const SideNav = ({ children }) => {
             </div>
           </div>
           <div className="sb-sidenav-footer">
-            <div className="small">Logged in as:</div>
-            User
+            <div className="small">Tài khoản:</div>
+            {user.email}
           </div>
         </nav>
       </div>

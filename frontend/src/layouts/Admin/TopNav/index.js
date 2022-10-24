@@ -3,9 +3,23 @@ import logo from '../../../assets/img/logocrop.png';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import defaultAvatar from '../../../assets/img/default_avatar.jpg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '~/redux/actions/authActions';
+import { toast } from 'react-toastify';
 
 const TopNav = () => {
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  console.log(user);
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    toast.success('Đăng xuất thành công.');
+    navigate('/');
+  };
   const handleExpandSidebar = (e) => {
     e.preventDefault();
     document.body.classList.toggle('sb-sidenav-toggled');
@@ -38,18 +52,34 @@ const TopNav = () => {
           </button>
         </div>
       </form>
+      <div>
+        <p>{user.name}</p>
+      </div>
       <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4" id="nav-ul">
         <NavDropdown
           id="admin-nav"
           align="end"
-          title={<img src={defaultAvatar} width={40} height={40} alt="avatar" className="rounded" />}
+          title={
+            <img
+              src={user.avatar ? user.avatar.url : defaultAvatar}
+              width={40}
+              height={40}
+              alt="avatar"
+              className="rounded"
+            />
+          }
         >
+          <NavDropdown.Item as={Link} to="/">
+            Trang mua hàng
+          </NavDropdown.Item>
           <NavDropdown.Item as={Link} to="/">
             Cài đặt
           </NavDropdown.Item>
           <NavDropdown.Item href="#!">Hoạt động</NavDropdown.Item>
           <NavDropdown.Divider />
-          <NavDropdown.Item href="#!">Đăng xuất</NavDropdown.Item>
+          <NavDropdown.Item href="#!" onClick={logoutHandler}>
+            Đăng xuất
+          </NavDropdown.Item>
         </NavDropdown>
       </ul>
     </Navbar>
