@@ -1,0 +1,65 @@
+import React from 'react';
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
+import { ORDER_CANCEL, ORDER_SUCCESS } from '~/constants/order';
+import OutlineBox from '../OutlineBox';
+
+const COLORS = ['#03ce4a', '#c61a09'];
+
+const OrderSuccessRateStatic = ({ orders }) => {
+  let orderData = [];
+
+  if (orders) {
+    let date = new Date();
+    let currentMonth = new Date(date.getFullYear(), date.getMonth(), 1);
+    const thisMonth = new Date(currentMonth);
+    const nextMonth = new Date(currentMonth.setMonth(currentMonth.getMonth() + 1));
+    const filterData = orders.filter((item) => {
+      return new Date(item.paidAt) >= thisMonth && new Date(item.paidAt) < nextMonth;
+    });
+    const orderSuccess = filterData.reduce((acc, item) => (item.orderStatus === ORDER_SUCCESS ? acc + 1 : acc), 0);
+    const orderCanceled = filterData.reduce((acc, item) => (item.orderStatus === ORDER_CANCEL ? acc + 1 : acc), 0);
+    orderData = [
+      {
+        name: ORDER_SUCCESS,
+        value: orderSuccess,
+      },
+      {
+        name: ORDER_CANCEL,
+        value: orderCanceled,
+      },
+    ];
+  }
+
+  console.log(orderData);
+
+  return (
+    <OutlineBox>
+      <div style={{ height: '350px' }} className="m-3">
+        <h5>Thống kê tỉ lệ đơn hàng thành công</h5>
+        <h6>Theo tháng</h6>
+        <ResponsiveContainer width="100%" height="80%">
+          <PieChart width={400} height={400}>
+            <Pie
+              dataKey="value"
+              isAnimationActive={false}
+              data={orderData}
+              cx="50%"
+              cy="50%"
+              outerRadius={80}
+              fill="#8884d8"
+              label
+            >
+              {orderData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
+    </OutlineBox>
+  );
+};
+
+export default OrderSuccessRateStatic;
