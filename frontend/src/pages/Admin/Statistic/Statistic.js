@@ -12,6 +12,8 @@ import OrderStatistic from '~/components/Statistic/OrderStatistic';
 import PaymentTypeStatistic from '~/components/Statistic/PaymentTypeStatistic';
 import OrderSuccessRateStatic from '~/components/Statistic/OrderSuccessRateStatic';
 import UserOrderStatistic from '~/components/Statistic/UserOrderStatistic';
+import ProductStatistic from '~/components/Statistic/ProductStatistic';
+import CategoryStatistic from '~/components/Statistic/CategoryStatistic';
 
 const Statistic = () => {
   const [orders, setOrders] = useState(null);
@@ -61,6 +63,15 @@ const Statistic = () => {
               </Col>
               <Col md={4}>
                 <UserOrderStatistic orders={orders} />
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={6}>
+                <ProductStatistic orders={orders} />
+              </Col>
+              <Col md={6}>
+                <CategoryStatistic orders={orders} />
               </Col>
             </Row>
           </div>
