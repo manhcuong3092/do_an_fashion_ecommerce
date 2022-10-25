@@ -132,12 +132,11 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
     images = req.body.images
   }
 
-  if (images !== undefined) {
+  if (images.length !== 0) {
     //delete images
     for (let i = 0; i < product.images.length; i++) {
       const result = await clouldinary.v2.uploader.destroy(product.images[i].public_id);
     }
-
 
     let imagesLink = [];
     for (let i = 0; i < images.length; i++) {
@@ -149,12 +148,13 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
           public_id: result.public_id,
           url: result.secure_url
         });
+        req.body.images = imagesLink;
       } catch (error) {
         return next(new ErrorHandler('Tải ảnh có kích thước nhỏ hơn 1MB', 404));
       }
-    }
-    
-    req.body.images = imagesLink;
+    } 
+  } else {
+    req.body.images = product.images;
   }
 
   req.body.stock = req.body.stock.map(item => {
