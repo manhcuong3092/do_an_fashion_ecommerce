@@ -13,6 +13,7 @@ import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
+import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import { useSelector } from 'react-redux';
 
 const SideNav = ({ children }) => {
@@ -115,6 +116,13 @@ const SideNav = ({ children }) => {
                   <PersonOutlineOutlinedIcon />
                 </div>
                 Người dùng
+              </Link>
+              <div className="sb-sidenav-menu-heading">Thống kê</div>
+              <Link className="nav-link" to="/admin/statistic">
+                <div className="sb-nav-link-icon">
+                  <InsertChartOutlinedIcon />
+                </div>
+                Thống kê
               </Link>
             </div>
           </div>

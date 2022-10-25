@@ -54,6 +54,7 @@ import UserList from './pages/Admin/User/UserList';
 import CreateUser from './pages/Admin/User/CreateUser';
 import UpdateUser from './pages/Admin/User/UpdateUser';
 import ProductReviewList from './pages/Admin/Review/ProductReviewList';
+import Statistic from './pages/Admin/Statistic/Statistic';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState('');
@@ -319,6 +320,14 @@ function App() {
             element={
               <ProtectRoute isAdmin={true}>
                 <ProductReviewList />
+              </ProtectRoute>
+            }
+          />
+          <Route
+            path="/admin/statistic"
+            element={
+              <ProtectRoute isAdmin={true}>
+                <Statistic />
               </ProtectRoute>
             }
           />
