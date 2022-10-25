@@ -6,7 +6,14 @@ const User = require('../models/user')
 exports.getStatistic = catchAsyncErrors(async (req, res, next) => {
   let users, products, orders;
   const promise1 = Order.find().populate('user', 'name email')
-    .populate('orderItems.product')
+    .populate({
+      path: 'orderItems.product',
+      model: 'Product',
+      populate: {
+        path: 'category',
+        model: 'Category'
+      }
+    })
     .populate('orderItems.size', 'name')
     .populate('orderItems.color', 'name');
   const promise2 = Product.find().populate('category')

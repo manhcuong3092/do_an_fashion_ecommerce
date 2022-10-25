@@ -155,6 +155,7 @@ async function checkStock(id, size, color, quantity) {
 
 async function updateStock(id, size, color, quantity) {
   const product = await Product.findById(id);
+  product.sold += quantity;
   product.stock.forEach((item, index) => {
     if (item.size.toString() === size.toString() && item.color.toString() === color.toString()) {
       product.stock[index].quantity = product.stock[index].quantity - quantity;
