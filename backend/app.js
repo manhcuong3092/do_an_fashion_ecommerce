@@ -38,6 +38,7 @@ const subscriberRoute = require('./routes/subscriberRoute');
 const orderRoute = require('./routes/orderRoute');
 const paymentRoute = require('./routes/paymentRoute');
 const cartRoute = require('./routes/cartRoute');
+const statisticRoute = require('./routes/statisticRoute');
 
 app.get('/', (req, res, next) => {
   res.status(200).send('It work!')
@@ -55,6 +56,7 @@ app.use('/api/v1', subscriberRoute);
 app.use('/api/v1', orderRoute);
 app.use('/api/v1', paymentRoute);
 app.use('/api/v1', cartRoute);
+app.use('/api/v1', statisticRoute);
 
 
 // Midlleware to handle error
