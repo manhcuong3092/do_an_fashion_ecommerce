@@ -5,23 +5,8 @@ import SideNav from '~/layouts/Admin/SideNav';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import Metadata from '~/layouts/Metadata';
 import { END_POINT } from '~/config';
-import { Col, NavDropdown, Row } from 'react-bootstrap';
-import OutlineBox from '~/components/OutlineBox';
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Legend,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+import { Col, Row } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
-import { TYPE_DAY, TYPE_MONTH, TYPE_WEEK } from '~/constants/statistic';
 import RevenueStatistic from '~/components/Statistic/RevenueStatistic';
 import OrderStatistic from '~/components/Statistic/OrderStatistic';
 import PaymentTypeStatistic from '~/components/Statistic/PaymentTypeStatistic';
