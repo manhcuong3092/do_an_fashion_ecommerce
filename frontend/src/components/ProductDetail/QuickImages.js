@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Col from 'react-bootstrap/Col';
 
 const QuickImages = ({ images }) => {
-  const [currentImg, setCurrentImg] = useState(images[0]);
+  const [currentImg, setCurrentImg] = useState(null);
+
+  useEffect(() => {
+    setCurrentImg(images[0]);
+  }, [images]);
+
   return (
     <Col md={5} lg={4}>
       <div className="quick-image">

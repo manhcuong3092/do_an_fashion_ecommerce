@@ -1,101 +1,82 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import axios from 'axios';
+import { END_POINT } from '~/config';
+import { Link } from 'react-router-dom';
 
-const RelatedProducts = () => {
+const RelatedProducts = ({ product }) => {
+  const [products, setProducts] = useState(null);
+
+  useEffect(() => {
+    const getProduct = async () => {
+      if (product) {
+        try {
+          const { data } = await axios.get(`${END_POINT}/api/v1/products?category=${product.category._id}`, {
+            withCredentials: true,
+          });
+          if (data.success) {
+            const res = data.products;
+            res.sort(function () {
+              return 0.5 - Math.random();
+            });
+            setProducts(res);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    getProduct();
+  }, [product]);
+
+  let relatedProduct = [];
+  if (products) {
+    for (let i = 0; i < 4; i++) {
+      if (products[i]) {
+        relatedProduct.push(products[i]);
+      }
+    }
+  }
+
   return (
     <section className="single-products section-padding">
       <Container>
         <Row>
           <Col>
             <div className="section-title text-center">
-              <h2>related Products</h2>
+              <h2>Sản phẩm tương tự</h2>
             </div>
           </Col>
         </Row>
         <Row className="text-center">
-          <Col md={6} lg={3}>
-            <div className="single-product">
-              <div className="product-img">
-                <div className="pro-type">
-                  <span>new</span>
+          {relatedProduct.map((item, index) => (
+            <Col md={6} lg={3} key={index}>
+              <div className="single-product">
+                <div className="product-img">
+                  {item.isSale && (
+                    <div className="pro-type">
+                      <span>Sale</span>
+                    </div>
+                  )}
+                  <Link to={`/product/${item.slug}`}>
+                    <img src={item.images ? item.images[0].url : ''} alt="Product Title" />
+                  </Link>
                 </div>
-                <a href="#"><img src="img/products/1.jpg" alt="Product Title" /></a>
-                <div className="actions-btn">
-                  <a href="#"><i className="mdi mdi-cart"></i></a>
-                  <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view"><i className="mdi mdi-eye"></i></a>
-                  <a href="#"><i className="mdi mdi-heart"></i></a>
-                </div>
-              </div>
-              <div className="product-dsc">
-                <p><a href="#">men’s Black t-shirt</a></p>
-                <span>$65.20</span>
-              </div>
-            </div>
-          </Col>
-
-          <Col md={6} lg={3}>
-            <div className="single-product">
-              <div className="product-img">
-                <div className="pro-type sell">
-                  <span>sell</span>
-                </div>
-                <a href="#"><img src="img/products/2.jpg" alt="Product Title" /></a>
-                <div className="actions-btn">
-                  <a href="#"><i className="mdi mdi-cart"></i></a>
-                  <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view"><i className="mdi mdi-eye"></i></a>
-                  <a href="#"><i className="mdi mdi-heart"></i></a>
+                <div className="product-dsc">
+                  <p>
+                    <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                  </p>
+                  <span>{(item.isSale ? item.salePrice : item.price).toLocaleString('vi-VN')}</span>
                 </div>
               </div>
-              <div className="product-dsc">
-                <p><a href="#">men’s White t-shirt</a></p>
-                <span>$57.00</span>
-              </div>
-            </div>
-          </Col>
-
-          <Col md={6} lg={3} className="r-margin-top">
-            <div className="single-product">
-              <div className="product-img">
-                <div className="pro-type">
-                  <span>-15%</span>
-                </div>
-                <a href="#"><img src="img/products/3.jpg" alt="Product Title" /></a>
-                <div className="actions-btn">
-                  <a href="#"><i className="mdi mdi-cart"></i></a>
-                  <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view"><i className="mdi mdi-eye"></i></a>
-                  <a href="#"><i className="mdi mdi-heart"></i></a>
-                </div>
-              </div>
-              <div className="product-dsc">
-                <p><a href="#">men’s Blue t-shirt</a></p>
-                <span>$56.00</span>
-              </div>
-            </div>
-          </Col>
-
-          <Col md={6} lg={3} className="r-margin-top">
-            <div className="single-product">
-              <div className="product-img">
-                <a href="#"><img src="img/products/4.jpg" alt="Product Title" /></a>
-                <div className="actions-btn">
-                  <a href="#"><i className="mdi mdi-cart"></i></a>
-                  <a href="#" data-bs-toggle="modal" data-bs-target="#quick-view"><i className="mdi mdi-eye"></i></a>
-                  <a href="#"><i className="mdi mdi-heart"></i></a>
-                </div>
-              </div>
-              <div className="product-dsc">
-                <p><a href="#">men’s White t-shirt</a></p>
-                <span>$96.20</span>
-              </div>
-            </div>
-          </Col>
-
+            </Col>
+          ))}
         </Row>
       </Container>
     </section>
-  )
-}
+  );
+};
 
-export default RelatedProducts
+export default RelatedProducts;

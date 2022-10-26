@@ -1,9 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import { Link, useNavigate } from 'react-router-dom';
+import { END_POINT } from '~/config';
+import axios from 'axios';
 
 const BlogSection = () => {
+  const [blogs, setBlogs] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getNewBlogs = async () => {
+      try {
+        const { data } = await axios.get(`${END_POINT}/api/v1/blogs/latest`, { withCredentials: true });
+        if (data.success) {
+          setBlogs(data.blogs);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getNewBlogs();
+  }, []);
+
   return (
     <section className="latest-blog section-padding">
       <Container>
@@ -18,56 +38,46 @@ const BlogSection = () => {
           <ul className="load-list load-list-blog">
             <li>
               <Row>
-                <Col md={4}>
-                  <div className="l-blog-text">
-                    <div className="banner"><a href="single-blog.html"><img src="img/blog/1.jpg" alt="" /></a></div>
-                    <div className="s-blog-text">
-                      <h4><a href="single-blog.html">Fashion style fine arts drawing</a></h4>
-                      <span>By : <a href="#">Rakib</a> | <a href="#">210 Like</a> | <a href="#">69 Comments</a></span>
-                      <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour....</p>
-                    </div>
-                    <div className="date-read clearfix">
-                      <a href="#"><i className="mdi mdi-clock"></i> jun 25, 2021</a>
-                      <a href="single-blog.html">Đọc thêm</a>
-                    </div>
-                  </div>
-                </Col>
-                <Col md={4}>
-                  <div className="l-blog-text">
-                    <div className="banner"><a href="single-blog.html"><img src="img/blog/2.jpg" alt="" /></a></div>
-                    <div className="s-blog-text">
-                      <h4><a href="single-blog.html">women’s Fashion style 2021</a></h4>
-                      <span>By : <a href="#">Rakib</a> | <a href="#">210 Like</a> | <a href="#">69 Comments</a></span>
-                      <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour....</p>
-                    </div>
-                    <div className="date-read clearfix">
-                      <a href="#"><i className="mdi mdi-clock"></i> jun 15, 2021</a>
-                      <a href="single-blog.html">Đọc thêm</a>
-                    </div>
-                  </div>
-                </Col>
-                <Col md={4}>
-                  <div className="l-blog-text">
-                    <div className="banner"><a href="single-blog.html"><img src="img/blog/3.jpg" alt="" /></a></div>
-                    <div className="s-blog-text">
-                      <h4><a href="single-blog.html">women’s winter Fashion style</a></h4>
-                      <span>By : <a href="#">Rakib</a> | <a href="#">210 Like</a> | <a href="#">69 Comments</a></span>
-                      <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour....</p>
-                    </div>
-                    <div className="date-read clearfix">
-                      <a href="#"><i className="mdi mdi-clock"></i> jun 22, 2021</a>
-                      <a href="single-blog.html">Đọc thêm</a>
-                    </div>
-                  </div>
-                </Col>
+                {blogs &&
+                  blogs.map((blog, index) => (
+                    <Col md={4} key={index}>
+                      <div className="l-blog-text">
+                        <div className="banner">
+                          <Link to={`/blog/${blog.slug}`}>
+                            <img src={blog.avatar ? blog.avatar.url : ''} alt="" />
+                          </Link>
+                        </div>
+                        <div className="s-blog-text">
+                          <h4>
+                            <Link to={`/blog/${blog.slug}`}>{blog.title}</Link>
+                          </h4>
+                          <span>
+                            Tác giả : <Link>{blog.author.name}</Link>
+                          </span>
+                          <p>
+                            There are many variations of passages of Lorem Ipsum available, but the majority have
+                            suffered alteration in some form, by injected humour....
+                          </p>
+                        </div>
+                        <div className="date-read clearfix">
+                          <Link>
+                            <i className="mdi mdi-clock"></i> {new Date(blog.createdAt).toLocaleDateString('vi-VN')}
+                          </Link>
+                          <Link to={`/blog/${blog.slug}`}>Đọc thêm</Link>
+                        </div>
+                      </div>
+                    </Col>
+                  ))}
               </Row>
             </li>
           </ul>
-        <button id="load-more-blog" className='mt-5'>Xem thêm</button>
+          <button id="load-more-blog" className="mt-5" onClick={() => navigate('/blog')}>
+            Xem thêm
+          </button>
         </div>
       </Container>
     </section>
-  )
-}
+  );
+};
 
-export default BlogSection
+export default BlogSection;

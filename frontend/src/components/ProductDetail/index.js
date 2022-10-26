@@ -56,8 +56,6 @@ const ProductDetail = ({ product }) => {
     setQuantity(1);
   }, [product, size, color]);
 
-  console.log(product.ratings);
-
   return (
     <Row className="single-list-view">
       <QuickImages images={product.images} />

@@ -46,7 +46,7 @@ const Product = () => {
               <ProductReview product={product} />
             </Fragment>
           )}
-          <RelatedProducts />
+          <RelatedProducts product={product} />
         </Container>
       </div>
       <Footer />

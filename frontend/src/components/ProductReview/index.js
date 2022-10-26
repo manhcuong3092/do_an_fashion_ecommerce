@@ -97,7 +97,7 @@ const ProductReview = ({ product }) => {
             <div className={`info-reviews moreinfo tab-pane fade ${tab !== 1 ? 'show active' : ''}`} id="reviews">
               {reviews && reviews.length > 0 ? (
                 reviews.map((item, index) => (
-                  <Fragment>
+                  <Fragment key={index}>
                     <div className="about-author" key={index}>
                       <div className="autohr-text">
                         <img src={item.user.avatar && item.user.avatar.url} alt="" />

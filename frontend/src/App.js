@@ -60,6 +60,7 @@ import ReturnPolicy from './pages/ReturnPolicy';
 import SecurityPolicy from './pages/SecurityPolicy';
 import { checkCookie } from './redux/actions/authActions';
 import { useDispatch } from 'react-redux';
+import ScrollToTop from './layouts/ScrollToTop';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState('');
@@ -83,6 +84,7 @@ function App() {
     <Fragment>
       <ToastContainer />
       <Router>
+        <ScrollToTop />
         <Routes>
           {/* user path */}
           <Route path="/" element={<Home />} />
