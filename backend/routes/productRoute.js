@@ -4,11 +4,12 @@ const router = express.Router();
 const { 
   newProduct, getProducts, getSingleProduct, deleteProduct, 
   updateProduct, getAllProducts, getProductBySlug, createProductReview, 
-  getProductReviews, deleteReview, 
+  getProductReviews, deleteReview, getLatestProducts, 
 } = require('../controllers/productController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 router.route('/products').get(getProducts);
+router.route('/products/latest').get(getLatestProducts);
 // router.route('/product/:id').get(getSingleProduct)
 router.route('/product/:slug').get(getProductBySlug);
 router.route('/admin/products').get(isAuthenticatedUser, authorizeRoles('admin'), getAllProducts);

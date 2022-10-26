@@ -49,6 +49,15 @@ exports.getBlogs = catchAsyncError(async (req, res, next) => {
   });
 });
 
+
+exports.getLatestBlogs = catchAsyncError(async (req, res, next) => {
+  const blogs = await Blog.find().sort('-_id').limit(3).populate('author');
+  res.status(200).json({
+    success: true,
+    blogs,
+  });
+});
+
 exports.getBlogBySlug = catchAsyncError(async (req, res, next) => {
   const slug = req.params.slug;
   const blog = await Blog.findOne({slug}).populate('author');

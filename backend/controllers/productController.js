@@ -103,6 +103,16 @@ exports.getProducts = catchAsyncError(async (req, res, next) => {
   })
 });
 
+// get latest products : /api/v1/products
+exports.getLatestProducts = catchAsyncError(async (req, res, next) => {
+  const products = await Product.find({active: true}).sort('-_id').limit(4);
+
+  res.status(200).json({
+    success: true,
+    products,
+  })
+});
+
 // get all products : /api/v1/admin/products
 exports.getAllProducts = catchAsyncError(async (req, res, next) => {
   const products = await Product.find()

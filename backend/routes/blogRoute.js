@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllBlogs, createBlog, getBlog, updateBlog, deleteBlog, getBlogs, getBlogBySlug } = require('../controllers/blogController');
+const { getAllBlogs, createBlog, getBlog, updateBlog, deleteBlog, getBlogs, getBlogBySlug, getLatestBlogs } = require('../controllers/blogController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 router.route('/blogs').get(getBlogs);
+router.route('/blogs/latest').get(getLatestBlogs);
 router.route('/blog/:slug').get(getBlogBySlug)
 
 router.route('/admin/blogs').get(getAllBlogs);
