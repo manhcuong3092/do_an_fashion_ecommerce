@@ -58,9 +58,12 @@ import Statistic from './pages/Admin/Statistic/Statistic';
 import AboutUs from './pages/AboutUs';
 import ReturnPolicy from './pages/ReturnPolicy';
 import SecurityPolicy from './pages/SecurityPolicy';
+import { checkCookie } from './redux/actions/authActions';
+import { useDispatch } from 'react-redux';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function getStripeApiKey() {
@@ -68,8 +71,13 @@ function App() {
       setStripeApiKey(data.stripeApiKey);
     }
 
+    const checkUserCookie = async () => {
+      dispatch(checkCookie());
+    };
+
     getStripeApiKey();
-  }, []);
+    checkUserCookie();
+  }, [dispatch]);
 
   return (
     <Fragment>

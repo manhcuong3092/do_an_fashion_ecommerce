@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { END_POINT } from '~/config';
 import {
+  CHECK_COOKIE_FAIL,
+  CHECK_COOKIE_SUCCESS,
   CLEAR_ERRORS,
   FORGOT_PASSWORD_FAIL,
   FORGOT_PASSWORD_REQUEST,
@@ -26,7 +28,7 @@ export const login = (email, password) => async (dispatch, getState) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      withCredentials: true 
+      withCredentials: true,
     };
     const { data } = await axios.post(`${END_POINT}/api/v1/login`, { email, password }, config);
     dispatch({
@@ -54,6 +56,29 @@ export const logout = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: LOGOUT_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//Check cookie
+export const checkCookie = (email, password) => async (dispatch, getState) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    };
+    const { data } = await axios.get(`${END_POINT}/api/v1/me`, config);
+    dispatch({
+      type: CHECK_COOKIE_SUCCESS,
+      payload: data.user,
+    });
+    localStorage.setItem('auth', JSON.stringify(getState().auth));
+  } catch (error) {
+    dispatch({
+      type: CHECK_COOKIE_FAIL,
       payload: error.response.data.message,
     });
   }
