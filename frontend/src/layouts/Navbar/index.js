@@ -5,8 +5,19 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import logo from '../../assets/img/logo2.png';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '~/redux/actions/authActions';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    toast.success('Đăng xuất thành công.');
+  };
+
   return (
     <Container className="text-center">
       <Row>
@@ -47,9 +58,34 @@ const Navbar = () => {
                   </li>
                   <li>
                     <Link to="/about-us">Giới thiệu</Link>
+                    <ul className="dropdown dropdown-nav-menu">
+                      <li>
+                        <Link to="/contact">Liên hệ</Link>
+                      </li>
+                      <li>
+                        <Link to="/return-policy">Chính sách đổi trả</Link>
+                      </li>
+                      <li>
+                        <Link to="/security-policy">Chính sách bảo mật</Link>
+                      </li>
+                    </ul>
                   </li>
                   <li>
-                    <Link to="/contact">Liên hệ</Link>
+                    <Link to="/profile">Tài khoản</Link>
+                    <ul className="dropdown dropdown-nav-menu">
+                      {user ? (
+                        <li>
+                          <Link onClick={() => logoutHandler()}>Đăng xuất</Link>
+                        </li>
+                      ) : (
+                        <li>
+                          <Link to="/login">Đăng nhập</Link>
+                        </li>
+                      )}
+                      <li>
+                        <Link to="/register">Đăng ký</Link>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
               </nav>

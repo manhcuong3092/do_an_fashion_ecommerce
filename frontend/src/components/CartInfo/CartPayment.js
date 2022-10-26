@@ -48,7 +48,7 @@ const CartPayment = () => {
                 </tr>
                 <tr>
                   <th>Phí giao hàng</th>
-                  <td>{shippingPrice}đ</td>
+                  <td>{shippingPrice.toLocaleString('vi-VN')}đ</td>
                 </tr>
               </tbody>
               <tfoot>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -8,6 +8,7 @@ import in3 from '../../assets/img/footer/in3.png';
 import in4 from '../../assets/img/footer/in4.png';
 import in5 from '../../assets/img/footer/in5.png';
 import in6 from '../../assets/img/footer/in6.png';
+import { Link } from 'react-router-dom';
 
 const FooterTop = () => {
   return (
@@ -18,14 +19,13 @@ const FooterTop = () => {
             <Col md={6} lg={3}>
               <div className="single-text">
                 <div className="footer-title">
-                  <h4>Contact us</h4>
+                  <h4>Liên hệ</h4>
                 </div>
                 <div className="footer-text">
                   <ul>
                     <li>
                       <i className="mdi mdi-map-marker"></i>
-                      <p>Your address goes here.</p>
-                      <p>Your address goes here.</p>
+                      <p>Số 1 đường Vạn Xuân, xã Hạ Mỗ, Đan Phượng, Hà Nội.</p>
                     </li>
                     <li>
                       <i className="mdi mdi-phone"></i>
@@ -34,26 +34,9 @@ const FooterTop = () => {
                     </li>
                     <li>
                       <i className="mdi mdi-email"></i>
-                      <p>demo@example.com</p>
-                      <p>demo@example.com</p>
+                      <p>cuongamando@gmail.com</p>
+                      <p>amdando@gmail.com</p>
                     </li>
-                  </ul>
-                </div>
-              </div>
-            </Col>
-            <Col md={3} lg={2}  className="wide-mobile">
-              <div className="single-text">
-                <div className="footer-title">
-                  <h4>my account</h4>
-                </div>
-                <div className="footer-menu">
-                  <ul>
-                    <li><a href="login.html"><i className="mdi mdi-menu-right"></i>My Account</a></li>
-                    <li><a href="wishlist.html"><i className="mdi mdi-menu-right"></i>My Wishlist</a></li>
-                    <li><a href="cart.html"><i className="mdi mdi-menu-right"></i>My Cart</a></li>
-                    <li><a href="login.html"><i className="mdi mdi-menu-right"></i>Sign In</a></li>
-                    <li><a href="checkout.html"><i className="mdi mdi-menu-right"></i>Check out</a></li>
-                    <li><a href="#"><i className="mdi mdi-menu-right"></i>Track My Orde</a></li>
                   </ul>
                 </div>
               </div>
@@ -61,16 +44,51 @@ const FooterTop = () => {
             <Col md={3} lg={2} className="wide-mobile">
               <div className="single-text">
                 <div className="footer-title">
-                  <h4>shipping</h4>
+                  <h4>Tài khoản</h4>
                 </div>
                 <div className="footer-menu">
                   <ul>
-                    <li><a href="contact.html"><i className="mdi mdi-menu-right"></i>New Products</a></li>
-                    <li><a href="#"><i className="mdi mdi-menu-right"></i>Top Sellers</a></li>
-                    <li><a href="#"><i className="mdi mdi-menu-right"></i>Manufactirers</a></li>
-                    <li><a href="#"><i className="mdi mdi-menu-right"></i>Suppliers</a></li>
-                    <li><a href="#"><i className="mdi mdi-menu-right"></i>Specials</a></li>
-                    <li><a href="#"><i className="mdi mdi-menu-right"></i>Availability</a></li>
+                    <li>
+                      <Link to={'/profile'}>
+                        <i className="mdi mdi-menu-right"></i>Tài khoản
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={'/cart'}>
+                        <i className="mdi mdi-menu-right"></i>Giỏ hàng
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={'/checkout'}>
+                        <i className="mdi mdi-menu-right"></i>Thanh toán
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={'/order-history'}>
+                        <i className="mdi mdi-menu-right"></i>Lịch sử
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </Col>
+            <Col md={3} lg={2} className="wide-mobile">
+              <div className="single-text">
+                <div className="footer-title">
+                  <h4>Chính sách</h4>
+                </div>
+                <div className="footer-menu">
+                  <ul>
+                    <li>
+                      <Link to={'/return-policy'}>
+                        <i className="mdi mdi-menu-right"></i>Đổi trả
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={'/security-policy'}>
+                        <i className="mdi mdi-menu-right"></i>Bảo mật
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -78,16 +96,30 @@ const FooterTop = () => {
             <Col md={6} lg={2} className="r-margin-top wide-mobile">
               <div className="single-text">
                 <div className="footer-title">
-                  <h4>Information</h4>
+                  <h4>Thông tin</h4>
                 </div>
                 <div className="footer-menu">
                   <ul>
-                    <li><a href="contact.html"><i className="mdi mdi-menu-right"></i>Return Exchange</a></li>
-                    <li><a href="#"><i className="mdi mdi-menu-right"></i>Fast Delivery</a></li>
-                    <li><a href="#"><i className="mdi mdi-menu-right"></i>Online Shopping</a></li>
-                    <li><a href="#"><i className="mdi mdi-menu-right"></i>Shipping Guide</a></li>
-                    <li><a href="#"><i className="mdi mdi-menu-right"></i>Turm Of Use</a></li>
-                    <li><a href="#"><i className="mdi mdi-menu-right"></i>Home Delivery</a></li>
+                    <li>
+                      <Link to={'/about-us'}>
+                        <i className="mdi mdi-menu-right"></i>Giới thiệu
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={'/contact'}>
+                        <i className="mdi mdi-menu-right"></i>Liên hệ
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={'/shop'}>
+                        <i className="mdi mdi-menu-right"></i>Cửa hàng
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to={'/blog'}>
+                        <i className="mdi mdi-menu-right"></i>Tin tức
+                      </Link>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -95,17 +127,20 @@ const FooterTop = () => {
             <Col md={6} lg={3} className="r-margin-top wide-mobile">
               <div className="single-text">
                 <div className="footer-title">
-                  <h4>instagram</h4>
+                  <h4>Fanpage</h4>
                 </div>
                 <div className="clearfix instagram">
-                  <ul>
-                    <li><a href="#"><img src={in1} alt="Instagram" /></a></li>
-                    <li><a href="#"><img src={in2} alt="Instagram" /></a></li>
-                    <li><a href="#"><img src={in3} alt="Instagram" /></a></li>
-                    <li><a href="#"><img src={in4} alt="Instagram" /></a></li>
-                    <li><a href="#"><img src={in5} alt="Instagram" /></a></li>
-                    <li><a href="#"><img src={in6} alt="Instagram" /></a></li>
-                  </ul>
+                  <iframe
+                    title="fanpage"
+                    src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100086919084094&tabs&width=340&height=130&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId=423808619085199"
+                    width="340"
+                    height="130"
+                    style={{ border: 'none', overflow: 'hidden' }}
+                    scrolling="no"
+                    frameborder="0"
+                    allowfullscreen="true"
+                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                  ></iframe>
                 </div>
               </div>
             </Col>
@@ -113,7 +148,7 @@ const FooterTop = () => {
         </Container>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FooterTop
+export default FooterTop;

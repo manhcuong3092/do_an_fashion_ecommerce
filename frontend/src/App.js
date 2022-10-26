@@ -55,6 +55,9 @@ import CreateUser from './pages/Admin/User/CreateUser';
 import UpdateUser from './pages/Admin/User/UpdateUser';
 import ProductReviewList from './pages/Admin/Review/ProductReviewList';
 import Statistic from './pages/Admin/Statistic/Statistic';
+import AboutUs from './pages/AboutUs';
+import ReturnPolicy from './pages/ReturnPolicy';
+import SecurityPolicy from './pages/SecurityPolicy';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState('');
@@ -80,6 +83,9 @@ function App() {
           <Route path="/blog" element={<BlogList />} />
           <Route path="/blog/:slug" element={<Blog />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/return-policy" element={<ReturnPolicy />} />
+          <Route path="/security-policy" element={<SecurityPolicy />} />
           <Route path="/cart" element={<Cart />} />
           {stripeApiKey && (
             <Route
