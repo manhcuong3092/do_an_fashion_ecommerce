@@ -5,6 +5,10 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
+import axios from 'axios';
+
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken') ? `Bearer ${localStorage.getItem('jwtToken')}` : '';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>

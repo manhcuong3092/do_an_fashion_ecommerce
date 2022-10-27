@@ -36,6 +36,7 @@ export const login = (email, password) => async (dispatch, getState) => {
       payload: data.user,
     });
     localStorage.setItem('auth', JSON.stringify(getState().auth));
+    localStorage.setItem('jwtToken', data.token);
   } catch (error) {
     dispatch({
       type: LOGIN_FAIL,
@@ -62,7 +63,7 @@ export const logout = () => async (dispatch) => {
 };
 
 //Check cookie
-export const checkCookie = (email, password) => async (dispatch, getState) => {
+export const checkCookie = () => async (dispatch, getState) => {
   try {
     const config = {
       headers: {
@@ -81,6 +82,7 @@ export const checkCookie = (email, password) => async (dispatch, getState) => {
       type: CHECK_COOKIE_FAIL,
       payload: error.response.data.message,
     });
+    localStorage.setItem('jwtToken', '');
   }
 };
 
