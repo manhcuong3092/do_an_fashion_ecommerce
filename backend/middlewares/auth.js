@@ -7,6 +7,7 @@ const User = require("../models/user");
 
 exports.isAuthenticatedUser = catchAsyncErrors(async(req, res, next) => {
   const {token} = req.cookies;
+  console.log(req.cookies);
 
   if(!token) {
     return next(new ErrorHandler('Phải đăng nhập mới có quyền truy cập tài nguyên.', 401))
