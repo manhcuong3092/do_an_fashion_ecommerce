@@ -6,16 +6,25 @@ const jwt = require('jsonwebtoken');
 const User = require("../models/user");
 
 exports.isAuthenticatedUser = catchAsyncErrors(async(req, res, next) => {
-  const {token} = req.cookies;
-  console.log(req.cookies);
-
-  if(!token) {
+  const jwtToken = req.headers.authorization;
+  if(!jwtToken) {
     return next(new ErrorHandler('Phải đăng nhập mới có quyền truy cập tài nguyên.', 401))
+  } 
+  let auth = jwtToken.split(' ');
+  if (auth[0] != 'Bearer') {
+    return next(new ErrorHandler('Phải đăng nhập mới có quyền truy cập tài nguyên.', 401));
   }
-
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  req.user = await User.findById(decoded.id);
-  next()
+  
+  const token = auth[1];
+  if (!token) return next(new ErrorHandler('Header xác thực bị thiếu.', 401));
+  
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = await User.findById(decoded.id);
+    next()
+  } catch (error) {
+    return next(new ErrorHandler('Token không hợp lệ hoặc hết hạn.', 401));
+  }
 });
 
 exports.authorizeRoles = (...roles) => {
