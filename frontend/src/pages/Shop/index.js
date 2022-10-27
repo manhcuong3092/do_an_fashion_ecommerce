@@ -41,9 +41,9 @@ const Shop = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const promise1 = axios.get(`${END_POINT}/api/v1/categories`);
-        const promise2 = axios.get(`${END_POINT}/api/v1/sizes`);
-        const promise3 = axios.get(`${END_POINT}/api/v1/colors`);
+        const promise1 = axios.get(`${END_POINT}/api/v1/categories`, {withCredentials: true});
+        const promise2 = axios.get(`${END_POINT}/api/v1/sizes`, {withCredentials: true});
+        const promise3 = axios.get(`${END_POINT}/api/v1/colors`, {withCredentials: true});
         Promise.all([promise1, promise2, promise3]).then((result) => {
           setAllCategory(result[0].data.categories);
           setAllSize(result[1].data.sizes);

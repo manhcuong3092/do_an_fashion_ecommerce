@@ -44,10 +44,11 @@ const CreateProduct = () => {
   useEffect(() => {
     try {
       const fetchData = async () => {
+        const config = { withCredentials: true };
         try {
-          const promise1 = axios.get(`${END_POINT}/api/v1/sizes`);
-          const promise2 = axios.get(`${END_POINT}/api/v1/colors`);
-          const promise3 = axios.get(`${END_POINT}/api/v1/categories`);
+          const promise1 = axios.get(`${END_POINT}/api/v1/sizes`, config);
+          const promise2 = axios.get(`${END_POINT}/api/v1/colors`, config);
+          const promise3 = axios.get(`${END_POINT}/api/v1/categories`, config);
           Promise.all([promise1, promise2, promise3]).then((value) => {
             setSizesData(value[0].data.sizes);
             setColorsData(value[1].data.colors);

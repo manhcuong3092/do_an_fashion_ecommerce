@@ -36,7 +36,7 @@ const UpdateUser = () => {
   useEffect(() => {
     const getSize = async () => {
       try {
-        const { data } = await axios.get(`/api/v1/admin/user/${userId}`);
+        const { data } = await axios.get(`${END_POINT}/api/v1/admin/user/${userId}`, {withCredentials: true});
         setUser({
           name: data.user.name,
           email: data.user.email,

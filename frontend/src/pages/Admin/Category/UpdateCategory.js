@@ -37,8 +37,9 @@ const UpdateCategory = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true
       };
-      const { data } = await axios.put(`/api/v1/admin/category/${categoryId}`, { name, description }, config);
+      const { data } = await axios.put(`${END_POINT}/api/v1/admin/category/${categoryId}`, { name, description }, config);
       if (data.success) {
         toast.success('Cập nhật kích cỡ thành công.');
         navigate('/admin/management/categories');

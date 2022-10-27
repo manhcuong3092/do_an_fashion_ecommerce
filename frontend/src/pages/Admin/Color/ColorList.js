@@ -93,7 +93,7 @@ const ColorList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get(`${END_POINT}/api/v1/colors`);
+        const { data } = await axios.get(`${END_POINT}/api/v1/colors`, { withCredentials: true });
         let colorData = [];
 
         data.colors.forEach((color, index) => {

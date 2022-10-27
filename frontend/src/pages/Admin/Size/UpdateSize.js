@@ -37,6 +37,7 @@ const UpdateSize = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true
       };
       const { data } = await axios.put(`/api/v1/admin/size/${sizeId}`, { name, description }, config);
       if (data.success) {

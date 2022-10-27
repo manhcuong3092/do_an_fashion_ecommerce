@@ -23,8 +23,9 @@ const SubscriberList = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true
       };
-      const { data } = await axios.delete(`/api/v1/admin/subscriber/${id}`, config);
+      const { data } = await axios.delete(`${END_POINT}/api/v1/admin/subscriber/${id}`, config);
       if (data.success) {
         toast.success('Xóa email đăng ký nhận thông tin thành công.');
         navigate('/admin/management/subscribers');

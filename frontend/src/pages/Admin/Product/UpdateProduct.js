@@ -47,9 +47,9 @@ const UpdateProduct = () => {
     try {
       const fetchData = async () => {
         try {
-          const promise1 = axios.get(`${END_POINT}/api/v1/sizes`);
-          const promise2 = axios.get(`${END_POINT}/api/v1/colors`);
-          const promise3 = axios.get(`${END_POINT}/api/v1/categories`);
+          const promise1 = axios.get(`${END_POINT}/api/v1/sizes`, { withCredentials: true });
+          const promise2 = axios.get(`${END_POINT}/api/v1/colors`, { withCredentials: true });
+          const promise3 = axios.get(`${END_POINT}/api/v1/categories`, { withCredentials: true });
           const promise4 = axios.get(`${END_POINT}/api/v1/admin/product/${productId}`, { withCredentials: true });
           Promise.all([promise1, promise2, promise3, promise4]).then((value) => {
             setSizesData(value[0].data.sizes);

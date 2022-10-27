@@ -83,8 +83,9 @@ const UpdateOrder = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true
       };
-      const { data } = await axios.put(`/api/v1/admin/order/${orderId}`, { status }, config);
+      const { data } = await axios.put(`${END_POINT}/api/v1/admin/order/${orderId}`, { status }, config);
       if (data.success) {
         toast.success('Cập nhật đơn hàng thành công.');
         navigate('/admin/management/orders');

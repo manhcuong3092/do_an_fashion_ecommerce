@@ -19,7 +19,7 @@ const Product = () => {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const { data } = await axios.get(`${END_POINT}/api/v1/product/${slug}`);
+        const { data } = await axios.get(`${END_POINT}/api/v1/product/${slug}`, {withCredentials: true});
         if (data.product) {
           setProduct(data.product);
         } else {
