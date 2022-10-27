@@ -17,8 +17,8 @@ import CategoryStatistic from '~/components/Statistic/CategoryStatistic';
 
 const Statistic = () => {
   const [orders, setOrders] = useState(null);
-  const [products, setProducts] = useState(null);
-  const [users, setUsers] = useState(null);
+  // const [products, setProducts] = useState(null);
+  // const [users, setUsers] = useState(null);
 
   useEffect(() => {
     const config = { withCredentials: true };
@@ -26,8 +26,8 @@ const Statistic = () => {
       try {
         const { data } = await axios.get(`${END_POINT}/api/v1/admin/statistic`, config);
         setOrders(data.orders);
-        setProducts(data.products);
-        setUsers(data.users);
+        // setProducts(data.products);
+        // setUsers(data.users);
         console.log(data);
       } catch (error) {
         toast.error(error.response.data.message);

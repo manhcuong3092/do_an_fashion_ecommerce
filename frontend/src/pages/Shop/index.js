@@ -9,7 +9,7 @@ import Footer from '../../layouts/Footer';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getProducts } from '~/redux/actions/productActions';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Loader from '~/layouts/Loader';
 import { Pagination, Stack } from '@mui/material';
 import axios from 'axios';
@@ -32,7 +32,7 @@ const Shop = () => {
 
   const keyword = searchParams.get('keyword');
 
-  const { loading, products, error, productsCount, resPerPage, filteredProductsCount } = useSelector(
+  const { loading, products, error, resPerPage, filteredProductsCount } = useSelector(
     (state) => state.products,
   );
 
@@ -235,9 +235,9 @@ const Shop = () => {
                 </div>
                 <div className="s-side-text">
                   <div className="banner clearfix">
-                    <a href="#">
+                    <Link>
                       <img src="img/products/banner.jpg" alt="" />
-                    </a>
+                    </Link>
                     <div className="banner-text">
                       <h2>best</h2> <br />
                       <h2 className="banner-brand">brand</h2>

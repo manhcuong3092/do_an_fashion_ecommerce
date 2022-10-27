@@ -49,9 +49,9 @@ const CartIcon = () => {
                   <img src={item.product.images[0] ? item.product.images[0].url : ''} alt="" />
                 </Link>
                 <div className="menu-cart-text">
-                  <a>
+                  <Link to={`/product/${item.product.slug}`}>
                     <h6>{item.product.name}</h6>
-                  </a>
+                  </Link>
                   <span>Màu : {item.color.name}</span>
                   <span>Kích cỡ : {item.size.name}</span>
                   <span>Số lượng : {item.quantity}</span>

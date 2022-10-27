@@ -6,6 +6,7 @@ import { Dropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItemToCart } from '~/redux/actions/cartActions';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const ProductDetail = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
@@ -117,13 +118,13 @@ const ProductDetail = ({ product }) => {
                 <h5>Số lượng</h5>
                 <form action="#">
                   <div className="plus-minus">
-                    <a className="dec qtybutton" onClick={(e) => handleDecrease(e)}>
+                    <Link className="dec qtybutton" onClick={(e) => handleDecrease(e)}>
                       -
-                    </a>
+                    </Link>
                     <input type="text" readOnly value={quantity} name="qtybutton" className="plus-minus-box" />
-                    <a className="inc qtybutton" onClick={(e) => handleIncrease(e)}>
+                    <Link className="inc qtybutton" onClick={(e) => handleIncrease(e)}>
                       +
-                    </a>
+                    </Link>
                   </div>
                 </form>
               </div>
@@ -146,34 +147,34 @@ const ProductDetail = ({ product }) => {
                   <h5>share </h5>
                 </li>
                 <li>
-                  <a href="#">
+                  <Link>
                     <i className="mdi mdi-facebook"></i>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#">
+                  <Link>
                     <i className="mdi mdi-twitter"></i>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#">
+                  <Link>
                     <i className="mdi mdi-linkedin"></i>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#">
+                  <Link>
                     <i className="mdi mdi-vimeo"></i>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#">
+                  <Link>
                     <i className="mdi mdi-dribbble"></i>
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#">
+                  <Link>
                     <i className="mdi mdi-instagram"></i>
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

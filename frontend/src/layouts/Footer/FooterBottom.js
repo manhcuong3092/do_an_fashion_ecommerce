@@ -2,6 +2,7 @@ import React from 'react'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import { Link } from 'react-router-dom';
 
 const FooterBottom = () => {
   return (
@@ -13,7 +14,7 @@ const FooterBottom = () => {
               <strong> ManhCuong</strong></a>.</p>
           </Col>
           <Col md={6} className="text-center text-md-end">
-            <a href="#"><img src="img/footer/payment.png" alt="" /></a>
+            <Link><img src="img/footer/payment.png" alt="" /></Link>
           </Col>
         </Row>
       </Container>

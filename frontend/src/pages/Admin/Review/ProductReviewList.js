@@ -81,7 +81,7 @@ const ProductReviewList = () => {
       const { data } = await axios.get(`${END_POINT}/api/v1/reviews?productId=${productId}`, config);
       if (data.success) {
         const reviewData = [];
-        data.reviews.map((review, index) => {
+        data.reviews.foreach((review, index) => {
           reviewData.push({
             id: review._id,
             user: review.user.email,

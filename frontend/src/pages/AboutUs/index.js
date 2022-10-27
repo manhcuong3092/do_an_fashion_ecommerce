@@ -25,7 +25,7 @@ const AboutUs = () => {
                 hơn&nbsp;18.000&nbsp;thành viên, kênh Tiktok gần 250.000&nbsp;lượt folllow.
               </p>
               <p className="text-center">
-                <img src="//file.hstatic.net/1000401164/file/164330867_3945265898846126_6220307982289622040_n_7cf9484ee8564e7d97e1af4cf36c7acd_grande.jpg" />
+                <img alt='img' src="//file.hstatic.net/1000401164/file/164330867_3945265898846126_6220307982289622040_n_7cf9484ee8564e7d97e1af4cf36c7acd_grande.jpg" />
               </p>
               <p>
                 <br />
@@ -35,7 +35,7 @@ const AboutUs = () => {
                 muốn.&nbsp;
               </p>
               <p className="text-center">
-                <img src="//file.hstatic.net/1000401164/file/95795878_3029910353715023_2832812999394197504_n_b877cf0d2bdb4b19b823b5aa36af489e_grande.jpg" />
+                <img alt='img' src="//file.hstatic.net/1000401164/file/95795878_3029910353715023_2832812999394197504_n_b877cf0d2bdb4b19b823b5aa36af489e_grande.jpg" />
               </p>
               <p>
                 <span>
@@ -50,7 +50,7 @@ const AboutUs = () => {
               <p>2. Sự mới mẻ: AMANDO ra mắt các Bộ sưu tập sản phẩm mới liên tục trong tháng.&nbsp;</p>
               <p>3. Giá cả hợp lý với chất lượng, phù hợp cho các bạn học sinh, sinh viên.</p>
               <p className="text-center">
-                <img src="//file.hstatic.net/1000401164/file/118648845_3354189847953737_556367114698651864_n_25835bb2321c4b54b814daa11e7fce95_grande.jpg" />
+                <img alt='img' src="//file.hstatic.net/1000401164/file/118648845_3354189847953737_556367114698651864_n_25835bb2321c4b54b814daa11e7fce95_grande.jpg" />
               </p>
               <p>
                 <span>
@@ -68,10 +68,10 @@ const AboutUs = () => {
                 </span>
               </p>
               <p className="text-center">
-                <img src="//file.hstatic.net/1000401164/file/imgl2148_4e88c86715c349c39cb7ddf90b0f6d99_grande.jpg" />
+                <img alt='img' src="//file.hstatic.net/1000401164/file/imgl2148_4e88c86715c349c39cb7ddf90b0f6d99_grande.jpg" />
               </p>
               <p className="text-center">
-                <img src="//file.hstatic.net/1000401164/file/101410481_3101712673201457_3906403284063092736_o_8ed5805b385d435ea22d389df02fb41d_grande.jpg" />
+                <img alt='img' src="//file.hstatic.net/1000401164/file/101410481_3101712673201457_3906403284063092736_o_8ed5805b385d435ea22d389df02fb41d_grande.jpg" />
               </p>
               <p>
                 <strong>
@@ -81,7 +81,7 @@ const AboutUs = () => {
                 </strong>
               </p>
               <p className="text-center">
-                <img src="//file.hstatic.net/1000401164/file/imgl2949_9ffeb9c0f3db4314a3c36095f87ba672_grande.jpg" />
+                <img alt='img' src="//file.hstatic.net/1000401164/file/imgl2949_9ffeb9c0f3db4314a3c36095f87ba672_grande.jpg" />
               </p>
               <p>
                 <strong>
@@ -94,7 +94,7 @@ const AboutUs = () => {
                 Fanpage, website và các gian hàng chính thức của AMANDO trên Shopee và Lazada.
               </p>
               <p className="text-center">
-                <img src="//file.hstatic.net/1000401164/file/123000823_3544543412251712_5956680877647290412_n_d517e3788979445cac87c15dc55e8d52_grande.jpg" />
+                <img alt='img' src="//file.hstatic.net/1000401164/file/123000823_3544543412251712_5956680877647290412_n_d517e3788979445cac87c15dc55e8d52_grande.jpg" />
               </p>
               <p>
                 <strong>LIÊN HỆ CHĂM SÓC KHÁCH HÀNG</strong>

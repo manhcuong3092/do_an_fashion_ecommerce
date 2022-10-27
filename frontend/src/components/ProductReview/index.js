@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import axios from 'axios';
 import { END_POINT } from '~/config';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const ProductReview = ({ product }) => {
   const [tab, setTab] = useState(1);
@@ -73,7 +74,7 @@ const ProductReview = ({ product }) => {
               <p>{product.detailDescription}</p>
               <br />
               <p>
-                <img src="https://file.hstatic.net/1000401164/file/bang-size-thoi-trang-mando_57eabce095c84eb09ccc04979b0b128c_grande.png" />
+                <img alt='img' src="https://file.hstatic.net/1000401164/file/bang-size-thoi-trang-mando_57eabce095c84eb09ccc04979b0b128c_grande.png" />
               </p>
               <br />
               Thiết kế basic cho bạn nhiều lựa chọn phối đồ với nhiều phong cách khác nhau. Các cậu có thể mix cùng một
@@ -84,7 +85,7 @@ const ProductReview = ({ product }) => {
               nhận hàng <br /> Bước 3: Chọn hình thức thanh toán và bấm hoàn thành <br />
               <p>
                 <br />
-                <img src="https://file.hstatic.net/1000401164/file/chinh-sach-khach-hang_a88ecec69cd447389252a7eb2c91e5b7_grande.png" />
+                <img alt='img' src="https://file.hstatic.net/1000401164/file/chinh-sach-khach-hang_a88ecec69cd447389252a7eb2c91e5b7_grande.png" />
               </p>
               <p>
                 <br />
@@ -135,43 +136,43 @@ const ProductReview = ({ product }) => {
                 <div className="rating clearfix">
                   <ul>
                     <li>
-                      <a className={rating === 1 ? 'rating-active' : ''} onClick={() => setRating(1)}>
+                      <Link className={rating === 1 ? 'rating-active' : ''} onClick={() => setRating(1)}>
                         <i className="mdi mdi-star-outline"></i>
-                      </a>
+                      </Link>
                       <span>|</span>
                     </li>
                     <li>
-                      <a className={rating === 2 ? 'rating-active' : ''} onClick={() => setRating(2)}>
+                      <Link className={rating === 2 ? 'rating-active' : ''} onClick={() => setRating(2)}>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
-                      </a>
+                      </Link>
                       <span>|</span>
                     </li>
                     <li>
-                      <a className={rating === 3 ? 'rating-active' : ''} onClick={() => setRating(3)}>
+                      <Link className={rating === 3 ? 'rating-active' : ''} onClick={() => setRating(3)}>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
-                      </a>
+                      </Link>
                       <span>|</span>
                     </li>
                     <li>
-                      <a className={rating === 4 ? 'rating-active' : ''} onClick={() => setRating(4)}>
+                      <Link className={rating === 4 ? 'rating-active' : ''} onClick={() => setRating(4)}>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
-                      </a>
+                      </Link>
                       <span>|</span>
                     </li>
                     <li>
-                      <a className={rating === 5 ? 'rating-active' : ''} onClick={() => setRating(5)}>
+                      <Link className={rating === 5 ? 'rating-active' : ''} onClick={() => setRating(5)}>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
                         <i className="mdi mdi-star-outline"></i>
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>

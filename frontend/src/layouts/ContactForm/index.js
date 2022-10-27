@@ -2,6 +2,7 @@ import React from 'react'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import { Link } from 'react-router-dom';
 
 const ContactForm = () => {
   return (
@@ -17,11 +18,11 @@ const ContactForm = () => {
               </form>
             </div>
             <div className="social-icons">
-              <a href="#"><i className="mdi mdi-facebook"></i></a>
-              <a href="#"><i className="mdi mdi-twitter"></i></a>
-              <a href="#"><i className="mdi mdi-google-plus"></i></a>
-              <a href="#"><i className="mdi mdi-dribbble"></i></a>
-              <a href="#"><i className="mdi mdi-rss"></i></a>
+              <Link><i className="mdi mdi-facebook"></i></Link>
+              <Link><i className="mdi mdi-twitter"></i></Link>
+              <Link><i className="mdi mdi-google-plus"></i></Link>
+              <Link><i className="mdi mdi-dribbble"></i></Link>
+              <Link><i className="mdi mdi-rss"></i></Link>
             </div>
           </Col>
           <Col md={6} lg={5} className="offset-lg-1">

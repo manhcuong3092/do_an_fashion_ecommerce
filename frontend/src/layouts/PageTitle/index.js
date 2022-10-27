@@ -16,7 +16,7 @@ const PageTitle = ({title}) => {
               <h2>{title}</h2>
               <ul className="text-left">
                 <li><Link to="/">Trang chủ </Link></li>
-                <li><span> // </span>{title}</li>
+                <li><span> {'//'} </span>{title}</li>
               </ul>
             </div>
           </Col>

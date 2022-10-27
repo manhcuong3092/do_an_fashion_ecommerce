@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Col, Collapse, Container, Form, Row } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import validator from 'validator';
 import Footer from '../../layouts/Footer';
 import Header from '../../layouts/Header';

@@ -41,9 +41,9 @@ const SideBarBlog = () => {
       </div>
       <div className="s-side-text">
         <div className="banner clearfix">
-          <a href="#">
+          <Link>
             <img src="/img/products/banner.jpg" alt="" />
-          </a>
+          </Link>
           <div className="banner-text">
             <h2>best</h2> <br />
             <h2 className="banner-brand">brand</h2>

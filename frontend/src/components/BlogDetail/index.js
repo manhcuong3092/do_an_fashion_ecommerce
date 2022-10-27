@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Link } from 'react-router-dom';
 
 const BlogDetail = ({ blog }) => {
   return (
@@ -16,12 +17,12 @@ const BlogDetail = ({ blog }) => {
                 <h3>{blog.title}</h3>
                 <ul className="clearfix">
                   <li>
-                    <i className="pe-7s-user"></i>Tác giả : <a href="#">{blog.author.name}</a>
+                    <i className="pe-7s-user"></i>Tác giả : <Link>{blog.author.name}</Link>
                     <span>|</span>
                   </li>
                   <li>
                     <i className="pe-7s-comment"></i>
-                    <a href="#">{new Date(Date.parse(blog.createdAt)).toLocaleDateString('vi-VN')}</a>
+                    <Link>{new Date(Date.parse(blog.createdAt)).toLocaleDateString('vi-VN')}</Link>
                     <span>|</span>
                   </li>
                 </ul>
@@ -33,34 +34,34 @@ const BlogDetail = ({ blog }) => {
                     <h5>share </h5>
                   </li>
                   <li>
-                    <a href="#">
+                    <Link>
                       <i className="mdi mdi-facebook"></i>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#">
+                    <Link>
                       <i className="mdi mdi-twitter"></i>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#">
+                    <Link>
                       <i className="mdi mdi-linkedin"></i>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#">
+                    <Link>
                       <i className="mdi mdi-vimeo"></i>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#">
+                    <Link>
                       <i className="mdi mdi-dribbble"></i>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#">
+                    <Link>
                       <i className="mdi mdi-instagram"></i>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>

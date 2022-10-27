@@ -77,19 +77,19 @@ const ItemList = () => {
                   <td>
                     <form action="#">
                       <div className="plus-minus">
-                        <a
+                        <Link
                           className="dec qtybutton"
                           onClick={(e) => decreaseQty(item.product, item.color, item.size, item.quantity)}
                         >
                           -
-                        </a>
+                        </Link>
                         <input type="text" readOnly value={item.quantity} name="qtybutton" className="plus-minus-box" />
-                        <a
+                        <Link
                           className="inc qtybutton"
                           onClick={(e) => increaseQty(item.product, item.color, item.size, item.quantity)}
                         >
                           +
-                        </a>
+                        </Link>
                       </div>
                     </form>
                   </td>

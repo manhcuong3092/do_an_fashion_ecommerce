@@ -2,9 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import axios from 'axios';
 import { toast } from 'react-toastify';
-import { END_POINT } from '../../config'
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, forgotPassword } from '../../redux/actions/authActions';
 import Loader from '../../layouts/Loader';

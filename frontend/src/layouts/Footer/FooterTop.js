@@ -2,12 +2,6 @@ import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import in1 from '../../assets/img/footer/in1.png';
-import in2 from '../../assets/img/footer/in2.png';
-import in3 from '../../assets/img/footer/in3.png';
-import in4 from '../../assets/img/footer/in4.png';
-import in5 from '../../assets/img/footer/in5.png';
-import in6 from '../../assets/img/footer/in6.png';
 import { Link } from 'react-router-dom';
 
 const FooterTop = () => {

@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import CartInfo from '../../components/CartInfo';
 import Footer from '../../layouts/Footer';
 import Header from '../../layouts/Header';

@@ -2,8 +2,6 @@ import React, { Fragment } from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Link } from 'react-router-dom';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
 
 const GridProduct = ({ products, resPerPage, filteredProductsCount, currentPage }) => {
   return (
