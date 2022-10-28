@@ -57,6 +57,18 @@ let sendGetStartedTemplate = () => {
                 "title": "Xem trang web"
               },
             ]
+          },
+          {
+            "title": "Xin chào bạn đến với shop Amando!",
+            "image_url": IMAGE_GET_STARTED,
+            "subtitle": "Đi tới trang web.",
+            "buttons": [
+              {
+                "type": "web_url",
+                "url": SHOP_URL,
+                "title": "Xem trang web"
+              },
+            ]
           }
         ]
       }
