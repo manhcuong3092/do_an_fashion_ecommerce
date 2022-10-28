@@ -1,6 +1,6 @@
 
 const request = require('request');
-const { GET_STARTED } = require('../constant');
+const { GET_STARTED, SHOP_URL, RESTART_BOT, FANPAGE_URL } = require('../constant');
 const chatbotService = require('../services/chatbotService');
 
 require('dotenv').config();
@@ -131,6 +131,7 @@ async function handlePostback(sender_psid, received_postback) {
     case 'no':
       response = { "text": "Oops, try sending another image." }
       break;
+    case RESTART_BOT:
     case GET_STARTED:
       await chatbotService.handleGetStarted(sender_psid);
       response = { "text": "Ok. Xin chào mừng bạn đến với shop Amando." }
@@ -145,7 +146,7 @@ async function handlePostback(sender_psid, received_postback) {
 
 
 const setupProfile = async (req, res) => {
-  //Call profile facebook api
+  // Call profile facebook api
   // Construct the message body
   let request_body = {
     "get_started": { "payload": GET_STARTED },
@@ -155,7 +156,56 @@ const setupProfile = async (req, res) => {
   // Send the HTTP request to the Messenger Platform
   await request({
     "uri": `https://graph.facebook.com/v15.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
-    "qs": { "access_token": process.env.PAGE_ACCESS_TOKEN },
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    console.log(body);
+    if (!err) {
+      console.log('Setup persistent menu succeeds!')
+    } else {
+      console.error("Unable to setup persistent menu:" + err);
+    }
+  });
+
+  return res.send("Setup persistent menu succeeds!")
+}
+
+const setupPersistentMenu = async (req, res) => {
+  // Call persistent menu facebook api
+  // Construct the message body
+  let request_body = {
+    "persistent_menu": [
+      {
+        "locale": "default",
+        "composer_input_disabled": false,
+        "call_to_actions": [
+          {
+            "type": "web_url",
+            "title": "Đi đến website",
+            "url": SHOP_URL,
+            "webview_height_ratio": "full"
+          },
+          {
+            "type": "web_url",
+            "title": "Facebook Amando",
+            "url": FANPAGE_URL,
+            "webview_height_ratio": "full"
+          },
+          {
+            "type": "postback",
+            "title": "Khởi động lại Bot",
+            "payload": RESTART_BOT
+          }
+        ]
+      }
+    ]
+  }
+
+  // Send the HTTP request to the Messenger Platform
+  await request({
+    "uri": `https://graph.facebook.com/v15.0/me/messenger_profile?access_token=${PAGE_ACCESS_TOKEN}`,
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
     "method": "POST",
     "json": request_body
   }, (err, res, body) => {
@@ -174,5 +224,6 @@ module.exports = {
   getHomePage,
   postWebhook,
   getWebhook,
-  setupProfile
+  setupProfile,
+  setupPersistentMenu
 }
