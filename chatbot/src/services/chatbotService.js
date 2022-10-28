@@ -4,10 +4,10 @@ require('dotenv').config();
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
 
 const handleGetStarted = () => {
-  return Promise(async (resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     try {
       const response = { "text": "Ok. Xin chào mừng bạn đến với shop Amando." }
-      await this.callSendAPI(response);
+      await callSendAPI(response);
       resolve('done');
     } catch (e) {
       reject(e);
