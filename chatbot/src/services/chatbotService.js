@@ -1,5 +1,5 @@
 const request = require('request');
-const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE } = require('../constant');
+const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL } = require('../constant');
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
@@ -52,7 +52,7 @@ let sendGetStartedTemplate = () => {
                 "payload": GUIDE_TO_USE
               }, {
                 "type": "web_url",
-                "url": "https://coruscating-crumble-3e2f62.netlify.app",
+                "url": SHOP_URL,
                 "title": "Xem trang web"
               },
             ]
