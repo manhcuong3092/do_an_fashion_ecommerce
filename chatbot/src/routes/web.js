@@ -1,5 +1,5 @@
-import express from "express";
-import { getHomePage, getWebhook, postWebhook } from "../controllers/HomeController";
+const express = require("express");
+const { getHomePage, getWebhook, postWebhook } = require("../controllers/HomeController");
 
 const router = express.Router();
 
