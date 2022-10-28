@@ -31,6 +31,18 @@ exports.getCategory = catchAsyncError(async (req, res, next) => {
   });
 }) 
 
+exports.getCategoryBySlug = catchAsyncError(async (req, res, next) => {
+  const slug = req.params.slug;
+  const category = await Category.findOne({slug});
+  if (!category) {
+    return next(new ErrorHandler(`Không tìm thấy danh mục: ${req.params.id}`, 404));
+  }
+  res.status(200).json({
+    success: true,
+    category
+  });
+}) 
+
 exports.updateCategory = catchAsyncError(async (req, res, next) => {
   const newCategory = {
     name: req.body.name,
