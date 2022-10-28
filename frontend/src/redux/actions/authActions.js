@@ -54,6 +54,7 @@ export const logout = () => async (dispatch) => {
       payload: data.user,
     });
     localStorage.setItem('auth', JSON.stringify({}));
+    localStorage.setItem('jwtToken', '');
   } catch (error) {
     dispatch({
       type: LOGOUT_FAIL,

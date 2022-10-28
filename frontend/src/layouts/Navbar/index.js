@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CartIcon from '../../components/CartIcon';
 import Row from 'react-bootstrap/Row';
@@ -8,10 +8,24 @@ import logo from '../../assets/img/logo2.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '~/redux/actions/authActions';
 import { toast } from 'react-toastify';
+import axios from 'axios';
+import { END_POINT } from '~/config';
 
 const Navbar = () => {
+  const [categories, setCategories] = useState(null);
+
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const { data } = await axios.get(`${END_POINT}/api/v1/categories`, { withCredentials: true });
+      if (data.success) {
+        setCategories(data.categories);
+      }
+    };
+    getCategories();
+  });
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -38,6 +52,14 @@ const Navbar = () => {
                   </li>
                   <li>
                     <Link to="/shop">Shop</Link>
+                    <ul className="dropdown dropdown-nav-menu">
+                      {categories &&
+                        categories.map((item) => (
+                          <li>
+                            <Link to={`/shop?category=${item.slug}`}>{item.name}</Link>
+                          </li>
+                        ))}
+                    </ul>
                   </li>
                   <li>
                     <Link to="/cart">Giỏ hàng</Link>

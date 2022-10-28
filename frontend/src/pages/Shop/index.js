@@ -32,18 +32,27 @@ const Shop = () => {
 
   const keyword = searchParams.get('keyword');
 
-  const { loading, products, error, resPerPage, filteredProductsCount } = useSelector(
-    (state) => state.products,
-  );
+  const { loading, products, error, resPerPage, filteredProductsCount } = useSelector((state) => state.products);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const cateQuery = searchParams.get('category');
+    const getCategory = async () => {
+      const { data } = await axios.get(`${END_POINT}/api/v1/category/slug/${cateQuery}`, { withCredentials: true });
+      if (data) {
+        setCategory(data.category._id);
+      }
+    };
+    getCategory();
+  }, [searchParams]);
+
+  useEffect(() => {
     const getData = async () => {
       try {
-        const promise1 = axios.get(`${END_POINT}/api/v1/categories`, {withCredentials: true});
-        const promise2 = axios.get(`${END_POINT}/api/v1/sizes`, {withCredentials: true});
-        const promise3 = axios.get(`${END_POINT}/api/v1/colors`, {withCredentials: true});
+        const promise1 = axios.get(`${END_POINT}/api/v1/categories`, { withCredentials: true });
+        const promise2 = axios.get(`${END_POINT}/api/v1/sizes`, { withCredentials: true });
+        const promise3 = axios.get(`${END_POINT}/api/v1/colors`, { withCredentials: true });
         Promise.all([promise1, promise2, promise3]).then((result) => {
           setAllCategory(result[0].data.categories);
           setAllSize(result[1].data.sizes);
