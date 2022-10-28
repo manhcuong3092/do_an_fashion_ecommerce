@@ -50,12 +50,7 @@ let sendGetStartedTemplate = () => {
                 "type": "postback",
                 "title": "Hướng dẫn sử dụng bot",
                 "payload": GUIDE_TO_USE
-              },
-              {
-                "type": "web_url",
-                "url": SHOP_URL,
-                "title": "Xem trang web"
-              },
+              }
             ]
           },
           {
