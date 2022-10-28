@@ -8,7 +8,7 @@ const handleGetStarted = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
       const username = await getUsername(sender_psid);
-      const response1 = { "text": `Ok. Xin chào mừng bạn ${username} đến với shop Amando.` }
+      const response1 = { "text": `Xin chào mừng bạn ${username} đến với shop Amando.` }
       const response2 = sendGetStartedTemplate();
 
       //send text message
@@ -50,7 +50,8 @@ let sendGetStartedTemplate = () => {
                 "type": "postback",
                 "title": "Hướng dẫn sử dụng bot",
                 "payload": GUIDE_TO_USE
-              }, {
+              },
+              {
                 "type": "web_url",
                 "url": SHOP_URL,
                 "title": "Xem trang web"
