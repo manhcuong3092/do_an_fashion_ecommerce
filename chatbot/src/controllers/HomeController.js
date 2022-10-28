@@ -1,6 +1,8 @@
-require('dotenv').config();
 
 const request = require('request');
+const chatbotService = require('../services/chatbotService');
+
+require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
 
@@ -114,48 +116,32 @@ function handleMessage(sender_psid, received_message) {
 }
 
 // Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
+async function handlePostback(sender_psid, received_postback) {
   let response;
 
   // Get the payload for the postback
   let payload = received_postback.payload;
 
   // Set the response based on the postback payload
-  if (payload === 'yes') {
-    response = { "text": "Thanks!" }
-  } else if (payload === 'no') {
-    response = { "text": "Oops, try sending another image." }
-  } else if (payload === 'GET_STARTED') {
-    response = { "text": "Ok. Xin chào mừng bạn đến với shop Amando." }
+  switch (payload) {
+    case 'yes':
+      response = { "text": "Thanks!" };
+      break;
+    case 'no':
+      response = { "text": "Oops, try sending another image." }
+      break;
+    case 'GET_STARTED':
+      await chatbotService.handleGetStarted();
+      response = { "text": "Ok. Xin chào mừng bạn đến với shop Amando." }
+      break;
+    default:
+      response = { "text": "Oops! Có lỗi xảy ra. Không phản hồi được với postback này" }
   }
+
   // Send the message to acknowledge the postback
-  callSendAPI(sender_psid, response);
+  // callSendAPI(sender_psid, response);
 }
 
-// Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
-  // Construct the message body
-  let request_body = {
-    "recipient": {
-      "id": sender_psid
-    },
-    "message": response
-  }
-
-  // Send the HTTP request to the Messenger Platform
-  request({
-    "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token": PAGE_ACCESS_TOKEN },
-    "method": "POST",
-    "json": request_body
-  }, (err, res, body) => {
-    if (!err) {
-      console.log('message sent!')
-    } else {
-      console.error("Unable to send message:" + err);
-    }
-  });
-}
 
 const setupProfile = async (req, res) => {
   //Call profile facebook api
