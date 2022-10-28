@@ -1,5 +1,6 @@
 
 const request = require('request');
+const { GET_STARTED } = require('../constant');
 const chatbotService = require('../services/chatbotService');
 
 require('dotenv').config();
@@ -130,7 +131,7 @@ async function handlePostback(sender_psid, received_postback) {
     case 'no':
       response = { "text": "Oops, try sending another image." }
       break;
-    case 'GET_STARTED':
+    case GET_STARTED:
       await chatbotService.handleGetStarted(sender_psid);
       response = { "text": "Ok. Xin chào mừng bạn đến với shop Amando." }
       break;
@@ -147,7 +148,7 @@ const setupProfile = async (req, res) => {
   //Call profile facebook api
   // Construct the message body
   let request_body = {
-    "get_started": { "payload": "GET_STARTED" },
+    "get_started": { "payload": GET_STARTED },
     "whitelisted_domains": ["https://amando-chatbot.herokuapp.com/"]
   }
 

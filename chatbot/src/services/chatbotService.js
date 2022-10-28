@@ -1,4 +1,5 @@
 const request = require('request');
+const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE } = require('../constant');
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
@@ -7,13 +8,60 @@ const handleGetStarted = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
       const username = await getUsername(sender_psid);
-      const response = { "text": `Ok. Xin chào mừng bạn ${username} đến với shop Amando.` }
-      await callSendAPI(sender_psid, response);
+      const response1 = { "text": `Ok. Xin chào mừng bạn ${username} đến với shop Amando.` }
+      const response2 = sendGetStartedTemplate();
+
+      //send text message
+      await callSendAPI(sender_psid, response1);
+
+      //send generic template message
+      await callSendAPI(sender_psid, response2);
+
       resolve('done');
     } catch (e) {
       reject(e);
     }
   });
+}
+
+let sendGetStartedTemplate = () => {
+  let response = {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [
+          {
+            "title": "Xin chào bạn đến với shop Amando!",
+            "image_url": IMAGE_GET_STARTED,
+            "subtitle": "Dưới đây là các lựa chọn của shop.",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Menu Chính",
+                "payload": MAIN_MENU
+              },
+              {
+                "type": "postback",
+                "title": "Tìm sản phẩm",
+                "payload": SEARCH_PRODUCT
+              },
+              {
+                "type": "postback",
+                "title": "Hướng dẫn sử dụng bot",
+                "payload": GUIDE_TO_USE
+              }, {
+                "type": "web_url",
+                "url": "https://coruscating-crumble-3e2f62.netlify.app",
+                "title": "Xem trang web"
+              },
+            ]
+          }
+        ]
+      }
+    }
+  }
+  return response;
 }
 
 let getUsername = (sender_psid) => {
