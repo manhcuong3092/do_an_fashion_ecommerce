@@ -1,5 +1,6 @@
 const express = require("express");
-const { getHomePage, getWebhook, postWebhook, setupProfile, setupPersistentMenu } = require("../controllers/HomeController");
+const { getHomePage, getWebhook, postWebhook, setupProfile,
+  setupPersistentMenu } = require("../controllers/HomeController");
 
 const router = express.Router();
 

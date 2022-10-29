@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const viewEngine = require("./config/viewEngine")
-const webRoute = require ("./routes/web");
+const webRoute = require("./routes/web");
+const orderRoute = require("./routes/order");
 
 let app = express();
 
@@ -9,10 +10,11 @@ let app = express();
 viewEngine(app);
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Config web routes
 app.use(webRoute);
+app.use(orderRoute);
 
 // Verify that the callback came from Facebook.
 function verifyRequestSignature(req, res, buf) {

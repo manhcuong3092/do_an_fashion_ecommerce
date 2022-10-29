@@ -19,3 +19,6 @@ exports.BUY_PRODUCT = 'BUY_PRODUCT';
 exports.VIEW_PRODUCT = 'VIEW_PRODUCT';
 exports.VIEW_SHOP_INFO = 'VIEW_SHOP_INFO';
 exports.VIEW_SHOP_IMAGE = 'VIEW_SHOP_IMAGE';
+
+exports.ORDER_URL = 'https://amando-chatbot.herokuapp.com/order';
+exports.BACKEND_URL = 'https://fashion-ecommerce-backend.herokuapp.com'

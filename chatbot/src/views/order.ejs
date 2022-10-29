@@ -1,0 +1,113 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form đặt mua sản phẩm</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="/css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="text-center mt-3">
+          <span class="title">Thông tin sản phẩm</span>
+        </div>
+        <img class="mt-2" id="product_img" src="<%= product.images[0].url %>" />
+        <br />
+        <input type="text" id="productId" value="<%= product._id %>" hidden>
+
+        <div class="form-group mt-2">
+          <label for="size">Kích cỡ:</label>
+          <select class="form-select" id="size">
+            <% product.sizes.forEach(size=> { %>
+              <option value='<%= size._id %>'>
+                <%= size.name %>
+              </option>
+              <% }) %>
+          </select>
+        </div>
+
+        <div class="form-group mt-2">
+          <label for="color">Màu sắc:</label>
+          <select class="form-select" id="color">
+            <% product.colors.forEach(color=> { %>
+              <option value='<%= color._id %>'>
+                <%= color.name %>
+              </option>
+              <% }) %>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="mt-2" for="quantity">Đơn giá: <span id="price">
+              <%= product.isSale ? product.salePrice : product.price %>
+            </span>₫</label>
+        </div>
+
+        <div class="form-group">
+          <label class="mt-2" for="quantity">Số lượng:</label>
+          <input type="number" min="1" max="999" value="1" id="quantity" class="form-control "
+            placeholder="Số lượng...">
+        </div>
+
+        <div class="form-group">
+          <label class="mt-2" for="quantity">Tổng cộng:</label>
+          <h6 id="totalPrice">
+            <%= product.isSale ? product.salePrice : product.price %>₫
+          </h6>
+        </div>
+
+        <div class="text-center mt-3">
+          <span class="title">Thông tin khách hàng</span>
+        </div>
+        <input type="text" id="psid" hidden>
+        <div class="form-group mt-3">
+          <label for="name">Họ và tên:</label>
+          <input type="text" id="name" class="form-control " placeholder="Họ và tên...">
+        </div>
+        <div class="form-group mt-3">
+          <label for="email">Địa chỉ email (<span style="color: red">*</span>):</label>
+          <input type="email" id="email" class="form-control" placeholder="Địa chỉ email...">
+          <div class="invalid-feedback">Địa chỉ email không hợp lệ.</div>
+        </div>
+        <div class="form-group mt-3">
+          <label for="phoneNo">Số điện thoại (<span style="color: red">*</span>):</label>
+          <input type="text" id="phoneNo" class="form-control" placeholder="Số điện thoại...">
+          <div class="invalid-feedback">Số điện thoại không hợp lệ.</div>
+        </div>
+        <div class="form-group mt-3">
+          <label for="city">Tỉnh thành phố (<span style="color: red">*</span>):</label>
+          <input type="text" id="city" class="form-control" placeholder="Tỉnh thành phố...">
+          <div class="invalid-feedback">Tỉnh thành phố không hợp lệ.</div>
+        </div>
+        <div class="form-group mt-3">
+          <label for="address">Địa chỉ (<span style="color: red">*</span>):</label>
+          <input type="text" id="address" class="form-control" placeholder="Địa chỉ...">
+          <div class="invalid-feedback">Địa chỉ không hợp lệ.</div>
+        </div>
+        <div class="form-check mt-3">
+          <input class="form-check-input" type="checkbox" checked onclick="return false" id="checkbox">
+          <label class="form-check-label" for="checkbox">
+            Thanh toán khi nhận hàng
+          </label>
+        </div>
+        <button class="btn btn-primary mt-3" id="btnOrder"> Mua hàng </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script src="/js/orderProduct.js"></script>
+</body>
+
+</html>

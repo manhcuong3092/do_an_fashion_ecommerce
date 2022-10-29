@@ -1,8 +1,8 @@
 const request = require('request');
 const axios = require('axios');
 const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL,
-  AO_SO_MI, AO_KHOAC, AO_BLAZER, BUY_PRODUCT, IMAGE_MAIN_MENU_1,
-  IMAGE_MAIN_MENU_2, VIEW_PRODUCT, IMAGE_MAIN_MENU_3, VIEW_SHOP_INFO } = require('../constant');
+  AO_SO_MI, AO_KHOAC, AO_BLAZER, IMAGE_MAIN_MENU_1,
+  IMAGE_MAIN_MENU_2, IMAGE_MAIN_MENU_3, VIEW_SHOP_INFO, VIEW_SHOP_IMAGE, ORDER_URL } = require('../constant');
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
@@ -331,6 +331,13 @@ const getProductMenuTemplate = (products) => {
                 "type": "web_url",
                 "url": `${SHOP_URL}/product/${product.slug}`,
                 "title": "Xem sản phẩm"
+              },
+              {
+                "type": "web_url",
+                "url": `${ORDER_URL}?productId=${product._id}`,
+                "webview_height_ratio": "tall",
+                "messenger_extensions": true, // false to open webview in new tab
+                "title": "Đặt mua"
               },
               {
                 "type": "postback",
