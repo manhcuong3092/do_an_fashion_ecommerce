@@ -187,7 +187,7 @@ const handleSendMainMenu = (sender_psid) => {
 const handleSendAoSoMiMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let category = await new Promise((resolve, reject) => {
+      let data = await new Promise((resolve, reject) => {
         try {
           request('https://fashion-ecommerce-backend.herokuapp.com/api/v1/category/slug/ao-so-mi', function (error, response, body) {
             console.error('error:', error); // Print the error if one occurred
@@ -199,9 +199,9 @@ const handleSendAoSoMiMenu = (sender_psid) => {
           reject(err)
         }
       });
-      let products = await new Promise((resolve, reject) => {
+      let productsData = await new Promise((resolve, reject) => {
         try {
-          request(`https://fashion-ecommerce-backend.herokuapp.com/api/v1/products?category=${category._id}`, function (error, response, body) {
+          request(`https://fashion-ecommerce-backend.herokuapp.com/api/v1/products?category=${data.category._id}`, function (error, response, body) {
             console.error('error:', error); // Print the error if one occurred
             console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
             console.log('body:', body); // Print the HTML for the Google homepage.
@@ -211,6 +211,8 @@ const handleSendAoSoMiMenu = (sender_psid) => {
           reject(err)
         }
       });
+
+      products = productsData.products;
 
       if (products.length > 5) {
         products.splice(5);
