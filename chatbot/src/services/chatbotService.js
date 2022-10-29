@@ -197,7 +197,7 @@ const handleSendAoSoMiMenu = (sender_psid) => {
         products.splice(5);
       }
 
-      const response1 = getAoSoMiMenuTemplate(products);
+      const response1 = getProductMenuTemplate(products);
 
       //send generic template message
       await callSendAPI(sender_psid, response1);
@@ -213,7 +213,16 @@ const handleSendAoSoMiMenu = (sender_psid) => {
 const handleSendAoKhoacMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const response1 = getAoKhoacTemplate();
+      let { data } = await axios.get('https://fashion-ecommerce-backend.herokuapp.com/api/v1/category/slug/ao-khoac');
+      const result = await axios.get(`https://fashion-ecommerce-backend.herokuapp.com/api/v1/products?category=${data.category._id}`);
+
+      products = result.data.products;
+
+      if (products.length > 5) {
+        products.splice(5);
+      }
+
+      const response1 = getProductMenuTemplate(products);
 
       //send generic template message
       await callSendAPI(sender_psid, response1);
@@ -229,7 +238,16 @@ const handleSendAoKhoacMenu = (sender_psid) => {
 const handleSendAoBlazerMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const response1 = getAoBlazerTemplate();
+      let { data } = await axios.get('https://fashion-ecommerce-backend.herokuapp.com/api/v1/category/slug/ao-blazer');
+      const result = await axios.get(`https://fashion-ecommerce-backend.herokuapp.com/api/v1/products?category=${data.category._id}`);
+
+      products = result.data.products;
+
+      if (products.length > 5) {
+        products.splice(5);
+      }
+
+      const response1 = getProductMenuTemplate(products);
 
       //send generic template message
       await callSendAPI(sender_psid, response1);
@@ -241,7 +259,7 @@ const handleSendAoBlazerMenu = (sender_psid) => {
   });
 }
 
-const getAoSoMiMenuTemplate = (products) => {
+const getProductMenuTemplate = (products) => {
   // request get api ao so mi
   let response = {
     "attachment": {
@@ -252,17 +270,17 @@ const getAoSoMiMenuTemplate = (products) => {
           return {
             "title": product.name,
             "image_url": product.images[0].url,
-            "subtitle": product.price,
+            "subtitle": `${product.price.toLocaleString('vi-VN')} ₫`,
             "buttons": [
               {
                 "type": "web_url",
-                "url": `${SHOP_URL}/product/${product._id}`,
+                "url": `${SHOP_URL}/product/${product.slug}`,
                 "title": "Xem sản phẩm"
               },
               {
                 "type": "postback",
                 "title": "Quay lại",
-                "payload": AO_SO_MI
+                "payload": MAIN_MENU
               },
             ]
           }
@@ -273,61 +291,6 @@ const getAoSoMiMenuTemplate = (products) => {
   return response;
 }
 
-const getAoKhoacMenuTemplate = () => {
-  // request get api ao so mi
-  let response = {
-    "attachment": {
-      "type": "template",
-      "payload": {
-        "template_type": "generic",
-        "elements": [
-          {
-            "title": "Áo khoác",
-            "image_url": IMAGE_MAIN_MENU_1,
-            "subtitle": "Dưới đây là một số áo khoác được bán tại shop.",
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Xem chi tiết",
-                "payload": VIEW_PRODUCT
-              },
-            ]
-          },
-        ]
-      }
-    }
-  }
-
-  return response;
-}
-
-const getAoBlazerMenuTemplate = () => {
-  // request get api ao so mi
-  let response = {
-    "attachment": {
-      "type": "template",
-      "payload": {
-        "template_type": "generic",
-        "elements": [
-          {
-            "title": "Áo blazer",
-            "image_url": IMAGE_MAIN_MENU_1,
-            "subtitle": "Dưới đây là một số áo blazer được bán tại shop.",
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Xem chi tiết",
-                "payload": VIEW_PRODUCT
-              },
-            ]
-          },
-        ]
-      }
-    }
-  }
-
-  return response;
-}
 
 module.exports = {
   handleGetStarted,
