@@ -201,7 +201,7 @@ let getMainMenuTemplate = () => {
             "buttons": [
               {
                 "type": "postback",
-                "title": "Menu Chính",
+                "title": "Xem Thông tin",
                 "payload": VIEW_SHOP_INFO
               },
             ]
@@ -349,8 +349,13 @@ const getProductMenuTemplate = (products) => {
 const handleSendShopInfoMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
+      const response = {
+        "text": `🏠 Store 1: Số 1 đường Vạn Xuân, xã Hạ Mỗ. huyện Đan Phượng, tp Hà Nội.
+      🏠 Store 2: số 6 Dương Quảng Hàm, Cầu Giấy, Hà Nội
+      🏠 Store 3: số 332 Bạch Mai, Hai Bà Trưng, Hà Nội` };
       const response1 = getAboutUsTemplate();
 
+      await callSendAPI(sender_psid, response);
       //send generic template message
       await callSendAPI(sender_psid, response1);
 
@@ -405,7 +410,7 @@ let getAboutUsTemplate = () => {
           },
           {
             "type": "postback",
-            "payload": MAIN_MENU,
+            "payload": VIEW_SHOP_IMAGE,
             "title": "Ảnh shop"
           },
           {
@@ -417,6 +422,7 @@ let getAboutUsTemplate = () => {
       }
     }
   }
+  return response;
 }
 
 module.exports = {
