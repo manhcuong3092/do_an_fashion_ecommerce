@@ -1,6 +1,6 @@
 
 const request = require('request');
-const { GET_STARTED, SHOP_URL, RESTART_BOT, FANPAGE_URL, MAIN_MENU, AO_SO_MI, AO_BLAZER, AO_KHOAC } = require('../constant');
+const { GET_STARTED, SHOP_URL, RESTART_BOT, FANPAGE_URL, MAIN_MENU, AO_SO_MI, AO_BLAZER, AO_KHOAC, VIEW_SHOP_INFO } = require('../constant');
 const chatbotService = require('../services/chatbotService');
 
 require('dotenv').config();
@@ -147,6 +147,12 @@ async function handlePostback(sender_psid, received_postback) {
       break;
     case AO_KHOAC:
       await chatbotService.handleSendAoKhoacMenu(sender_psid);
+      break;
+    case VIEW_SHOP_INFO:
+      await chatbotService.handleSendShopInfoMenu(sender_psid);
+      break;
+    case VIEW_SHOP_IMAGE:
+      await chatbotService.handleSendShopInfoImage(sender_psid);
       break;
     default:
       response = { "text": "Oops! Có lỗi xảy ra. Không phản hồi được với postback này" }

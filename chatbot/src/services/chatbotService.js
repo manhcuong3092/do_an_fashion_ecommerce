@@ -2,7 +2,7 @@ const request = require('request');
 const axios = require('axios');
 const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL,
   AO_SO_MI, AO_KHOAC, AO_BLAZER, BUY_PRODUCT, IMAGE_MAIN_MENU_1,
-  IMAGE_MAIN_MENU_2, VIEW_PRODUCT, IMAGE_MAIN_MENU_3 } = require('../constant');
+  IMAGE_MAIN_MENU_2, VIEW_PRODUCT, IMAGE_MAIN_MENU_3, VIEW_SHOP_INFO } = require('../constant');
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
@@ -195,18 +195,6 @@ let getMainMenuTemplate = () => {
             ]
           },
           {
-            "title": "Ngày mở cửa",
-            "image_url": IMAGE_MAIN_MENU_2,
-            "subtitle": "Phục vụ cả tuần",
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Mua sản phẩm",
-                "payload": BUY_PRODUCT
-              },
-            ]
-          },
-          {
             "title": "Địa điểm cửa hàng",
             "image_url": IMAGE_MAIN_MENU_3,
             "subtitle": "Gồm có 3 chi nhánh, ở Hà Nội. Tiện lợi cho các bạn lựa chọn",
@@ -214,7 +202,19 @@ let getMainMenuTemplate = () => {
               {
                 "type": "postback",
                 "title": "Menu Chính",
-                "payload": MAIN_MENU
+                "payload": VIEW_SHOP_INFO
+              },
+            ]
+          },
+          {
+            "title": "Ngày mở cửa",
+            "image_url": IMAGE_MAIN_MENU_2,
+            "subtitle": "Phục vụ cả tuần",
+            "buttons": [
+              {
+                "type": "web_url",
+                "url": `${SHOP_URL}/shop`,
+                "title": "Xem trang web"
               },
             ]
           },
@@ -346,11 +346,85 @@ const getProductMenuTemplate = (products) => {
   return response;
 }
 
+const handleSendShopInfoMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response1 = getAboutUsTemplate();
+
+      //send generic template message
+      await callSendAPI(sender_psid, response1);
+
+      resolve('done');
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+const handleSendShopInfoImage = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response1 = getImageShopTemplate();
+
+      //send generic template message
+      await callSendAPI(sender_psid, response1);
+
+      resolve('done');
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+let getImageShopTemplate = () => {
+  let response = {
+    "attachment": {
+      "type": "image",
+      "payload": {
+        "url": IMAGE_GET_STARTED,
+        "is_reusable": true
+      }
+    }
+  }
+  return response;
+}
+
+let getAboutUsTemplate = () => {
+  let response = {
+    "attachment": {
+      "type": "image",
+      "payload": {
+        "template_type": "button",
+        "text": "Amano location",
+        "url": IMAGE_GET_STARTED,
+        "buttons": [
+          {
+            "type": "web_url",
+            "url": `${SHOP_URL}/about-us`,
+            "title": "Xem chi tiết"
+          },
+          {
+            "type": "postback",
+            "payload": MAIN_MENU,
+            "title": "Ảnh shop"
+          },
+          {
+            "type": "postback",
+            "payload": MAIN_MENU,
+            "title": "Quay lại"
+          },
+        ]
+      }
+    }
+  }
+}
 
 module.exports = {
   handleGetStarted,
   handleSendMainMenu,
   handleSendAoSoMiMenu,
   handleSendAoBlazerMenu,
-  handleSendAoKhoacMenu
+  handleSendAoKhoacMenu,
+  handleSendShopInfoMenu,
+  handleSendShopInfoImage
 }
