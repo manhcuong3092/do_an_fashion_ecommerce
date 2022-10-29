@@ -1,6 +1,6 @@
 
 const request = require('request');
-const { GET_STARTED, SHOP_URL, RESTART_BOT, FANPAGE_URL } = require('../constant');
+const { GET_STARTED, SHOP_URL, RESTART_BOT, FANPAGE_URL, MAIN_MENU } = require('../constant');
 const chatbotService = require('../services/chatbotService');
 
 require('dotenv').config();
@@ -136,6 +136,8 @@ async function handlePostback(sender_psid, received_postback) {
       await chatbotService.handleGetStarted(sender_psid);
       response = { "text": "Ok. Xin chào mừng bạn đến với shop Amando." }
       break;
+    case MAIN_MENU:
+      await chatbotService.handleSendMainMenu(sender_psid);
     default:
       response = { "text": "Oops! Có lỗi xảy ra. Không phản hồi được với postback này" }
   }

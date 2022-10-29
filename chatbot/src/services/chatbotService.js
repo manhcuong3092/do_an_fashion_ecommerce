@@ -1,5 +1,5 @@
 const request = require('request');
-const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL } = require('../constant');
+const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL, AO_SO_MI, AO_KHOAC, AO_BLAZER } = require('../constant');
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
@@ -9,7 +9,7 @@ const handleGetStarted = (sender_psid) => {
     try {
       const username = await getUsername(sender_psid);
       const response1 = { "text": `Xin chào mừng bạn ${username} đến với shop Amando.` }
-      const response2 = sendGetStartedTemplate();
+      const response2 = getStartedTemplate();
 
       //send text message
       await callSendAPI(sender_psid, response1);
@@ -24,7 +24,7 @@ const handleGetStarted = (sender_psid) => {
   });
 }
 
-let sendGetStartedTemplate = () => {
+let getStartedTemplate = () => {
   let response = {
     "attachment": {
       "type": "template",
@@ -119,6 +119,92 @@ function callSendAPI(sender_psid, response) {
   });
 }
 
+let getMainMenuTemplate = () => {
+  let response = {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [
+          {
+            "title": "Danh mục sản phẩm của nhà hàng",
+            "image_url": IMAGE_GET_STARTED,
+            "subtitle": "Dưới đây là các lựa chọn của shop.",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Áo sơ mi",
+                "payload": AO_SO_MI
+              },
+              {
+                "type": "postback",
+                "title": "Áo khoác",
+                "payload": AO_KHOAC
+              },
+              {
+                "type": "postback",
+                "title": "Áo blazer",
+                "payload": AO_BLAZER
+              }
+            ]
+          },
+          {
+            "title": "Xin chào bạn đến với shop Amando!",
+            "image_url": IMAGE_GET_STARTED,
+            "subtitle": "Dưới đây là các lựa chọn của shop.",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Mua sản phẩm",
+                "payload": MAIN_MENU
+              },
+            ]
+          },
+          {
+            "title": "Xin chào bạn đến với shop Amando!",
+            "image_url": IMAGE_GET_STARTED,
+            "subtitle": "Dưới đây là các lựa chọn của shop.",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Menu Chính",
+                "payload": MAIN_MENU
+              },
+              {
+                "type": "postback",
+                "title": "Tìm sản phẩm",
+                "payload": SEARCH_PRODUCT
+              },
+              {
+                "type": "postback",
+                "title": "Hướng dẫn sử dụng bot",
+                "payload": GUIDE_TO_USE
+              }
+            ]
+          },
+        ]
+      }
+    }
+  }
+  return response;
+}
+
+const handleSendMainMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response1 = getMainMenuTemplate();
+
+      //send generic template message
+      await callSendAPI(sender_psid, response1);
+
+      resolve('done');
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
 module.exports = {
-  handleGetStarted
+  handleGetStarted,
+  handleSendMainMenu
 }

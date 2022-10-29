@@ -6,3 +6,8 @@ exports.GUIDE_TO_USE = 'GUIDE_TO_USE';
 exports.SHOP_URL = 'https://coruscating-crumble-3e2f62.netlify.app';
 exports.FANPAGE_URL = 'https://www.facebook.com/profile.php?id=100086919084094';
 exports.RESTART_BOT = 'RESTART_BOT';
+
+exports.AO_SO_MI = 'AO_SO_MI';
+exports.AO_KHOAC = 'AO_KHOAC';
+exports.AO_BLAZER = 'AO_BLAZER';
+exports.BUY_PRODUCT = 'BUY_PRODUCT';
