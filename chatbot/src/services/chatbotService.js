@@ -1,5 +1,6 @@
 const request = require('request');
-const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL, AO_SO_MI, AO_KHOAC, AO_BLAZER } = require('../constant');
+const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL,
+  AO_SO_MI, AO_KHOAC, AO_BLAZER, BUY_PRODUCT, IMAGE_MAIN_MENU_1, IMAGE_MAIN_MENU_2, VIEW_PRODUCT } = require('../constant');
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
@@ -128,7 +129,7 @@ let getMainMenuTemplate = () => {
         "elements": [
           {
             "title": "Danh mục sản phẩm của nhà hàng",
-            "image_url": IMAGE_GET_STARTED,
+            "image_url": IMAGE_MAIN_MENU_1,
             "subtitle": "Dưới đây là các lựa chọn của shop.",
             "buttons": [
               {
@@ -149,37 +150,27 @@ let getMainMenuTemplate = () => {
             ]
           },
           {
-            "title": "Xin chào bạn đến với shop Amando!",
-            "image_url": IMAGE_GET_STARTED,
-            "subtitle": "Dưới đây là các lựa chọn của shop.",
+            "title": "Ngày mở cửa",
+            "image_url": IMAGE_MAIN_MENU_2,
+            "subtitle": "Phục vụ cả tuần",
             "buttons": [
               {
                 "type": "postback",
                 "title": "Mua sản phẩm",
-                "payload": MAIN_MENU
+                "payload": BUY_PRODUCT
               },
             ]
           },
           {
-            "title": "Xin chào bạn đến với shop Amando!",
-            "image_url": IMAGE_GET_STARTED,
-            "subtitle": "Dưới đây là các lựa chọn của shop.",
+            "title": "Địa điểm cửa hàng",
+            "image_url": IMAGE_MAIN_MENU_3,
+            "subtitle": "Gồm có 3 chi nhánh, ở Hà Nội. Tiện lợi cho các bạn lựa chọn",
             "buttons": [
               {
                 "type": "postback",
                 "title": "Menu Chính",
                 "payload": MAIN_MENU
               },
-              {
-                "type": "postback",
-                "title": "Tìm sản phẩm",
-                "payload": SEARCH_PRODUCT
-              },
-              {
-                "type": "postback",
-                "title": "Hướng dẫn sử dụng bot",
-                "payload": GUIDE_TO_USE
-              }
             ]
           },
         ]
@@ -204,7 +195,135 @@ const handleSendMainMenu = (sender_psid) => {
   });
 }
 
+const handleSendAoSoMiMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response1 = getAoSoMiMenuTemplate();
+
+      //send generic template message
+      await callSendAPI(sender_psid, response1);
+
+      resolve('done');
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+
+const handleSendAoKhoacMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response1 = getAoKhoacTemplate();
+
+      //send generic template message
+      await callSendAPI(sender_psid, response1);
+
+      resolve('done');
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+
+const handleSendAoBlazerMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response1 = getAoBlazerTemplate();
+
+      //send generic template message
+      await callSendAPI(sender_psid, response1);
+
+      resolve('done');
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+const getAoSoMiMenuTemplate = () => {
+  // request get api ao so mi
+  let response = {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [
+          {
+            "title": "Áo sơ mi",
+            "image_url": IMAGE_MAIN_MENU_1,
+            "subtitle": "Dưới đây là một số áo sơ mi được bán tại shop.",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Xem chi tiết",
+                "payload": VIEW_PRODUCT
+              },
+            ]
+          },
+        ]
+      }
+    }
+  }
+}
+
+const getAoKhoacMenuTemplate = () => {
+  // request get api ao so mi
+  let response = {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [
+          {
+            "title": "Áo khoác",
+            "image_url": IMAGE_MAIN_MENU_1,
+            "subtitle": "Dưới đây là một số áo khoác được bán tại shop.",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Xem chi tiết",
+                "payload": VIEW_PRODUCT
+              },
+            ]
+          },
+        ]
+      }
+    }
+  }
+}
+
+const getAoBlazerMenuTemplate = () => {
+  // request get api ao so mi
+  let response = {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "generic",
+        "elements": [
+          {
+            "title": "Áo blazer",
+            "image_url": IMAGE_MAIN_MENU_1,
+            "subtitle": "Dưới đây là một số áo blazer được bán tại shop.",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Xem chi tiết",
+                "payload": VIEW_PRODUCT
+              },
+            ]
+          },
+        ]
+      }
+    }
+  }
+}
+
 module.exports = {
   handleGetStarted,
-  handleSendMainMenu
+  handleSendMainMenu,
+  handleSendAoSoMiMenu,
+  handleSendAoBlazerMenu,
+  handleSendAoKhoacMenu
 }
