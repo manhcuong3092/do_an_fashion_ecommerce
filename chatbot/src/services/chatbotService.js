@@ -54,18 +54,6 @@ let getStartedTemplate = () => {
                 "payload": GUIDE_TO_USE
               }
             ]
-          },
-          {
-            "title": "Xin chào bạn đến với shop Amando!",
-            "image_url": IMAGE_GET_STARTED,
-            "subtitle": "Đi tới trang web.",
-            "buttons": [
-              {
-                "type": "web_url",
-                "url": SHOP_URL,
-                "title": "Xem trang web"
-              },
-            ]
           }
         ]
       }
@@ -199,7 +187,36 @@ const handleSendMainMenu = (sender_psid) => {
 const handleSendAoSoMiMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const response1 = getAoSoMiMenuTemplate();
+      let category = await new Promise((resolve, reject) => {
+        try {
+          request('https://fashion-ecommerce-backend.herokuapp.com/api/v1/category/slug/ao-so-mi', function (error, response, body) {
+            console.error('error:', error); // Print the error if one occurred
+            console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+            console.log('body:', body); // Print the HTML for the Google homepage.
+            resolve(body);
+          });
+        } catch (err) {
+          reject(err)
+        }
+      });
+      let products = await new Promise((resolve, reject) => {
+        try {
+          request(`https://fashion-ecommerce-backend.herokuapp.com/api/v1/products?category=${category._id}`, function (error, response, body) {
+            console.error('error:', error); // Print the error if one occurred
+            console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+            console.log('body:', body); // Print the HTML for the Google homepage.
+            resolve(body);
+          });
+        } catch (err) {
+          reject(err)
+        }
+      });
+
+      if (products.length > 5) {
+        products.splice(5);
+      }
+
+      const response1 = getAoSoMiMenuTemplate(products);
 
       //send generic template message
       await callSendAPI(sender_psid, response1);
@@ -243,30 +260,31 @@ const handleSendAoBlazerMenu = (sender_psid) => {
   });
 }
 
-const getAoSoMiMenuTemplate = () => {
+const getAoSoMiMenuTemplate = (products) => {
   // request get api ao so mi
   let response = {
     "attachment": {
       "type": "template",
       "payload": {
         "template_type": "generic",
-        "elements": [
-          {
+        "elements": products.map((product) => {
+          return {
             "title": "Áo sơ mi",
-            "image_url": IMAGE_MAIN_MENU_1,
-            "subtitle": "Dưới đây là một số áo sơ mi được bán tại shop.",
+            "image_url": product.images[0],
+            "subtitle": `${product.name}\n${product.price}`,
             "buttons": [
               {
-                "type": "postback",
-                "title": "Xem chi tiết",
-                "payload": VIEW_PRODUCT
+                "type": "web_url",
+                "url": `${SHOP_URL}/product/${product._id}`,
+                "title": "Xem sản phẩm"
               },
             ]
-          },
-        ]
+          }
+        })
       }
     }
   }
+  return response;
 }
 
 const getAoKhoacMenuTemplate = () => {
@@ -293,6 +311,8 @@ const getAoKhoacMenuTemplate = () => {
       }
     }
   }
+
+  return response;
 }
 
 const getAoBlazerMenuTemplate = () => {
@@ -319,6 +339,8 @@ const getAoBlazerMenuTemplate = () => {
       }
     }
   }
+
+  return response;
 }
 
 module.exports = {
