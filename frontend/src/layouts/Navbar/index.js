@@ -25,7 +25,7 @@ const Navbar = () => {
       }
     };
     getCategories();
-  });
+  }, []);
 
   const logoutHandler = () => {
     dispatch(logout());
