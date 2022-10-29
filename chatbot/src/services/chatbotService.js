@@ -1,4 +1,5 @@
 const request = require('request');
+const axios = require('axios');
 const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL,
   AO_SO_MI, AO_KHOAC, AO_BLAZER, BUY_PRODUCT, IMAGE_MAIN_MENU_1,
   IMAGE_MAIN_MENU_2, VIEW_PRODUCT, IMAGE_MAIN_MENU_3 } = require('../constant');
@@ -187,32 +188,10 @@ const handleSendMainMenu = (sender_psid) => {
 const handleSendAoSoMiMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let data = await new Promise((resolve, reject) => {
-        try {
-          request('https://fashion-ecommerce-backend.herokuapp.com/api/v1/category/slug/ao-so-mi', function (error, response, body) {
-            console.error('error:', error); // Print the error if one occurred
-            console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-            console.log('body:', body); // Print the HTML for the Google homepage.
-            resolve(body);
-          });
-        } catch (err) {
-          reject(err)
-        }
-      });
-      let productsData = await new Promise((resolve, reject) => {
-        try {
-          request(`https://fashion-ecommerce-backend.herokuapp.com/api/v1/products?category=${data.category._id}`, function (error, response, body) {
-            console.error('error:', error); // Print the error if one occurred
-            console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-            console.log('body:', body); // Print the HTML for the Google homepage.
-            resolve(body);
-          });
-        } catch (err) {
-          reject(err)
-        }
-      });
+      let { data } = await axios.get('https://fashion-ecommerce-backend.herokuapp.com/api/v1/category/slug/ao-so-mi');
+      const result = await axios.get(`https://fashion-ecommerce-backend.herokuapp.com/api/v1/products?category=${data.category._id}`);
 
-      products = productsData.products;
+      products = result.data.products;
 
       if (products.length > 5) {
         products.splice(5);
