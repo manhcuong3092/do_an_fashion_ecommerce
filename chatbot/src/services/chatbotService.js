@@ -85,7 +85,7 @@ let getUsername = (sender_psid) => {
 }
 
 // Sends response messages via the Send API
-function callSendAPI(sender_psid, response) {
+async function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
     "recipient": {
@@ -93,6 +93,9 @@ function callSendAPI(sender_psid, response) {
     },
     "message": response
   }
+
+  await sendMarkSeenMessage(sender_psid);
+  await sendTypingOn(sender_psid);
 
   // Send the HTTP request to the Messenger Platform
   request({
@@ -106,6 +109,58 @@ function callSendAPI(sender_psid, response) {
       console.log('message sent!')
     } else {
       console.error("Unable to send message:" + err);
+    }
+  });
+}
+
+// Sends response typing on via the Send API
+function sendTypingOn(sender_psid) {
+  // Construct the message body
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action": "typing_on"
+  }
+
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    console.log(body);
+    if (!err) {
+      console.log('sendTypingOn sent!')
+    } else {
+      console.error("Unable to send sendTypingOn:" + err);
+    }
+  });
+}
+
+// Sends response mark seen via the Send API
+function sendMarkSeenMessage(sender_psid) {
+  // Construct the message body
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "sender_action": "mark_seen"
+  }
+
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    console.log(body);
+    if (!err) {
+      console.log('sendTypingOn sent!')
+    } else {
+      console.error("Unable to send sendTypingOn:" + err);
     }
   });
 }
