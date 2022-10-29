@@ -250,14 +250,19 @@ const getAoSoMiMenuTemplate = (products) => {
         "template_type": "generic",
         "elements": products.map((product) => {
           return {
-            "title": "Áo sơ mi",
-            "image_url": product.images[0],
-            "subtitle": `${product.name}\n${product.price}`,
+            "title": product.name,
+            "image_url": product.images[0].url,
+            "subtitle": product.price,
             "buttons": [
               {
                 "type": "web_url",
                 "url": `${SHOP_URL}/product/${product._id}`,
                 "title": "Xem sản phẩm"
+              },
+              {
+                "type": "postback",
+                "title": "Quay lại",
+                "payload": AO_SO_MI
               },
             ]
           }
