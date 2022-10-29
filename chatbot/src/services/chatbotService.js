@@ -1,6 +1,7 @@
 const request = require('request');
 const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL,
-  AO_SO_MI, AO_KHOAC, AO_BLAZER, BUY_PRODUCT, IMAGE_MAIN_MENU_1, IMAGE_MAIN_MENU_2, VIEW_PRODUCT } = require('../constant');
+  AO_SO_MI, AO_KHOAC, AO_BLAZER, BUY_PRODUCT, IMAGE_MAIN_MENU_1,
+  IMAGE_MAIN_MENU_2, VIEW_PRODUCT, IMAGE_MAIN_MENU_3 } = require('../constant');
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
