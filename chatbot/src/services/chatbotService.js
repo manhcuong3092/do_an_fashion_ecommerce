@@ -2,7 +2,8 @@ const request = require('request');
 const axios = require('axios');
 const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL,
   AO_SO_MI, AO_KHOAC, AO_BLAZER, IMAGE_MAIN_MENU_1,
-  IMAGE_MAIN_MENU_2, IMAGE_MAIN_MENU_3, VIEW_SHOP_INFO, VIEW_SHOP_IMAGE, ORDER_URL, IMAGE_GIF_WELCOME } = require('../constant');
+  IMAGE_MAIN_MENU_2, IMAGE_MAIN_MENU_3, VIEW_SHOP_INFO, VIEW_SHOP_IMAGE,
+  ORDER_URL, IMAGE_GIF_WELCOME, GUIDE_VIDEO_URL } = require('../constant');
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
@@ -477,7 +478,8 @@ const getMediaTemplate = () => {
         "elements": [
           {
             "media_type": "video",
-            "attachment_id": "526118808962516",
+            // "attachment_id": "526118808962516",
+            "url": GUIDE_VIDEO_URL,
             "buttons": [
               {
                 "type": "postback",

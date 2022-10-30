@@ -24,3 +24,4 @@ exports.ORDER_URL = 'https://amando-chatbot.herokuapp.com/order';
 exports.BACKEND_URL = 'https://fashion-ecommerce-backend.herokuapp.com';
 
 exports.IMAGE_GIF_WELCOME = 'https://media4.giphy.com/media/Ztfno2Qtm2dVxS81f5/giphy.gif?cid=ecf05e47iaw0lkg47np4qnmv75w2sio1qyqtdf8zid5b8vbc&rid=giphy.gif&ct=g';
+exports.GUIDE_VIDEO_URL = 'https://www.facebook.com/100086919084094/videos/526118808962516';
