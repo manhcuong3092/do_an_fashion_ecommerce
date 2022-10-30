@@ -506,5 +506,6 @@ module.exports = {
   handleSendAoKhoacMenu,
   handleSendShopInfoMenu,
   handleSendShopInfoImage,
-  callSendAPI
+  callSendAPI,
+  handleGuildeToUseBot
 }
