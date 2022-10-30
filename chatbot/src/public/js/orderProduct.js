@@ -8,7 +8,7 @@
 
 window.extAsyncInit = function () {
   // the Messenger Extensions JS SDK is done loading 
-  MessengerExtensions.getContext('3339980812901528',
+  MessengerExtensions.getContext(facebookAppId,
     function success(thread_context) {
       // success
       // set psid to input
@@ -17,7 +17,12 @@ window.extAsyncInit = function () {
     },
     function error(err) {
       // error
-      console.log('Lỗi tạo đơn hàng Amando bot. ', err)
+      console.log('Lỗi tạo đơn hàng Amando bot with MessengerExtensions.getContext. ', err);
+
+      //run fallback, get sender psid from url
+      console.log('Run fallback handle error');
+      $('#psid').val(sender_psid);
+      handleClickButtonOrderProduct();
     }
   );
 };
@@ -27,7 +32,10 @@ function validateInputFields() {
   const EMAIL_REG = /[a-zA-Z][a-zA-Z0-9_\.]{1,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}/g;
 
   let email = $("#email");
-  let phoneNumber = $("#phoneNumber");
+  let phoneNo = $("#phoneNo");
+  let name = $("#name");
+  let city = $("#city");
+  let address = $("#address");
 
   if (!email.val().match(EMAIL_REG)) {
     email.addClass("is-invalid");
@@ -36,11 +44,32 @@ function validateInputFields() {
     email.removeClass("is-invalid");
   }
 
-  if (phoneNumber.val() === "") {
-    phoneNumber.addClass("is-invalid");
+  if (!phoneNo.val().match(/[0-9]{10,11}/)) {
+    phoneNo.addClass("is-invalid");
     return true;
   } else {
-    phoneNumber.removeClass("is-invalid");
+    phoneNo.removeClass("is-invalid");
+  }
+
+  if (name.val() === "") {
+    name.addClass("is-invalid");
+    return true;
+  } else {
+    name.removeClass("is-invalid");
+  }
+
+  if (city.val() === "") {
+    city.addClass("is-invalid");
+    return true;
+  } else {
+    city.removeClass("is-invalid");
+  }
+
+  if (address.val() === "") {
+    address.addClass("is-invalid");
+    return true;
+  } else {
+    address.removeClass("is-invalid");
   }
 
   return false;
@@ -81,30 +110,36 @@ function handleClickButtonOrderProduct() {
       totalPrice: itemsPrice + shippingPrice,
       paymentStatus: false,
       paymentType: 'Thanh toán khi nhận hàng',
-      user: null
     };
 
-    console.log(data);
-    return
     if (!check) {
       //close webview
       MessengerExtensions.requestCloseBrowser(function success() {
         // webview closed
       }, function error(err) {
         // an error occurred
-        console.log(err);
+        console.log("MessengerExtensions.requestCloseBrowser", err);
+        window.top.close();
       });
 
       //send data to node.js server 
       $.ajax({
-        url: `${window.location.origin}/order-ajax`,
+        url: `${window.location.origin}/order`,
         method: "POST",
         data: data,
         success: function (data) {
           console.log(data);
+          $('#toast-body').text('Đặt hàng thành công');
+          $('#toast-body').addClass('text-success');
+          $('#liveToast').removeClass('hide');
+          $('#liveToast').addClass('show');
         },
         error: function (error) {
           console.log(error);
+          $('#toast-body').text('Đặt hàng thất bại');
+          $('#toast-body').addClass('text-danger');
+          $('#liveToast').removeClass('hide');
+          $('#liveToast').addClass('show');
         }
       })
     }

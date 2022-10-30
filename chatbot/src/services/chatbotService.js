@@ -252,7 +252,7 @@ const handleSendAoSoMiMenu = (sender_psid) => {
         products.splice(5);
       }
 
-      const response1 = getProductMenuTemplate(products);
+      const response1 = getProductMenuTemplate(products, sender_psid);
 
       //send generic template message
       await callSendAPI(sender_psid, response1);
@@ -277,7 +277,7 @@ const handleSendAoKhoacMenu = (sender_psid) => {
         products.splice(5);
       }
 
-      const response1 = getProductMenuTemplate(products);
+      const response1 = getProductMenuTemplate(products, sender_psid);
 
       //send generic template message
       await callSendAPI(sender_psid, response1);
@@ -302,7 +302,7 @@ const handleSendAoBlazerMenu = (sender_psid) => {
         products.splice(5);
       }
 
-      const response1 = getProductMenuTemplate(products);
+      const response1 = getProductMenuTemplate(products, sender_psid);
 
       //send generic template message
       await callSendAPI(sender_psid, response1);
@@ -314,7 +314,7 @@ const handleSendAoBlazerMenu = (sender_psid) => {
   });
 }
 
-const getProductMenuTemplate = (products) => {
+const getProductMenuTemplate = (products, sender_psid) => {
   // request get api ao so mi
   let response = {
     "attachment": {
@@ -334,7 +334,7 @@ const getProductMenuTemplate = (products) => {
               },
               {
                 "type": "web_url",
-                "url": `${ORDER_URL}?productId=${product._id}`,
+                "url": `${ORDER_URL}?productId=${product._id}&sender_psid=${sender_psid}`,
                 "webview_height_ratio": "tall",
                 "messenger_extensions": true, // false to open webview in new tab
                 "title": "Đặt mua"
@@ -439,5 +439,6 @@ module.exports = {
   handleSendAoBlazerMenu,
   handleSendAoKhoacMenu,
   handleSendShopInfoMenu,
-  handleSendShopInfoImage
+  handleSendShopInfoImage,
+  callSendAPI
 }
