@@ -1,7 +1,7 @@
 
 const request = require('request');
 const { GET_STARTED, SHOP_URL, RESTART_BOT, FANPAGE_URL, MAIN_MENU,
-  AO_SO_MI, AO_BLAZER, AO_KHOAC, VIEW_SHOP_INFO, VIEW_SHOP_IMAGE } = require('../constant');
+  AO_SO_MI, AO_BLAZER, AO_KHOAC, VIEW_SHOP_INFO, VIEW_SHOP_IMAGE, GUIDE_TO_USE } = require('../constant');
 const chatbotService = require('../services/chatbotService');
 
 require('dotenv').config();
