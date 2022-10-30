@@ -2,7 +2,7 @@ const request = require('request');
 const axios = require('axios');
 const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL,
   AO_SO_MI, AO_KHOAC, AO_BLAZER, IMAGE_MAIN_MENU_1,
-  IMAGE_MAIN_MENU_2, IMAGE_MAIN_MENU_3, VIEW_SHOP_INFO, VIEW_SHOP_IMAGE, ORDER_URL } = require('../constant');
+  IMAGE_MAIN_MENU_2, IMAGE_MAIN_MENU_3, VIEW_SHOP_INFO, VIEW_SHOP_IMAGE, ORDER_URL, IMAGE_GIF_WELCOME } = require('../constant');
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
@@ -12,13 +12,17 @@ const handleGetStarted = (sender_psid) => {
     try {
       const username = await getUsername(sender_psid);
       const response1 = { "text": `Xin chào mừng bạn ${username} đến với shop Amando.` }
-      const response2 = getStartedTemplate();
+      const response2 = getImageStartedTemplate();
+      const response3 = getStartedTemplate();
 
       //send text message
       await callSendAPI(sender_psid, response1);
 
       //send generic template message
       await callSendAPI(sender_psid, response2);
+
+      //send quick reply
+      await callSendAPI(sender_psid, response3);
 
       resolve('done');
     } catch (e) {
@@ -82,6 +86,18 @@ let getUsername = (sender_psid) => {
       }
     });
   })
+}
+
+const getImageStartedTemplate = () => {
+  const response = {
+    "attachment": {
+      "type": "image",
+      "payload": {
+        "url": IMAGE_GIF_WELCOME,
+        "is_reusable": true
+      }
+    }
+  }
 }
 
 // Sends response messages via the Send API
@@ -429,6 +445,56 @@ let getAboutUsTemplate = () => {
       }
     }
   }
+  return response;
+}
+
+const handleGuildeToUseBot = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const username = await getUsername(sender_psid);
+      const response = {
+        "text": `Xin chào bạn ${username}, Mình là chatbot của Amano. 
+      Để biết thêm thông tin thì bạn vui lòng xem video bên dưới 😁`}
+      const response1 = getMediaTemplate();
+
+      await callSendAPI(sender_psid, response);
+      //send generic template message
+      await callSendAPI(sender_psid, response1);
+
+      resolve('done');
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+const getMediaTemplate = () => {
+  const response = {
+    "attachment": {
+      "type": "template",
+      "payload": {
+        "template_type": "media",
+        "elements": [
+          {
+            "media_type": "video",
+            "attachment_id": "526118808962516",
+            "buttons": [
+              {
+                "type": "postback",
+                "payload": MAIN_MENU,
+                "title": "Menu Chính"
+              },
+              {
+                "type": "web_url",
+                "title": "Đi đến website",
+                "url": SHOP_URL
+              },
+            ]
+          }
+        ]
+      }
+    }
+  };
   return response;
 }
 

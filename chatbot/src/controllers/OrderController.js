@@ -32,15 +32,15 @@ const handlePostOrderProduct = async (req, res) => {
     const item = data.order.orderItems[0];
     let response1 = {
       "text": `---Thông tin đơn đặt hàng---
-        Họ tên: ${order.shippingInfo.name}
-        Email: ${order.shippingInfo.email}
-        Sđt: ${order.shippingInfo.phoneNo}
-        Tỉnh thành phố: ${order.shippingInfo.city}
-        Địa chỉ: ${order.shippingInfo.address}
+      Họ tên: ${order.shippingInfo.name}
+      Email: ${order.shippingInfo.email}
+      Sđt: ${order.shippingInfo.phoneNo}
+      Tỉnh thành phố: ${order.shippingInfo.city}
+      Địa chỉ: ${order.shippingInfo.address}
 
-        Sản phẩm: ${item.product.name} - ${item.size.name} - ${item.color.name} x ${item.quantity}
-        Tổng cộng: ${order.totalPrice}
-        `
+      Sản phẩm: ${item.product.name} - ${item.size.name} - ${item.color.name} x ${item.quantity}
+      Tổng cộng: ${order.totalPrice}
+      `
     }
     await callSendAPI(psid, response1);
     res.status(200).send('OK');

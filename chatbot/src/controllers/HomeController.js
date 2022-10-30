@@ -155,6 +155,9 @@ async function handlePostback(sender_psid, received_postback) {
     case VIEW_SHOP_IMAGE:
       await chatbotService.handleSendShopInfoImage(sender_psid);
       break;
+    case GUIDE_TO_USE:
+      await chatbotService.handleGuildeToUseBot(sender_psid);
+      break;
     default:
       response = { "text": "Oops! Có lỗi xảy ra. Không phản hồi được với postback này" }
   }
