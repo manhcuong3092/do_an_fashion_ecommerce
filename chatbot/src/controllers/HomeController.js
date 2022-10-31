@@ -1,7 +1,9 @@
 
+const { default: axios } = require('axios');
 const request = require('request');
 const { GET_STARTED, SHOP_URL, RESTART_BOT, FANPAGE_URL, MAIN_MENU,
-  AO_SO_MI, AO_BLAZER, AO_KHOAC, VIEW_SHOP_INFO, VIEW_SHOP_IMAGE, GUIDE_TO_USE } = require('../constant');
+  AO_SO_MI, AO_BLAZER, AO_KHOAC, VIEW_SHOP_INFO, VIEW_SHOP_IMAGE, GUIDE_TO_USE,
+  SEARCH_PRODUCT } = require('../constant');
 const chatbotService = require('../services/chatbotService');
 
 require('dotenv').config();
@@ -74,47 +76,7 @@ const getWebhook = (req, res) => {
 
 // Handles messages events
 function handleMessage(sender_psid, received_message) {
-  let response;
-
-  // Checks if the message contains text
-  if (received_message.text) {
-    // Create the payload for a basic text message, which
-    // will be added to the body of our request to the Send API
-    response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
-    }
-  } else if (received_message.attachments) {
-    // Get the URL of the message attachment
-    let attachment_url = received_message.attachments[0].payload.url;
-    response = {
-      "attachment": {
-        "type": "template",
-        "payload": {
-          "template_type": "generic",
-          "elements": [{
-            "title": "Is this the right picture?",
-            "subtitle": "Tap a button to answer.",
-            "image_url": attachment_url,
-            "buttons": [
-              {
-                "type": "postback",
-                "title": "Yes!",
-                "payload": "yes",
-              },
-              {
-                "type": "postback",
-                "title": "No!",
-                "payload": "no",
-              }
-            ],
-          }]
-        }
-      }
-    }
-  }
-
-  // Send the response message
-  callSendAPI(sender_psid, response);
+  chatbotService.handleTextMessage(sender_psid, received_message);
 }
 
 // Handles messaging_postbacks events
@@ -158,12 +120,15 @@ async function handlePostback(sender_psid, received_postback) {
     case GUIDE_TO_USE:
       await chatbotService.handleGuildeToUseBot(sender_psid);
       break;
+    case SEARCH_PRODUCT:
+      await chatbotService.handleSearchProductMenu(sender_psid);
+      break;
     default:
       response = { "text": "Oops! Có lỗi xảy ra. Không phản hồi được với postback này" }
   }
 
   // Send the message to acknowledge the postback
-  // callSendAPI(sender_psid, response);
+  // chatbotService.callSendAPI(sender_psid, response);
 }
 
 

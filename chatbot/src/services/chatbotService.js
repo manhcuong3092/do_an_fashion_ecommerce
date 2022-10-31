@@ -3,7 +3,7 @@ const axios = require('axios');
 const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL,
   AO_SO_MI, AO_KHOAC, AO_BLAZER, IMAGE_MAIN_MENU_1,
   IMAGE_MAIN_MENU_2, IMAGE_MAIN_MENU_3, VIEW_SHOP_INFO, VIEW_SHOP_IMAGE,
-  ORDER_URL, IMAGE_GIF_WELCOME, GUIDE_VIDEO_URL } = require('../constant');
+  ORDER_URL, IMAGE_GIF_WELCOME, GUIDE_VIDEO_URL, BACKEND_URL } = require('../constant');
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
@@ -500,6 +500,93 @@ const getMediaTemplate = () => {
   return response;
 }
 
+const handleTextMessage = async (sender_psid, received_message) => {
+  let response;
+
+  // Checks if the message contains text
+  if (received_message.text) {
+    // Create the payload for a basic text message, which
+    // will be added to the body of our request to the Send API
+    const text = received_message.text.toLowerCase()
+    console.log(text);
+    const index = text.indexOf("tìm kiếm:");
+    if (index === -1) {
+      return;
+    }
+    const keyword = text.split("tìm kiếm:")[1].trim();
+    if (!keyword) {
+      response = {
+        "text": `Hãy nhập từ khóa để tìm kiếm.`
+      }
+    } else {
+      try {
+        const { data } = await axios.get(`${BACKEND_URL}/api/v1/product?keyword=${keyword}`);
+        if (data.products.length === 0) {
+          response = {
+            "text": `Không tìm thấy sản phẩm nào.`
+          }
+        } else {
+          response = getProductMenuTemplate(data.products);
+        }
+      } catch (error) {
+        console.log(error.response.data.message);
+        response = {
+          "text": `Có lỗi xảy ra khi tìm kiếm sản phẩm.`
+        }
+      }
+    }
+    // response = {
+    //   "text": `You sent the message: "${received_message.text}". Now send me an attachment!`
+    // }
+  } else if (received_message.attachments) {
+    // Get the URL of the message attachment
+    let attachment_url = received_message.attachments[0].payload.url;
+    response = {
+      "attachment": {
+        "type": "template",
+        "payload": {
+          "template_type": "generic",
+          "elements": [{
+            "title": "Is this the right picture?",
+            "subtitle": "Tap a button to answer.",
+            "image_url": attachment_url,
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Yes!",
+                "payload": "yes",
+              },
+              {
+                "type": "postback",
+                "title": "No!",
+                "payload": "no",
+              }
+            ],
+          }]
+        }
+      }
+    }
+  }
+
+  // Send the response message
+  callSendAPI(sender_psid, response);
+}
+
+const handleSearchProductMenu = async (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = {
+        "text": `Bạn hãy điền từ khóa theo cú pháp sau:\nTìm kiếm: <Từ khóa>`
+      }
+
+      await callSendAPI(sender_psid, response);
+      resolve('done');
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
 module.exports = {
   handleGetStarted,
   handleSendMainMenu,
@@ -509,5 +596,7 @@ module.exports = {
   handleSendShopInfoMenu,
   handleSendShopInfoImage,
   callSendAPI,
-  handleGuildeToUseBot
+  handleGuildeToUseBot,
+  handleTextMessage,
+  handleSearchProductMenu
 }
