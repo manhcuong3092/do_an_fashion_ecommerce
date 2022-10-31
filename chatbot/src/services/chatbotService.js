@@ -520,7 +520,7 @@ const handleTextMessage = async (sender_psid, received_message) => {
       }
     } else {
       try {
-        const { data } = await axios.get(`${BACKEND_URL}/api/v1/product?keyword=${keyword}`);
+        const { data } = await axios.get(`${BACKEND_URL}/api/v1/products?keyword=${keyword}`);
         if (data.products.length === 0) {
           response = {
             "text": `Không tìm thấy sản phẩm nào.`
