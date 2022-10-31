@@ -1,4 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const ErrorHandler = require('../utils/errorHandler');
+const Product = require('./product');
 
 const categorySchema = new mongoose.Schema({
   name: {
@@ -39,5 +41,12 @@ categorySchema.pre('findByIdAndUpdate', async function (next) {
   this.slug = `${slug(this.name)}`
 })
 
+categorySchema.pre('remove', async function (next) {
+  const products = await Product.find({ category: this._id });
+  if (products.length !== 0) {
+    return next(new ErrorHandler('Không thể xóa danh mục khi đang có sản phẩm tham chiếu đến.', 400))
+  }
+  // await Product.updateMany({ category: this._id }, { category: null });
+});
 
 module.exports = mongoose.model('Category', categorySchema);

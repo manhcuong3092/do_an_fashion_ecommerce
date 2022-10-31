@@ -1,4 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const ErrorHandler = require('../utils/errorHandler');
+const Product = require('./product');
 
 const colorSchema = new mongoose.Schema({
   name: {
@@ -20,6 +22,13 @@ const colorSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-})
+});
+
+colorSchema.pre('remove', async function (next) {
+  const products = await Product.find({ colors: this._id });
+  if (products.length !== 0) {
+    return next(new ErrorHandler('Không thể xóa màu khi đang có sản phẩm tham chiếu đến.', 400))
+  }
+});
 
 module.exports = mongoose.model('Color', colorSchema);
