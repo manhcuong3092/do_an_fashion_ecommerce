@@ -83,7 +83,7 @@ const UpdateOrder = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        withCredentials: true
+        withCredentials: true,
       };
       const { data } = await axios.put(`${END_POINT}/api/v1/admin/order/${orderId}`, { status }, config);
       if (data.success) {
@@ -125,6 +125,12 @@ const UpdateOrder = () => {
                     />
                   </div>
                   <br />
+                  <h6>
+                    Thông tin khách hàng:{' '}
+                    <span style={{ textTransform: 'none' }}>
+                      {order.shippingInfo.name}, email: {order.shippingInfo.email}, sđt: {order.shippingInfo.phoneNo}
+                    </span>
+                  </h6>
                   <h6>
                     Địa chỉ giao hàng:{' '}
                     <span style={{ textTransform: 'none' }}>
