@@ -13,13 +13,21 @@ import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import { ORDER_CANCEL, ORDER_DELIVERING, ORDER_PENDING, ORDER_SUCCESS } from '~/constants/order';
 import Metadata from '~/layouts/Metadata';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
-  const [pageSize, setPageSize] = React.useState(10);
+  const [pageSize, setPageSize] = useState(10);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
   const navigate = useNavigate();
 
-  const handleDelete = async (e, id) => {
+  const handleDelete = async (id) => {
     try {
       const config = {
         headers: {
@@ -90,8 +98,8 @@ const OrderList = () => {
             <Button
               variant="contained"
               color={'error'}
-              onClick={(event) => {
-                handleDelete(event, cell.value);
+              onClick={() => {
+                handleClickOpenDelete(cell.value);
               }}
             >
               <DeleteIcon />
@@ -143,9 +151,44 @@ const OrderList = () => {
   const [filterModel, setFilterModel] = useState({
     items: [],
   });
+
+  const handleRowClick = (params) => {
+    setSelectedId(params.row.id);
+  };
+
+  const handleClickOpenDelete = (id) => {
+    setOpenDelete(true);
+  };
+
+  const handleClickDelete = () => {
+    handleDelete(selectedId);
+    setOpenDelete(false);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
   return (
     <Fragment>
       <Metadata title={'Danh sách đơn hàng'} />
+      <Dialog
+        open={openDelete}
+        onClose={handleCloseDelete}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'Xóa đơn hàng?'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">Bạn có chắc chắn xóa đơn hàng này?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDelete}>Hủy</Button>
+          <Button onClick={handleClickDelete} autoFocus color={'error'}>
+            Xóa
+          </Button>
+        </DialogActions>
+      </Dialog>
       <TopNav />
       <SideNav>
         <main>
@@ -165,6 +208,7 @@ const OrderList = () => {
                   filterModel={filterModel}
                   onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
                   localeText={viVN.components.MuiDataGrid.defaultProps.localeText}
+                  onRowClick={handleRowClick}
                 />
               </div>
             </OutlineBox>

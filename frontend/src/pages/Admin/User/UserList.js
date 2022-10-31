@@ -14,13 +14,21 @@ import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import { Avatar } from '@mui/material';
 import { ROLE_ADMIN, ROLE_USER } from '~/constants/role';
 import Metadata from '~/layouts/Metadata';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
-  const [pageSize, setPageSize] = React.useState(10);
+  const [pageSize, setPageSize] = useState(10);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
   const navigate = useNavigate();
 
-  const handleDelete = async (e, id) => {
+  const handleDelete = async (id) => {
     try {
       const config = {
         headers: {
@@ -84,8 +92,8 @@ const UserList = () => {
             <Button
               variant="contained"
               color={'error'}
-              onClick={(event) => {
-                handleDelete(event, cell.value);
+              onClick={() => {
+                handleClickOpenDelete(cell.value);
               }}
             >
               <DeleteIcon />
@@ -129,9 +137,44 @@ const UserList = () => {
   const [filterModel, setFilterModel] = useState({
     items: [],
   });
+
+  const handleRowClick = (params) => {
+    setSelectedId(params.row.id);
+  };
+
+  const handleClickOpenDelete = (id) => {
+    setOpenDelete(true);
+  };
+
+  const handleClickDelete = () => {
+    handleDelete(selectedId);
+    setOpenDelete(false);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
   return (
     <Fragment>
       <Metadata title={'Danh sách người dùng'} />
+      <Dialog
+        open={openDelete}
+        onClose={handleCloseDelete}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'Xóa người dùng?'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">Bạn có chắc chắn xóa người dùng này?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDelete}>Hủy</Button>
+          <Button onClick={handleClickDelete} autoFocus color={'error'}>
+            Xóa
+          </Button>
+        </DialogActions>
+      </Dialog>
       <TopNav />
       <SideNav>
         <main>
@@ -166,6 +209,7 @@ const UserList = () => {
                   filterModel={filterModel}
                   onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
                   localeText={viVN.components.MuiDataGrid.defaultProps.localeText}
+                  onRowClick={handleRowClick}
                 />
               </div>
             </OutlineBox>

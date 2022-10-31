@@ -12,13 +12,21 @@ import EditIcon from '@mui/icons-material/Edit';
 import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import Metadata from '~/layouts/Metadata';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const CategoryList = () => {
   const [categories, setCategories] = useState([]);
-  const [pageSize, setPageSize] = React.useState(10);
+  const [pageSize, setPageSize] = useState(10);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
   const navigate = useNavigate();
 
-  const handleDelete = async (e, id) => {
+  const handleDelete = async (id) => {
     try {
       const config = {
         headers: {
@@ -60,8 +68,8 @@ const CategoryList = () => {
             <Button
               variant="contained"
               color={'error'}
-              onClick={(event) => {
-                handleDelete(event, cell.value);
+              onClick={() => {
+                handleClickOpenDelete(cell.value);
               }}
             >
               <DeleteIcon />
@@ -102,10 +110,45 @@ const CategoryList = () => {
   const [filterModel, setFilterModel] = useState({
     items: [],
   });
+
+  const handleRowClick = (params) => {
+    setSelectedId(params.row.id);
+  };
+
+  const handleClickOpenDelete = (id) => {
+    setOpenDelete(true);
+  };
+
+  const handleClickDelete = () => {
+    handleDelete(selectedId);
+    setOpenDelete(false);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
   return (
     <Fragment>
       <Metadata title={'Danh sách bài viết'} />
       <TopNav />
+      <Dialog
+        open={openDelete}
+        onClose={handleCloseDelete}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'Xóa danh mục?'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">Bạn có chắc chắn xóa danh mục này?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDelete}>Hủy</Button>
+          <Button onClick={handleClickDelete} autoFocus color={'error'}>
+            Xóa
+          </Button>
+        </DialogActions>
+      </Dialog>
       <SideNav>
         <main>
           <div className="container-fluid px-4">
@@ -139,6 +182,7 @@ const CategoryList = () => {
                   filterModel={filterModel}
                   onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
                   localeText={viVN.components.MuiDataGrid.defaultProps.localeText}
+                  onRowClick={handleRowClick}
                 />
               </div>
             </OutlineBox>

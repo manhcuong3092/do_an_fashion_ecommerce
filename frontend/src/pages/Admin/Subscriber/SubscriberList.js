@@ -11,19 +11,27 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import OutlineBox from '~/components/OutlineBox';
 import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import Metadata from '~/layouts/Metadata';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 const SubscriberList = () => {
   const [subscribers, setSubcribers] = useState([]);
-  const [pageSize, setPageSize] = React.useState(10);
+  const [pageSize, setPageSize] = useState(10);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
   const navigate = useNavigate();
 
-  const handleDelete = async (e, id) => {
+  const handleDelete = async (id) => {
     try {
       const config = {
         headers: {
           'Content-Type': 'application/json',
         },
-        withCredentials: true
+        withCredentials: true,
       };
       const { data } = await axios.delete(`${END_POINT}/api/v1/admin/subscriber/${id}`, config);
       if (data.success) {
@@ -55,8 +63,8 @@ const SubscriberList = () => {
             <Button
               variant="contained"
               color={'error'}
-              onClick={(event) => {
-                handleDelete(event, cell.value);
+              onClick={() => {
+                handleClickOpenDelete(cell.value);
               }}
             >
               <DeleteIcon />
@@ -96,17 +104,49 @@ const SubscriberList = () => {
   const [filterModel, setFilterModel] = useState({
     items: [],
   });
+
+  const handleRowClick = (params) => {
+    setSelectedId(params.row.id);
+  };
+
+  const handleClickOpenDelete = (id) => {
+    setOpenDelete(true);
+  };
+
+  const handleClickDelete = () => {
+    handleDelete(selectedId);
+    setOpenDelete(false);
+  };
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false);
+  };
+
   return (
     <Fragment>
       <Metadata title={'Danh sách đăng ký nhận tin'} />
+      <Dialog
+        open={openDelete}
+        onClose={handleCloseDelete}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'Xóa email nhận tin?'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">Bạn có chắc chắn xóa email nhận tin này?</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDelete}>Hủy</Button>
+          <Button onClick={handleClickDelete} autoFocus color={'error'}>
+            Xóa
+          </Button>
+        </DialogActions>
+      </Dialog>
       <TopNav />
       <SideNav>
         <main>
           <div className="container-fluid px-4">
             <h1 className="my-4">Danh sách email đăng ký nhận thông tin</h1>
-            {/* <Fragment>
-                <MDBDataTable data={setTableSizes()} className="px-3" bordered striped hover />
-              </Fragment> */}
             <Button
               variant="contained"
               component={Link}
@@ -136,6 +176,7 @@ const SubscriberList = () => {
                   filterModel={filterModel}
                   onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
                   localeText={viVN.components.MuiDataGrid.defaultProps.localeText}
+                  onRowClick={handleRowClick}
                 />
               </div>
             </OutlineBox>
