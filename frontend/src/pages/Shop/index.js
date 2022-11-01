@@ -27,14 +27,17 @@ const Shop = () => {
   const [allCategory, setAllCategory] = useState([]);
   const [allSize, setAllSize] = useState([]);
   const [allColor, setAllColor] = useState([]);
+  const [keyword, setKeyword] = useState('');
 
   const [searchParams] = useSearchParams('');
-
-  const keyword = searchParams.get('keyword');
 
   const { loading, products, error, resPerPage, filteredProductsCount } = useSelector((state) => state.products);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setKeyword(searchParams.get('keyword'));
+  }, [searchParams]);
 
   useEffect(() => {
     const cateQuery = searchParams.get('category');
@@ -72,7 +75,11 @@ const Shop = () => {
       return;
     }
     dispatch(getProducts(keyword, currentPage, category, price, color, size, gender));
-  }, [dispatch, error, keyword, currentPage, category, price, color, size, gender]);
+  }, [dispatch, error, currentPage, category, price, color, size, gender]);
+
+  const handleSearch = () => {
+    dispatch(getProducts(keyword, currentPage, category, price, color, size, gender));
+  };
 
   const handleChooseCategory = (e, id) => {
     setCategory(id);
@@ -88,6 +95,29 @@ const Shop = () => {
           <Row className="pt-4">
             <Col md={4} lg={3}>
               <div className="sidebar left-sidebar">
+                <div className="s-side-text">
+                  <div className="sidebar-title clearfix">
+                    <h4 className="floatleft">Tìm kiếm</h4>
+                  </div>
+                  <div className="categories left-right-p">
+                    <ul id="accordion" className="panel-group clearfix">
+                      <li className="panel">
+                        <div className="search-product">
+                          <input
+                            type="text"
+                            className="search-input"
+                            value={keyword}
+                            onChange={(e) => setKeyword(e.target.value)}
+                            placeholder="Tìm kiếm..."
+                          />
+                          <button className="search-btn" onClick={handleSearch}>
+                            <i className="mdi mdi-magnify"></i>
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
                 <div className="s-side-text">
                   <div className="sidebar-title clearfix">
                     <h4 className="floatleft">Danh mục</h4>

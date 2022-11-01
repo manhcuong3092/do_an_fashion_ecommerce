@@ -2852,3 +2852,26 @@ table td .submit-text > a {
   height: 500px;
   object-fit: cover;
 }
+
+.search-product {
+  display: flex;
+}
+
+.search-input {
+  border: none;
+  padding: 10px 0 10px 10px;
+  width: 85%;
+  border-bottom: 1px solid #cfcfcf;
+  border-left: 1px solid #cfcfcf;
+}
+
+.search-input:hover {
+  color: #000 !important;
+}
+
+.search-btn {
+  border: 1px solid #cfcfcf;
+  display: inline-block;
+  width: 15%;
+  background-color: #fff;
+}
