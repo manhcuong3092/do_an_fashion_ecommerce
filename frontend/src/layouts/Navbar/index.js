@@ -10,6 +10,7 @@ import { logout } from '~/redux/actions/authActions';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { END_POINT } from '~/config';
+import MobileNavbar from '../MobileNavbar';
 
 const Navbar = () => {
   const [categories, setCategories] = useState(null);
@@ -114,6 +115,7 @@ const Navbar = () => {
             </div>
           </div>
         </Col>
+        <MobileNavbar />
         <Col md={2}>
           <CartIcon />
         </Col>

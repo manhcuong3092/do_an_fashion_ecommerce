@@ -7,12 +7,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { logout } from '../../redux/actions/authActions';
 import { ROLE_ADMIN } from '../../constants/role';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const Topbar = () => {
   const [keyword, setKeyword] = useState('');
 
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -84,7 +87,7 @@ const Topbar = () => {
                   </ul>
                 </li>
               </ul>
-              <div className="right floatright widthfull">
+              <div className={`right floatright ${isMobile ? '' : 'widthfull'}`}>
                 <form action="" onSubmit={(e) => e.preventDefault()}>
                   <button type="submit" onClick={(e) => handleSearch()}>
                     <i className="mdi mdi-magnify"></i>
