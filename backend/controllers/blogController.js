@@ -40,7 +40,7 @@ exports.getBlogs = catchAsyncError(async (req, res, next) => {
     resPerPage = Number(req.query.limit);
   }
 
-  const blogs = await Blog.find().limit(resPerPage).skip(skip).populate('author');
+  const blogs = await Blog.find().sort('-_id').limit(resPerPage).skip(skip).populate('author');
   res.status(200).json({
     success: true,
     blogs,
@@ -60,7 +60,7 @@ exports.getLatestBlogs = catchAsyncError(async (req, res, next) => {
 
 exports.getBlogBySlug = catchAsyncError(async (req, res, next) => {
   const slug = req.params.slug;
-  const blog = await Blog.findOne({slug}).populate('author');
+  const blog = await Blog.findOne({ slug }).populate('author');
   if (!blog) {
     return next(new ErrorHandler(`Không tìm thấy blog`, 404));
   }
@@ -120,7 +120,7 @@ exports.deleteBlog = catchAsyncError(async (req, res, next) => {
   if (!blog) {
     return next(new ErrorHandler(`Không tìm thấy blog: ${req.params.id}`, 404));
   }
-  
+
   const image_id = blog.avatar.public_id;
   await cloudinary.v2.uploader.destroy(image_id);
 
@@ -128,7 +128,7 @@ exports.deleteBlog = catchAsyncError(async (req, res, next) => {
   res.status(200).json({
     success: true,
   });
-}) 
+})
 
 exports.getAllBlogs = catchAsyncError(async (req, res, next) => {
   const blogs = await Blog.find().populate('author');

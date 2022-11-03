@@ -10,15 +10,15 @@ exports.createContact = catchAsyncError(async (req, res, next) => {
     success: true,
     contact
   });
-}) 
+})
 
 exports.getAllContacts = catchAsyncError(async (req, res, next) => {
-  const contacts = await Contact.find();
+  const contacts = await Contact.find().sort({ '_id': -1 });
   res.status(200).json({
     success: true,
     contacts
   });
-}) 
+})
 
 exports.getContact = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;
@@ -30,7 +30,7 @@ exports.getContact = catchAsyncError(async (req, res, next) => {
     success: true,
     contact
   });
-}) 
+})
 
 exports.replyContact = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;
@@ -56,7 +56,7 @@ exports.replyContact = catchAsyncError(async (req, res, next) => {
     success: true,
     message: `Email đã gửi đến ${contact.email}`
   })
-}) 
+})
 
 exports.deleteContact = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;

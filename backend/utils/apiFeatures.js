@@ -10,14 +10,14 @@ class APIFeatures {
         $regex: this.queryStr.keyword,
         $options: 'i'
       }
-    } :  {}
+    } : {}
 
-    this.query = this.query.find({ ...keyword });
+    this.query = this.query.find({ ...keyword }).sort('-_id');
     return this;
   }
 
   filter() {
-    const queryCopy = { ...this.queryStr};
+    const queryCopy = { ...this.queryStr };
 
     // Removing fields from the query
     const removeFields = ['keyword', 'limit', 'page']

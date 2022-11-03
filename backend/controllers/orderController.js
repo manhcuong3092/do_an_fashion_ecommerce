@@ -72,7 +72,7 @@ exports.myOrders = catchAsyncErrors(async (req, res, next) => {
 
 // get all orders => /api/v1/admin/orders - admin
 exports.allOrders = catchAsyncErrors(async (req, res, next) => {
-  const orders = await Order.find();
+  const orders = await Order.find().sort({ '_id': -1 });
 
   let totalAmount = 0;
   orders.forEach(order => {
@@ -89,7 +89,7 @@ exports.allOrders = catchAsyncErrors(async (req, res, next) => {
 // update/process orders => /api/v1/admin/order/:id - admin
 exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
-  
+
   if (order.orderStatus === SUCCEEDED) {
     return next(new ErrorHandler('Bạn đã giao hàng rồi', 400));
   }
@@ -106,7 +106,7 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
         break;
       }
     };
-    if(!check) {
+    if (!check) {
       return next(new ErrorHandler('Không đủ hàng trong kho', 400));
     }
 
@@ -115,7 +115,7 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
     });
     order.orderStatus = req.body.status;
     order.deliveredAt = Date.now();
-  
+
   } else if (req.body.status === CANCELLED) {
     order.orderStatus = req.body.status;
     order.orderItems.forEach(async item => {
@@ -129,9 +129,9 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
     order.paymentStatus = true;
     order.paidAt = Date.now();
   }
-  
+
   await order.save()
-  
+
   res.status(200).json({
     success: true,
     order
