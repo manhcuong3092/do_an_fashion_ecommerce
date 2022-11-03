@@ -115,6 +115,11 @@ const CreateBlog = () => {
                       console.log('Focus.', editor);
                     }}
                     value={content}
+                    config={{
+                      ckfinder: {
+                        uploadUrl: `${END_POINT}/api/v1/upload`,
+                      },
+                    }}
                   />
                 </Form.Group>
 
