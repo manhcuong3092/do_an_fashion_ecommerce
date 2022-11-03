@@ -50,7 +50,7 @@ const Checkout = () => {
     }
   }, 0);
   const shippingPrice = subTotal < FREE_SHIP_MINIMUM ? SHIPPING_PRICE : 0;
-  const totalPrice = subTotal + SHIPPING_PRICE;
+  const totalPrice = subTotal + shippingPrice;
 
   useEffect(() => {
     if (user) {
