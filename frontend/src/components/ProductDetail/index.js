@@ -64,7 +64,9 @@ const ProductDetail = ({ product }) => {
         <div className="quick-right">
           <div className="list-text">
             <h3>{product.name}</h3>
+            <span>{product.category.name}</span>
             <span className="floatright ratting">
+              <p>( {product.reviews.length} Đánh giá )</p>
               {(() => {
                 let stars = [];
                 for (let i = 1; i <= 5; i++) {

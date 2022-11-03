@@ -74,7 +74,10 @@ const ProductReview = ({ product }) => {
               <p>{product.detailDescription}</p>
               <br />
               <p>
-                <img alt='img' src="https://file.hstatic.net/1000401164/file/bang-size-thoi-trang-mando_57eabce095c84eb09ccc04979b0b128c_grande.png" />
+                <img
+                  alt="img"
+                  src="https://file.hstatic.net/1000401164/file/bang-size-thoi-trang-mando_57eabce095c84eb09ccc04979b0b128c_grande.png"
+                />
               </p>
               <br />
               Thiết kế basic cho bạn nhiều lựa chọn phối đồ với nhiều phong cách khác nhau. Các cậu có thể mix cùng một
@@ -85,7 +88,10 @@ const ProductReview = ({ product }) => {
               nhận hàng <br /> Bước 3: Chọn hình thức thanh toán và bấm hoàn thành <br />
               <p>
                 <br />
-                <img alt='img' src="https://file.hstatic.net/1000401164/file/chinh-sach-khach-hang_a88ecec69cd447389252a7eb2c91e5b7_grande.png" />
+                <img
+                  alt="img"
+                  src="https://file.hstatic.net/1000401164/file/chinh-sach-khach-hang_a88ecec69cd447389252a7eb2c91e5b7_grande.png"
+                />
               </p>
               <p>
                 <br />
@@ -101,7 +107,7 @@ const ProductReview = ({ product }) => {
                   <Fragment key={index}>
                     <div className="about-author" key={index}>
                       <div className="autohr-text">
-                        <img src={item.user.avatar && item.user.avatar.url} alt="" />
+                        <img src={item.user.avatar && item.user.avatar.url} alt="" className="rounded-circle" />
                         <div className="author-des">
                           <h4>
                             <a href="#!">{item.user.name}</a>

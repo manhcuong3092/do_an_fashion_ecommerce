@@ -79,7 +79,7 @@ const GridProduct = ({ products, resPerPage, filteredProductsCount, currentPage 
                             <span>sale</span>
                           </div>
                         )}
-                        <Link to={product.slug}>
+                        <Link to={`/product/${product.slug}`}>
                           <img src={product.images[0] && product.images[0].url} alt="Product Title" />
                         </Link>
                       </div>
