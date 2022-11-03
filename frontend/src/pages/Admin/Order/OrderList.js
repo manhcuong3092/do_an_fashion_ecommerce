@@ -57,6 +57,7 @@ const OrderList = () => {
     { field: 'email', headerName: 'Email', flex: 1 },
     { field: 'shippingInfo', headerName: 'Địa chỉ', flex: 1 },
     { field: 'total', headerName: 'Tổng cộng' },
+    { field: 'createdAt', headerName: 'Ngày tạo' },
     {
       field: 'paymentStatus',
       headerName: 'Thanh toán',
