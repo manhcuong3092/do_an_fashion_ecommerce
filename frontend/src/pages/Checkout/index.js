@@ -153,7 +153,7 @@ const Checkout = () => {
           },
           withCredentials: true,
         };
-        const res = await axios.post('/api/v1/payment/process/stripe', { amount: totalPrice, currency: 'vnd' }, config);
+        const res = await axios.post(`${END_POINT}/api/v1/payment/process/stripe`, { amount: totalPrice, currency: 'vnd' }, config);
         const clientSecret = res.data.client_secret;
         if (!stripe || !elements) {
           return;
