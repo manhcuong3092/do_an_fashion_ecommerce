@@ -5,6 +5,11 @@ const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
+const { OAuth2Client } = require('google-auth-library');
+
+require('dotenv').config();
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 //Register a user => /api/v1/register
 exports.registerUser = catchAsyncErrors(async (req, res, next) => {
@@ -197,4 +202,28 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true
   })
+});
+
+exports.googleLogin = catchAsyncErrors(async (req, res, next) => {
+  const { credentialResponse } = req.body;
+  client.verifyIdToken({ idToken: credentialResponse.credential, audience: process.env.GOOGLE_CLIENT_ID })
+    .then(async (response) => {
+      const { email_verified, name, email } = response.payload;
+      if (email_verified) {
+        const user = await User.findOne({ email });
+        if (user) {
+          sendToken(user, 201, res);
+        } else {
+          const newUser = await User.create({
+            name,
+            email: email.toLowerCase(),
+            password: email,
+            phoneNo: '0000000000',
+          });
+          sendToken(newUser, 201, res);
+        }
+      }
+    });
+
+  console.log();
 })
