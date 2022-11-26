@@ -38,7 +38,7 @@ const ProductReview = ({ product }) => {
       const config = {
         withCredentials: true,
       };
-      const { data } = await axios.put(`${END_POINT}/api/v1/review`, reviewData, config);
+      const { data } = await axios.post(`${END_POINT}/api/v1/review`, reviewData, config);
       if (data.success) {
         setReviews(data.reviews);
         setComment('');
