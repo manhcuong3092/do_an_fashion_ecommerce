@@ -1,8 +1,10 @@
-const Product = require('../models/product')
+const Product = require('../models/product');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncError = require('../middlewares/catchAsyncErrors');
 const APIFeatures = require('../utils/apiFeatures');
 const clouldinary = require('cloudinary');
+const Review = require('../models/review');
+const review = require('../models/review');
 
 // get : /api/v1/product/new
 exports.newProduct = catchAsyncError(async (req, res, next) => {
@@ -34,7 +36,7 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
   req.body.stock = req.body.stock.map(item => {
     return JSON.parse(item)
   });
-  if(!req.body.salePrice) {
+  if (!req.body.salePrice) {
     req.body.salePrice = 0;
   }
   const product = await Product.create(req.body);
@@ -46,7 +48,7 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
 
 // get : /api/v1/product/:id
 exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
-  const product = await Product.findById(req.params.id)      
+  const product = await Product.findById(req.params.id)
     .populate('category')
     .populate('sizes')
     .populate('colors')
@@ -64,13 +66,12 @@ exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
 
 // get : /api/v1/product/:slug
 exports.getProductBySlug = catchAsyncError(async (req, res, next) => {
-  const product = await Product.findOne({slug: req.params.slug})      
+  const product = await Product.findOne({ slug: req.params.slug })
     .populate('category')
     .populate('sizes')
     .populate('colors')
     .populate('stock.size')
     .populate('stock.color')
-    .populate('reviews.user');
   if (!product) {
     return next(new ErrorHandler('Không tìm thấy sản phẩm', 404));
   }
@@ -105,7 +106,7 @@ exports.getProducts = catchAsyncError(async (req, res, next) => {
 
 // get latest products : /api/v1/products
 exports.getLatestProducts = catchAsyncError(async (req, res, next) => {
-  const products = await Product.find({active: true}).sort('-_id').limit(4);
+  const products = await Product.find({ active: true }).sort('-_id').limit(4);
 
   res.status(200).json({
     success: true,
@@ -162,7 +163,7 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
       } catch (error) {
         return next(new ErrorHandler('Tải ảnh có kích thước nhỏ hơn 1MB', 404));
       }
-    } 
+    }
   } else {
     req.body.images = product.images;
   }
@@ -171,7 +172,7 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
     return JSON.parse(item)
   });
 
-  if(!req.body.salePrice) {
+  if (!req.body.salePrice) {
     req.body.salePrice = 0;
   }
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
@@ -193,7 +194,7 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
   if (!product) {
     return next(new ErrorHandler('Không tìm thấy sản phẩm', 404));
   }
-  
+
   //delete images
   for (let i = 0; i < product.images.length; i++) {
     const result = await clouldinary.v2.uploader.destroy(product.images[i].public_id);
@@ -213,43 +214,38 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
   const { rating, comment, productId } = req.body;
   const review = {
     user: req.user._id,
+    product: productId,
     name: req.user.name,
     rating: Number(rating),
     comment
   }
 
-  const product = await Product.findById(productId);
-  const isReviewed = product.reviews.find(
-    r => r.user.toString() === req.user._id.toString()
-  );
+  let result = null;
 
-  if (isReviewed) {
-    product.reviews.forEach(review => {
-      if (review.user.toString() === req.user._id.toString()) {
-        review.comment = comment;
-        review.rating = rating
-      }
-    })
+  const isReviewed = await Review.findOne({ product: productId, user: req.user._id });
+  if (!isReviewed) {
+    result = await Review.create(review);
   } else {
-    product.reviews.push(review);
-    product.numOfReviews = product.reviews.length
+    result = await Review.findByIdAndUpdate(isReviewed._id, review);
   }
+  const reviews = await Review.find({ product: productId }).populate('user');
+  const product = await Product.findById(productId);
 
-  product.ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+  product.ratings = reviews.reduce((acc, item) => item.rating + acc, 0) / reviews.length;
+  product.numOfReviews = reviews.length;
   await product.save({ validateBeforeSave: false });
-  const updatedProduct = await Product.findById(productId).populate('reviews.user');
   res.status(200).json({
     success: true,
-    reviews: updatedProduct.reviews
+    reviews
   })
 })
 
 //Get product Reviews => /api/v1/reviews
 exports.getProductReviews = catchAsyncError(async (req, res, next) => {
-  const product = await Product.findById(req.query.productId).populate('reviews.user');
+  const reviews = await Review.find({ product: req.query.productId }).populate('user');
   res.status(200).json({
     success: true,
-    reviews: product.reviews
+    reviews
   })
 })
 
