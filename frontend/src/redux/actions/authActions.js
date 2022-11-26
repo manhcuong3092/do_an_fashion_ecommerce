@@ -45,6 +45,32 @@ export const login = (email, password) => async (dispatch, getState) => {
   }
 };
 
+// Google Login
+export const googleLogin = (credentialResponse) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: LOGIN_REQUEST });
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true,
+    };
+    const { data } = await axios.post(`${END_POINT}/api/v1/googleLogin`, { credentialResponse }, config);
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: data.user,
+    });
+    localStorage.setItem('auth', JSON.stringify(getState().auth));
+    localStorage.setItem('jwtToken', data.token);
+  } catch (error) {
+    console.log(error);
+    dispatch({
+      type: LOGIN_FAIL,
+      payload: error,
+    });
+  }
+};
+
 //Logout user
 export const logout = () => async (dispatch) => {
   try {

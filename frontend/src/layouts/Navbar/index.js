@@ -55,8 +55,8 @@ const Navbar = () => {
                     <Link to="/shop">Shop</Link>
                     <ul className="dropdown dropdown-nav-menu">
                       {categories &&
-                        categories.map((item) => (
-                          <li>
+                        categories.map((item, index) => (
+                          <li key={index}>
                             <Link to={`/shop?category=${item.slug}`}>{item.name}</Link>
                           </li>
                         ))}

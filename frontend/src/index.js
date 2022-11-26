@@ -4,16 +4,23 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GOOGLE_CLIENT_ID } from './constants/google';
 
 import axios from 'axios';
 
-axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken') ? `Bearer ${localStorage.getItem('jwtToken')}` : '';
+axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken')
+  ? `Bearer ${localStorage.getItem('jwtToken')}`
+  : '';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
-    <App />
-  </Provider>
+    <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <App />
+    </GoogleOAuthProvider>
+    ;
+  </Provider>,
 );
 
 // If you want to start measuring performance in your app, pass a function
