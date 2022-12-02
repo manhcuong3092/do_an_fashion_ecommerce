@@ -1,7 +1,7 @@
-exports.IMAGE_GET_STARTED = "https://scontent.fhan18-1.fna.fbcdn.net/v/t39.30808-6/311516979_1924276364444651_6257273825436031917_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=e3f864&_nc_ohc=oNoVbweS65AAX-VveLS&_nc_ht=scontent.fhan18-1.fna&oh=00_AfAmINkkFM8U76QYziT8EM1BYpjLsKpEoX7KRQl3by3rUw&oe=6361E121"
-exports.IMAGE_MAIN_MENU_1 = "https://scontent.fhan18-1.fna.fbcdn.net/v/t39.30808-6/312834615_112651888308780_2245128080407085651_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=730e14&_nc_ohc=fvWQ_gwCGTQAX8mQGhQ&tn=Acb0361tN1e3CQwK&_nc_ht=scontent.fhan18-1.fna&oh=00_AfBFV0E01QSoZ9fRcnUoBpjUr8SC47Q4V61Yxs803hYHPQ&oe=636105D7"
-exports.IMAGE_MAIN_MENU_2 = "https://scontent.fhan18-1.fna.fbcdn.net/v/t39.30808-6/312061922_112652568308712_614053746876356079_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=730e14&_nc_ohc=3wY_s2IZg8cAX8moX6y&_nc_ht=scontent.fhan18-1.fna&oh=00_AfBdlxtL4yTxOj6aJN4D636ECVmfKsPlnJcr0xoOHZGE5Q&oe=63614D37"
-exports.IMAGE_MAIN_MENU_3 = "https://scontent.fhan18-1.fna.fbcdn.net/v/t39.30808-6/312611601_112652558308713_6345640904086650100_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=730e14&_nc_ohc=fNLXTLXRwD8AX-pf9PQ&tn=Acb0361tN1e3CQwK&_nc_ht=scontent.fhan18-1.fna&oh=00_AfBPnHUQJ4ar_Vr5AA2ogAbZhvA7Wm-AUrPNB0zi8wgeqA&oe=63613BD7"
+exports.IMAGE_GET_STARTED = "https://file.hstatic.net/1000401164/file/95795878_3029910353715023_2832812999394197504_n_b877cf0d2bdb4b19b823b5aa36af489e_grande.jpg"
+exports.IMAGE_MAIN_MENU_1 = "https://file.hstatic.net/1000401164/file/164330867_3945265898846126_6220307982289622040_n_7cf9484ee8564e7d97e1af4cf36c7acd_grande.jpg"
+exports.IMAGE_MAIN_MENU_2 = "https://file.hstatic.net/200000182297/file/nem-299_260105aeb6c445d393b4e36ae99c4779.jpg"
+exports.IMAGE_MAIN_MENU_3 = "https://file.hstatic.net/200000182297/file/z3824988104332_e30b6f149c965440666761b25c489464__1__dbc437c43a9b4e3892dfc3cfe78edd72.jpg"
 
 exports.GET_STARTED = 'GET_STARTED';
 exports.MAIN_MENU = 'MAIN_MENU';
