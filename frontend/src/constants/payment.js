@@ -1,6 +1,9 @@
 export const PAYMENT_COD = 'Thanh toán khi nhận hàng';
+export const PAYMENT_PAYPAL = 'Thanh toán qua paypal';
 export const PAYMENT_ONLINE = 'Online';
 export const NOT_PAID = false;
 export const PAID = true;
 export const SHIPPING_PRICE = 30000;
 export const FREE_SHIP_MINIMUM = 500000;
+export const PAYPAL_CLIENT = "AdCFaewzZx8kVk3wWmXPuVUYeUKAGNfd6ixCUmTB6vYo3pNYScbgzbDzQ1E35PWFmhhgzLi68oODWwZO";
+export const USD_TO_VND = 24365;

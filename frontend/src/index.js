@@ -6,8 +6,10 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GOOGLE_CLIENT_ID } from './constants/google';
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import axios from 'axios';
+import { PAYPAL_CLIENT } from './constants/payment';
 
 axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken')
   ? `Bearer ${localStorage.getItem('jwtToken')}`
@@ -17,7 +19,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-      <App />
+      <PayPalScriptProvider options={{ "client-id": PAYPAL_CLIENT }}>
+        <App />
+      </PayPalScriptProvider>
     </GoogleOAuthProvider>
     ;
   </Provider>,

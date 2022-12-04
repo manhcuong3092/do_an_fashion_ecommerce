@@ -8,11 +8,12 @@ import PageTitle from '../../layouts/PageTitle';
 
 import { CardCvcElement, CardExpiryElement, CardNumberElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { toast } from 'react-toastify';
-import { FREE_SHIP_MINIMUM, NOT_PAID, PAID, PAYMENT_COD, PAYMENT_ONLINE, SHIPPING_PRICE } from '~/constants/payment';
+import { FREE_SHIP_MINIMUM, NOT_PAID, PAID, PAYMENT_COD, PAYMENT_ONLINE, PAYMENT_PAYPAL, SHIPPING_PRICE, USD_TO_VND } from '~/constants/payment';
 import axios from 'axios';
 import { END_POINT } from '~/config';
 import { useNavigate } from 'react-router-dom';
 import Loader from '~/layouts/Loader';
+import { PayPalButtons } from "@paypal/react-paypal-js";
 
 const options = {
   style: {
@@ -208,6 +209,53 @@ const Checkout = () => {
     setLoading(false);
   };
 
+  const createPaypalOrder = async (id, status) => {
+    if (!validateData()) {
+      return;
+    }
+
+    const orderItems = cartItems.map((item) => {
+      const orderItem = {
+        price: item.product.isSale ? item.product.salePrice : item.product.price,
+        product: item.product._id,
+        size: item.size._id,
+        color: item.color._id,
+        quantity: item.quantity,
+      };
+      return orderItem;
+    });
+    const shippingInfo = {
+      name,
+      email,
+      phoneNo,
+      city,
+      address,
+    };
+    const orderData = {
+      orderItems,
+      shippingInfo,
+      paymentStatus: PAID,
+      paymentType: PAYMENT_PAYPAL,
+      user: user ? user._id : null,
+      itemsPrice: subTotal,
+      shippingPrice,
+      totalPrice: totalPrice,
+      onlinePaymentInfo: {
+        id,
+        status
+      },
+    };
+
+    const { data } = await axios.post(`${END_POINT}/api/v1/order`, orderData, { withCredentials: true });
+    toast.success('Đặt hàng thành công');
+    if (user) {
+      await axios.put(`${END_POINT}/api/v1/cart`, { cartItems: [] }, { withCredentials: true });
+    } else {
+      localStorage.setItem('cartItems', []);
+    }
+    navigate('/order-complete', { replace: true, state: data.order });
+  }
+
   return (
     <Fragment>
       <Header />
@@ -365,12 +413,53 @@ const Checkout = () => {
                     <li className="panel">
                       <div
                         data-bs-toggle="collapse"
+                        data-bs-target="#collapse2"
+                        onClick={(e) => setPaymentType(PAYMENT_PAYPAL)}
+                      >
+                        <div className="medium-a align-middle">
+                          <input readOnly type="radio" checked={paymentType === PAYMENT_PAYPAL ? true : false} />
+                          <span className="payment-type-title">Thanh toán qua Paypal</span>
+                        </div>
+                      </div>
+                      <Collapse
+                        in={paymentType === PAYMENT_PAYPAL ? true : false}
+                        id="collapse2"
+                        data-bs-parent="#accordion"
+                      >
+                        <div className="normal-a border">
+                          <PayPalButtons style={{ layout: "horizontal" }}
+                            forceReRender={[name, email, address, city, phoneNo]}
+                            createOrder={(data, actions) => {
+                              return actions.order.create({
+                                purchase_units: [
+                                  {
+                                    amount: {
+                                      value: (totalPrice / USD_TO_VND).toFixed(2),
+                                      currency_code: 'USD'
+                                    },
+                                  },
+                                ],
+                              });
+                            }}
+                            onApprove={(data, actions) => {
+                              return actions.order.capture().then((details) => {
+                                const { id, status } = details;
+                                createPaypalOrder(id, status);
+                              });
+                            }}
+                          />
+                        </div>
+                      </Collapse>
+                    </li>
+                    <li className="panel">
+                      <div
+                        data-bs-toggle="collapse"
                         data-bs-target="#collapse3"
                         onClick={(e) => setPaymentType(PAYMENT_ONLINE)}
                       >
                         <div className="medium-a align-middle">
                           <input readOnly type="radio" checked={paymentType === PAYMENT_ONLINE ? true : false} />
-                          <span className="payment-type-title">Thanh toán online</span>
+                          <span className="payment-type-title">Thanh toán qua thẻ online</span>
                         </div>
                       </div>
                       <Collapse
