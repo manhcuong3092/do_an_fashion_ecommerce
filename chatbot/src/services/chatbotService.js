@@ -260,8 +260,8 @@ const handleSendMainMenu = (sender_psid) => {
 const handleSendAoSoMiMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let { data } = await axios.get('https://fashion-ecommerce-backend.herokuapp.com/api/v1/category/slug/ao-so-mi');
-      const result = await axios.get(`https://fashion-ecommerce-backend.herokuapp.com/api/v1/products?category=${data.category._id}`);
+      let { data } = await axios.get(`${BACKEND_URL}/api/v1/category/slug/ao-so-mi`);
+      const result = await axios.get(`${BACKEND_URL}/api/v1/products?category=${data.category._id}`);
 
       products = result.data.products;
 
@@ -285,8 +285,8 @@ const handleSendAoSoMiMenu = (sender_psid) => {
 const handleSendAoKhoacMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let { data } = await axios.get('https://fashion-ecommerce-backend.herokuapp.com/api/v1/category/slug/ao-khoac');
-      const result = await axios.get(`https://fashion-ecommerce-backend.herokuapp.com/api/v1/products?category=${data.category._id}`);
+      let { data } = await axios.get(`${BACKEND_URL}/api/v1/category/slug/ao-khoac`);
+      const result = await axios.get(`${BACKEND_URL}/api/v1/products?category=${data.category._id}`);
 
       products = result.data.products;
 
@@ -310,8 +310,8 @@ const handleSendAoKhoacMenu = (sender_psid) => {
 const handleSendAoBlazerMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      let { data } = await axios.get('https://fashion-ecommerce-backend.herokuapp.com/api/v1/category/slug/ao-blazer');
-      const result = await axios.get(`https://fashion-ecommerce-backend.herokuapp.com/api/v1/products?category=${data.category._id}`);
+      let { data } = await axios.get(`${BACKEND_URL}/api/v1/category/slug/ao-blazer`);
+      const result = await axios.get(`${BACKEND_URL}/api/v1/products?category=${data.category._id}`);
 
       products = result.data.products;
 

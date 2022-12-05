@@ -7,7 +7,7 @@ exports.GET_STARTED = 'GET_STARTED';
 exports.MAIN_MENU = 'MAIN_MENU';
 exports.SEARCH_PRODUCT = 'SEARCH_PRODUCT';
 exports.GUIDE_TO_USE = 'GUIDE_TO_USE';
-exports.SHOP_URL = 'https://coruscating-crumble-3e2f62.netlify.app';
+exports.SHOP_URL = 'https://amando.store/';
 exports.FANPAGE_URL = 'https://www.facebook.com/profile.php?id=100086919084094';
 exports.RESTART_BOT = 'RESTART_BOT';
 
@@ -21,7 +21,7 @@ exports.VIEW_SHOP_INFO = 'VIEW_SHOP_INFO';
 exports.VIEW_SHOP_IMAGE = 'VIEW_SHOP_IMAGE';
 
 exports.ORDER_URL = 'https://amando-chatbot.herokuapp.com/order';
-exports.BACKEND_URL = 'https://fashion-ecommerce-backend.herokuapp.com';
+exports.BACKEND_URL = 'https://amando.store';
 
 exports.IMAGE_GIF_WELCOME = 'https://media4.giphy.com/media/Ztfno2Qtm2dVxS81f5/giphy.gif?cid=ecf05e47iaw0lkg47np4qnmv75w2sio1qyqtdf8zid5b8vbc&rid=giphy.gif&ct=g';
 exports.GUIDE_VIDEO_URL = 'https://www.facebook.com/100086919084094/videos/526118808962516';
