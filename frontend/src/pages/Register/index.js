@@ -6,12 +6,13 @@ import Container from 'react-bootstrap/Container';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { clearErrors, register } from '../../redux/actions/authActions';
+import { clearErrors, register, googleLogin } from '../../redux/actions/authActions';
 import { REGISTER_USER_RESET } from '../../redux/types/authActionTypes';
 import Loader from '../../layouts/Loader';
 import Metadata from '../../layouts/Metadata';
 import Header from '../../layouts/Header';
 import Footer from '../../layouts/Footer';
+import { GoogleLogin } from '@react-oauth/google';
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -56,6 +57,10 @@ const Register = () => {
       setUser({ ...user, [e.target.name]: e.target.value })
     }
   }
+
+  const handleGoogleLogin = async (credentialResponse) => {
+    dispatch(googleLogin(credentialResponse));
+  };
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -141,6 +146,17 @@ const Register = () => {
                       <button>Đăng ký</button>
                     </div>
                   </form>
+
+                  <br />
+                  <br />
+                  <GoogleLogin
+                    onSuccess={(credentialResponse) => {
+                      handleGoogleLogin(credentialResponse);
+                    }}
+                    onError={() => {
+                      console.log('Login Failed');
+                    }}
+                  />
                 </div>
               </div>
             </Col>
