@@ -27,6 +27,7 @@ const ProductList = () => {
   const [pageSize, setPageSize] = useState(10);
   const [openDelete, setOpenDelete] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [productName, setProductName] = useState('');
 
   const navigate = useNavigate();
 
@@ -77,8 +78,8 @@ const ProductList = () => {
       },
     },
     { field: 'category', headerName: 'Danh mục', flex: 1 },
-    { field: 'sizes', headerName: 'Kích cỡ', flex: 1 },
-    { field: 'colors', headerName: 'Màu', flex: 1 },
+    { field: 'sizes', headerName: 'Kích cỡ', flex: 1, hide: true },
+    { field: 'colors', headerName: 'Màu', flex: 1, hide: true },
     { field: 'stock', headerName: 'Kho', width: 80 },
     {
       field: 'active',
@@ -176,6 +177,52 @@ const ProductList = () => {
     setOpenDelete(false);
   };
 
+  const handleSearch = async () => {
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      };
+      const { data } = await axios.get(`${END_POINT}/api/v1/admin/products?productName=${productName}`, config);
+      let productData = [];
+
+      data.products.forEach((product, index) => {
+        productData.push({
+          id: product._id,
+          name: product.name,
+          price: product.price,
+          salePrice: product.salePrice,
+          category: product.category.name,
+          sizes: product.sizes
+            .map((item) => {
+              return item.name;
+            })
+            .join(', '),
+          colors: product.colors
+            .map((item) => {
+              return item.name;
+            })
+            .join(', '),
+          stock: product.stock.reduce((acc, item) => {
+            return acc + item.quantity;
+          }, 0),
+          isSale: product.isSale,
+          active: product.active,
+          actions: product._id,
+          image: product.images[0],
+          sold: product.sold,
+          sequense: index + 1,
+        });
+      });
+      setProducts(productData);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
+  };
+
+
   return (
     <Fragment>
       <Metadata title={'Danh sách sản phẩm'} />
@@ -217,6 +264,29 @@ const ProductList = () => {
               Tạo mới
             </Button>
             <OutlineBox>
+              <div className="m-3">
+                <div className="row align-items-center">
+                  <div className="col-auto">
+                    <label htmlFor="idProduct" className="col-form-label">
+                      Nhập tên sản phẩm
+                    </label>
+                  </div>
+                  <div className="col-auto">
+                    <input
+                      type="text"
+                      id="idProduct"
+                      className="form-control"
+                      value={productName}
+                      onChange={(e) => setProductName(e.target.value)}
+                    />
+                  </div>
+                  <div className="col-auto">
+                    <button className="btn btn-primary" onClick={() => handleSearch()}>
+                      Tìm kiếm
+                    </button>
+                  </div>
+                </div>
+              </div>
               <div style={{ height: 700, width: '100%' }} className="p-3">
                 <DataGrid
                   pageSize={pageSize}
