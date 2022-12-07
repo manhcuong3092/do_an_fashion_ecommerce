@@ -78,12 +78,12 @@ const SideNav = ({ children }) => {
                       </div>
                       Sản phẩm
                     </Link>
-                    <Link className="nav-link" to={'/admin/management/reviews'}>
+                    {/* <Link className="nav-link" to={'/admin/management/reviews'}>
                       <div className="sb-nav-link-icon">
                         <CommentOutlinedIcon />
                       </div>
                       Nhận xét
-                    </Link>
+                    </Link> */}
                   </nav>
                 </div>
               </Collapse>
@@ -105,12 +105,12 @@ const SideNav = ({ children }) => {
                 </div>
                 Liên hệ
               </Link>
-              <Link className="nav-link" to="/admin/management/subscribers">
+              {/* <Link className="nav-link" to="/admin/management/subscribers">
                 <div className="sb-nav-link-icon">
                   <SubscriptionsOutlinedIcon />
                 </div>
                 Đăng ký
-              </Link>
+              </Link> */}
               <Link className="nav-link" to="/admin/management/users">
                 <div className="sb-nav-link-icon">
                   <PersonOutlineOutlinedIcon />
