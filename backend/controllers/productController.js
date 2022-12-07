@@ -84,7 +84,7 @@ exports.getProductBySlug = catchAsyncError(async (req, res, next) => {
 
 // get products : /api/v1/products
 exports.getProducts = catchAsyncError(async (req, res, next) => {
-  const resPerPage = 4;
+  const resPerPage = 9;
   const productsCount = await Product.countDocuments();
   req.query.active = true;
   const apiFeatures = new APIFeatures(Product.find(), req.query)
@@ -116,7 +116,8 @@ exports.getLatestProducts = catchAsyncError(async (req, res, next) => {
 
 // get all products : /api/v1/admin/products
 exports.getAllProducts = catchAsyncError(async (req, res, next) => {
-  const products = await Product.find()
+  const productName = req.query.productName || '';
+  const products = await Product.find({ name: { $regex: productName, $options: 'i' } })
     .populate('category')
     .populate('sizes')
     .populate('colors')
