@@ -41,13 +41,9 @@ const userSchema = new mongoose.Schema({
     require: false,
   },
   avatar: {
-    require: false,
-    public_id: {
-      type: String,
-    },
-    url: {
-      type: String,
-    },
+    type: mongoose.Schema.ObjectId,
+    ref: 'Image',
+    require: true
   },
   role: {
     type: String,

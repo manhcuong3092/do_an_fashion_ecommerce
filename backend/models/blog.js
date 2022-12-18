@@ -18,15 +18,9 @@ const blogSchema = new mongoose.Schema({
     require: [true, 'Hãy nhập nội dung bài viết'],
   },
   avatar: {
-    type: {
-      public_id: {
-        type: String,
-      },
-      url: {
-        type: String,
-      },
-    },
-    require: [true, 'Hãy nhập ảnh đại diện.'],
+    type: mongoose.Schema.ObjectId,
+    ref: 'Image',
+    require: [true, 'Hãy nhập ảnh đại diện.']
   },
   slug: {
     type: String,

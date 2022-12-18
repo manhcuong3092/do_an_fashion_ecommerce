@@ -7,29 +7,10 @@ const cartSchema = new mongoose.Schema({
     ref: 'User',
     require: true
   },
-  cartItems: [
-    {
-      size: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Size'
-      },
-      color: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Color'
-      },
-      quantity: {
-        type: Number,
-        required: true
-      },
-      product: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Product'
-      },
-    }
-  ],
+  total: {
+    type: Number,
+    default: 0
+  },
 });
 
 module.exports = mongoose.model('Cart', cartSchema);

@@ -27,38 +27,14 @@ const orderSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  orderItems: [
-    {
-      size: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Size'
-      },
-      color: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Color'
-      },
-      quantity: {
-        type: Number,
-        required: true
-      },
-      price: {
-        type: Number,
-        required: true
-      },
-      product: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Product'
-      },
-    }
-  ],
   onlinePaymentInfo: {
     id: {
       type: String
     },
     status: {
+      type: String
+    },
+    card_number: {
       type: String
     }
   },
