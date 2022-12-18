@@ -4,7 +4,10 @@ const catchAsyncError = require('../middlewares/catchAsyncErrors');
 const APIFeatures = require('../utils/apiFeatures');
 const clouldinary = require('cloudinary');
 const Review = require('../models/review');
-const review = require('../models/review');
+const ProductSize = require('../models/productSize');
+const ProductColor = require('../models/productColor');
+const ProductItem = require('../models/productItem');
+const ProductImage = require('../models/productImage');
 
 // get : /api/v1/product/new
 exports.newProduct = catchAsyncError(async (req, res, next) => {
@@ -40,6 +43,23 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
     req.body.salePrice = 0;
   }
   const product = await Product.create(req.body);
+
+  req.body.sizes.forEach(size =>
+    ProductSize.create({ product: product._id, size: size })
+  );
+
+  req.body.colors.forEach(color =>
+    ProductColor.create({ product: product._id, color: color })
+  );
+
+  req.body.stock.forEach(stock => {
+    ProductItem.create({ product: product._id, color: stock.color, size: stock.size, stock: stock.quantity })
+  })
+
+  imagesLink.forEach(image =>
+    ProductImage.create({ product: product._id, public_id: image.public_id, url: image.url })
+  );
+
   res.status(201).json({
     success: true,
     product
@@ -49,18 +69,28 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
 // get : /api/v1/product/:id
 exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
   const product = await Product.findById(req.params.id)
-    .populate('category')
-    .populate('sizes')
-    .populate('colors')
-    .populate('stock.size')
-    .populate('stock.color');
+    .populate('category');
+
   if (!product) {
     return next(new ErrorHandler('Không tìm thấy sản phẩm', 404));
   }
+  const productSizes = await ProductSize.find({ product: req.params.id }).populate('size');
+  const sizes = productSizes.map(item => item.size);
+
+  const productColors = await ProductColor.find({ product: req.params.id }).populate('color');
+  const colors = productColors.map(item => item.color);
+
+  const images = await ProductImage.find({ product: req.params.id });
+
+  const productItems = await ProductItem.find({ product: req.params.id }).populate('size').populate('color');
 
   res.status(200).json({
     success: true,
-    product
+    product,
+    sizes,
+    colors,
+    images,
+    productItems
   })
 });
 
@@ -84,7 +114,7 @@ exports.getProductBySlug = catchAsyncError(async (req, res, next) => {
 
 // get products : /api/v1/products
 exports.getProducts = catchAsyncError(async (req, res, next) => {
-  const resPerPage = 9;
+  const resPerPage = 6;
   const productsCount = await Product.countDocuments();
   req.query.active = true;
   const apiFeatures = new APIFeatures(Product.find(), req.query)
@@ -146,31 +176,77 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
 
   if (images.length !== 0) {
     //delete images
-    for (let i = 0; i < product.images.length; i++) {
-      const result = await clouldinary.v2.uploader.destroy(product.images[i].public_id);
+    let productImages = await ProductImage.find({ product: req.params.id });
+    console.log(productImages);
+    for (let i = 0; i < productImages.length; i++) {
+      const result = await clouldinary.v2.uploader.destroy(productImages[i].public_id);
+      productImages[i].remove()
     }
 
-    let imagesLink = [];
     for (let i = 0; i < images.length; i++) {
       try {
         const result = await clouldinary.v2.uploader.upload(images[i], {
           folder: 'products'
         });
-        imagesLink.push({
+        ProductImage.create({
           public_id: result.public_id,
-          url: result.secure_url
+          url: result.secure_url,
+          product: req.params.id
         });
-        req.body.images = imagesLink;
       } catch (error) {
         return next(new ErrorHandler('Tải ảnh có kích thước nhỏ hơn 1MB', 404));
       }
     }
-  } else {
-    req.body.images = product.images;
   }
+
+  const productSizes = await ProductSize.find({ product: req.params.id });
+  productSizes.forEach(size => {
+    size.remove();
+  })
+  req.body.sizes.forEach(size =>
+    ProductSize.create({ product: product._id, size: size })
+  );
+
+  const productColors = await ProductColor.find({ product: req.params.id });
+  productColors.forEach(color => {
+    color.remove();
+  })
+  req.body.colors.forEach(color =>
+    ProductColor.create({ product: product._id, color: color })
+  );
+
+  const productItems = await ProductItem.find({ product: req.params.id });
+  productItems.forEach(item => {
+    if (!req.body.sizes.includes(item.size.toString())) {
+      item.remove()
+    } else if (!req.body.colors.includes(item.color.toString())) {
+      item.remove()
+    }
+  });
 
   req.body.stock = req.body.stock.map(item => {
     return JSON.parse(item)
+  });
+
+  console.log(req.body.stock);
+
+  req.body.stock.forEach(async item => {
+    const productItem = await ProductItem.findOneAndUpdate(
+      {
+        product: req.params.id,
+        color: item.color,
+        size: item.size,
+      }, {
+      stock: item.stock
+    });
+    if (!productItem) {
+      ProductItem.create({
+        product: req.params.id,
+        color: item.color,
+        size: item.size,
+        stock: item.stock
+      })
+    }
   });
 
   if (!req.body.salePrice) {
