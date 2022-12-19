@@ -78,8 +78,6 @@ const ProductList = () => {
       },
     },
     { field: 'category', headerName: 'Danh mục', flex: 1 },
-    { field: 'sizes', headerName: 'Kích cỡ', flex: 1, hide: true },
-    { field: 'colors', headerName: 'Màu', flex: 1, hide: true },
     { field: 'stock', headerName: 'Kho', width: 80 },
     {
       field: 'active',
@@ -127,18 +125,8 @@ const ProductList = () => {
             price: product.price,
             salePrice: product.salePrice,
             category: product.category.name,
-            sizes: product.sizes
-              .map((item) => {
-                return item.name;
-              })
-              .join(', '),
-            colors: product.colors
-              .map((item) => {
-                return item.name;
-              })
-              .join(', '),
-            stock: product.stock.reduce((acc, item) => {
-              return acc + item.quantity;
+            stock: product.productItems.reduce((acc, item) => {
+              return acc + item.stock;
             }, 0),
             isSale: product.isSale,
             active: product.active,
@@ -221,7 +209,6 @@ const ProductList = () => {
       toast.error(error.response.data.message);
     }
   };
-
 
   return (
     <Fragment>
