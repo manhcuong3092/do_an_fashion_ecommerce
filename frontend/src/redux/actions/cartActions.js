@@ -31,13 +31,11 @@ export const getUserCart = (user) => async (dispatch, getState) => {
   localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
 };
 
-export const addItemToCart = (product, color, size, quantity, user) => async (dispatch, getState) => {
+export const addItemToCart = (productItem, quantity, user) => async (dispatch, getState) => {
   dispatch({
     type: ADD_TO_CART,
     payload: {
-      product,
-      size,
-      color,
+      productItem,
       quantity,
     },
   });
@@ -49,13 +47,11 @@ export const addItemToCart = (product, color, size, quantity, user) => async (di
   }
 };
 
-export const updateItemInCart = (product, color, size, quantity, user) => async (dispatch, getState) => {
+export const updateItemInCart = (productItem, quantity, user) => async (dispatch, getState) => {
   dispatch({
     type: UPDATE_ITEM_CART,
     payload: {
-      product,
-      size,
-      color,
+      productItem,
       quantity,
     },
   });
@@ -67,10 +63,10 @@ export const updateItemInCart = (product, color, size, quantity, user) => async 
   }
 };
 
-export const removeItemFromCart = (productId, colorId, sizeId, user) => async (dispatch, getState) => {
+export const removeItemFromCart = (productItemId, user) => async (dispatch, getState) => {
   dispatch({
     type: REMOVE_ITEM_CART,
-    payload: { productId, colorId, sizeId },
+    payload: { productItemId },
   });
 
   if (user) {

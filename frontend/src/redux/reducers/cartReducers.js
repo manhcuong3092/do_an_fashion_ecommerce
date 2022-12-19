@@ -10,9 +10,7 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       };
     case ADD_TO_CART:
       const item = action.payload;
-      const itemExistIndex = state.cartItems.findIndex(
-        (i) => i.product._id === item.product._id && i.size._id === item.size._id && i.color._id === item.color._id,
-      );
+      const itemExistIndex = state.cartItems.findIndex((i) => i.productItem._id === item.productItem._id);
       if (itemExistIndex > -1) {
         state.cartItems[itemExistIndex].quantity += item.quantity;
         return {
@@ -26,25 +24,16 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
         };
       }
     case REMOVE_ITEM_CART:
-      const { productId, colorId, sizeId } = action.payload;
+      const { productItemId } = action.payload;
       console.log(state.cartItems);
-      console.log(
-        state.cartItems.filter((i) => i.product._id !== productId && i.size._id !== sizeId && i.color._id !== colorId),
-      );
+      console.log(state.cartItems.filter((i) => i.productItem._id !== productItemId));
       return {
         ...state,
-        cartItems: state.cartItems.filter(
-          (i) => i.product._id !== productId || i.size._id !== sizeId || i.color._id !== colorId,
-        ),
+        cartItems: state.cartItems.filter((i) => i.productItem._id !== productItemId),
       };
     case UPDATE_ITEM_CART:
       const cartItem = action.payload;
-      const existIndex = state.cartItems.findIndex(
-        (i) =>
-          i.product._id === cartItem.product._id &&
-          i.size._id === cartItem.size._id &&
-          i.color._id === cartItem.color._id,
-      );
+      const existIndex = state.cartItems.findIndex((i) => i.productItem._id === cartItem.productItem._id);
       if (existIndex > -1) {
         state.cartItems[existIndex] = cartItem;
         return {

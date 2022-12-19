@@ -9,10 +9,10 @@ const CartPayment = () => {
   const { cartItems } = useSelector((state) => state.cart);
 
   const totalPrice = cartItems.reduce((acc, item) => {
-    if (item.product.isSale) {
-      return acc + item.product.salePrice * item.quantity;
+    if (item.productItem.product.isSale) {
+      return acc + item.productItem.product.salePrice * item.quantity;
     } else {
-      return acc + item.product.price * item.quantity;
+      return acc + item.productItem.product.price * item.quantity;
     }
   }, 0);
 
