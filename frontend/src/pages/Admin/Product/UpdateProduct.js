@@ -22,7 +22,7 @@ const UpdateProduct = () => {
   const [salePrice, setSalePrice] = useState('');
   const [images, setImages] = useState([]);
   const [active, setActive] = useState(true);
-  const [gender, setGender] = useState('Tất cả');
+  const [gender, setGender] = useState('Nam');
   const [category, setCategory] = useState('');
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
@@ -62,14 +62,14 @@ const UpdateProduct = () => {
             setPrice(product.price);
             setSalePrice(product.salePrice);
             setGender(product.gender);
-            setStock(product.stock);
+            setStock(value[3].data.productItems);
             setActive(product.active);
-            setOldImages(product.images);
+            setOldImages(value[3].data.images);
             setIsSale(product.isSale);
 
             setCategory(JSON.stringify(product.category));
-            setSizes(product.sizes.map((size) => JSON.stringify(size)));
-            setColors(product.colors.map((color) => JSON.stringify(color)));
+            setSizes(value[3].data.sizes.map((size) => JSON.stringify(size)));
+            setColors(value[3].data.colors.map((color) => JSON.stringify(color)));
           });
         } catch (error) {
           toast.error(error.response.data.message);
@@ -143,7 +143,7 @@ const UpdateProduct = () => {
     });
 
     const stockArr = stock.map((item) => {
-      return { size: item.size._id, color: item.color._id, quantity: item.quantity };
+      return { size: item.size._id, color: item.color._id, stock: item.stock };
     });
 
     stockArr.forEach((stockItem) => {
@@ -180,7 +180,7 @@ const UpdateProduct = () => {
         if (index !== -1) {
           stockArr.push(stock[index]);
         } else {
-          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), quantity: 0 });
+          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), stock: 0 });
         }
       });
     });
@@ -198,7 +198,7 @@ const UpdateProduct = () => {
         if (index !== -1) {
           stockArr.push(stock[index]);
         } else {
-          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), quantity: 0 });
+          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), stock: 0 });
         }
       });
     });
@@ -418,11 +418,11 @@ const UpdateProduct = () => {
                             <td>
                               <Form.Control
                                 type="number"
-                                value={item.quantity}
+                                value={item.stock}
                                 onChange={(e) => {
                                   setStock([
                                     ...stock.slice(0, index),
-                                    { size: item.size, color: item.color, quantity: e.target.value },
+                                    { size: item.size, color: item.color, stock: e.target.value },
                                     ...stock.slice(index + 1),
                                   ]);
                                 }}
