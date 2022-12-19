@@ -13,6 +13,7 @@ const ProductDetail = ({ product }) => {
   const [size, setSize] = useState(product.sizes[0]);
   const [color, setColor] = useState(product.colors[0]);
   const [stock, setStock] = useState('');
+  const [productItem, setProductItem] = useState(null);
 
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
@@ -20,19 +21,15 @@ const ProductDetail = ({ product }) => {
   const dispatch = useDispatch();
 
   const addToCart = () => {
-    const existIndex = product.stock.findIndex((i) => i.size._id === size._id && i.color._id === color._id);
-    if (existIndex === -1) {
-      return;
-    }
-    const cartItemIndex = cartItems.findIndex((i) => i.size._id === size._id && i.color._id === color._id);
+    const cartItemIndex = cartItems.findIndex((i) => i.productItem._id === productItem._id);
     if (cartItemIndex !== -1) {
-      if (cartItems[cartItemIndex].quantity + quantity > product.stock[existIndex].quantity) {
-        toast.info('Trong kho chỉ có ' + product.stock[existIndex].quantity + ' sản phẩm. Xem lại giỏ hàng');
+      if (cartItems[cartItemIndex].quantity + quantity > productItem.stock) {
+        toast.info('Trong kho chỉ có ' + productItem.stock + ' sản phẩm. Xem lại giỏ hàng');
         return;
       }
     }
 
-    dispatch(addItemToCart(product, color, size, quantity, user));
+    dispatch(addItemToCart(productItem, quantity, user));
     toast.success('Đã thêm sản phẩm vào giỏ');
   };
 
@@ -52,8 +49,11 @@ const ProductDetail = ({ product }) => {
   };
 
   useEffect(() => {
-    const stockIndex = product.stock.findIndex((stock) => stock.size._id === size._id && stock.color._id === color._id);
-    setStock(product.stock[stockIndex].quantity);
+    const stockIndex = product.productItems.findIndex(
+      (stock) => stock.size._id === size._id && stock.color._id === color._id,
+    );
+    setStock(product.productItems[stockIndex].stock);
+    setProductItem(product.productItems[stockIndex]);
     setQuantity(1);
   }, [product, size, color]);
 
