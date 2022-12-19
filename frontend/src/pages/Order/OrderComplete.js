@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 const OrderComplete = () => {
   const { state } = useLocation();
   const order = state;
+  console.log(order);
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const navigate = useNavigate();
 
@@ -71,7 +72,8 @@ const OrderComplete = () => {
                         {order.orderItems.map((item, index) => (
                           <tr key={index}>
                             <th>
-                              {item.product.name} ({item.color.name}) ({item.size.name}) x {item.quantity}
+                              {item.productItem.product.name} ({item.productItem.color.name}) (
+                              {item.productItem.size.name}) x {item.quantity}
                             </th>
                             <td>{(item.quantity * item.price).toLocaleString('vi-VN')}₫</td>
                           </tr>

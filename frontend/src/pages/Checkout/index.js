@@ -8,12 +8,21 @@ import PageTitle from '../../layouts/PageTitle';
 
 import { CardCvcElement, CardExpiryElement, CardNumberElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { toast } from 'react-toastify';
-import { FREE_SHIP_MINIMUM, NOT_PAID, PAID, PAYMENT_COD, PAYMENT_ONLINE, PAYMENT_PAYPAL, SHIPPING_PRICE, USD_TO_VND } from '~/constants/payment';
+import {
+  FREE_SHIP_MINIMUM,
+  NOT_PAID,
+  PAID,
+  PAYMENT_COD,
+  PAYMENT_ONLINE,
+  PAYMENT_PAYPAL,
+  SHIPPING_PRICE,
+  USD_TO_VND,
+} from '~/constants/payment';
 import axios from 'axios';
 import { END_POINT } from '~/config';
 import { useNavigate } from 'react-router-dom';
 import Loader from '~/layouts/Loader';
-import { PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalButtons } from '@paypal/react-paypal-js';
 
 const options = {
   style: {
@@ -44,10 +53,10 @@ const Checkout = () => {
   const elements = useElements();
 
   const subTotal = cartItems.reduce((acc, item) => {
-    if (item.product.isSale) {
-      return acc + item.product.salePrice * item.quantity;
+    if (item.productItem.product.isSale) {
+      return acc + item.productItem.product.salePrice * item.quantity;
     } else {
-      return acc + item.product.price * item.quantity;
+      return acc + item.productItem.product.price * item.quantity;
     }
   }, 0);
   const shippingPrice = subTotal < FREE_SHIP_MINIMUM ? SHIPPING_PRICE : 0;
@@ -106,10 +115,8 @@ const Checkout = () => {
 
     const orderItems = cartItems.map((item) => {
       const orderItem = {
-        price: item.product.isSale ? item.product.salePrice : item.product.price,
-        product: item.product._id,
-        size: item.size._id,
-        color: item.color._id,
+        price: item.productItem.product.isSale ? item.productItem.product.salePrice : item.productItem.product.price,
+        productItem: item.productItem._id,
         quantity: item.quantity,
       };
       return orderItem;
@@ -154,7 +161,11 @@ const Checkout = () => {
           },
           withCredentials: true,
         };
-        const res = await axios.post(`${END_POINT}/api/v1/payment/process/stripe`, { amount: totalPrice, currency: 'vnd' }, config);
+        const res = await axios.post(
+          `${END_POINT}/api/v1/payment/process/stripe`,
+          { amount: totalPrice, currency: 'vnd' },
+          config,
+        );
         const clientSecret = res.data.client_secret;
         if (!stripe || !elements) {
           return;
@@ -242,7 +253,7 @@ const Checkout = () => {
       totalPrice: totalPrice,
       onlinePaymentInfo: {
         id,
-        status
+        status,
       },
     };
 
@@ -254,7 +265,7 @@ const Checkout = () => {
       localStorage.setItem('cartItems', []);
     }
     navigate('/order-complete', { replace: true, state: data.order });
-  }
+  };
 
   return (
     <Fragment>
@@ -348,12 +359,13 @@ const Checkout = () => {
                       {cartItems.map((item, index) => (
                         <tr key={index}>
                           <th>
-                            {item.product.name} ({item.color.name}) ({item.size.name}) x {item.quantity}
+                            {item.productItem.product.name} ({item.productItem.color.name}) (
+                            {item.productItem.size.name}) x {item.quantity}
                           </th>
                           <td>
-                            {(item.product.isSale
-                              ? item.product.salePrice * item.quantity
-                              : item.product.price * item.quantity
+                            {(item.productItem.product.isSale
+                              ? item.productItem.product.salePrice * item.quantity
+                              : item.productItem.product.price * item.quantity
                             ).toLocaleString('vi-VN')}
                             ₫
                           </td>
@@ -427,7 +439,8 @@ const Checkout = () => {
                         data-bs-parent="#accordion"
                       >
                         <div className="normal-a border">
-                          <PayPalButtons style={{ layout: "horizontal" }}
+                          <PayPalButtons
+                            style={{ layout: 'horizontal' }}
                             forceReRender={[name, email, address, city, phoneNo]}
                             createOrder={(data, actions) => {
                               return actions.order.create({
@@ -435,7 +448,7 @@ const Checkout = () => {
                                   {
                                     amount: {
                                       value: (totalPrice / USD_TO_VND).toFixed(2),
-                                      currency_code: 'USD'
+                                      currency_code: 'USD',
                                     },
                                   },
                                 ],
