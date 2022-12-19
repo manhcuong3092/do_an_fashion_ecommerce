@@ -8,6 +8,7 @@ const ProductSize = require('../models/productSize');
 const ProductColor = require('../models/productColor');
 const ProductItem = require('../models/productItem');
 const ProductImage = require('../models/productImage');
+const productItem = require('../models/productItem');
 
 // get : /api/v1/product/new
 exports.newProduct = catchAsyncError(async (req, res, next) => {
@@ -98,17 +99,35 @@ exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
 exports.getProductBySlug = catchAsyncError(async (req, res, next) => {
   const product = await Product.findOne({ slug: req.params.slug })
     .populate('category')
-    .populate('sizes')
-    .populate('colors')
-    .populate('stock.size')
-    .populate('stock.color')
+
   if (!product) {
     return next(new ErrorHandler('Không tìm thấy sản phẩm', 404));
   }
 
+  if (!product) {
+    return next(new ErrorHandler('Không tìm thấy sản phẩm', 404));
+  }
+  const productSizes = await ProductSize.find({ product: product._id }).populate('size');
+  const sizes = productSizes.map(item => item.size);
+
+  const productColors = await ProductColor.find({ product: product._id }).populate('color');
+  const colors = productColors.map(item => item.color);
+
+  const images = await ProductImage.find({ product: product._id });
+
+  let productResult = JSON.parse(JSON.stringify(product));
+  productResult = { ...productResult, images };
+
+  let productItems = await ProductItem.find({ product: product._id }).populate('size').populate('color');
+  productItems = productItems.map(item => {
+    return { ...JSON.parse(JSON.stringify(item)), product: productResult }
+  })
+
+  productResult = { ...productResult, sizes, colors, productItems };
+
   res.status(200).json({
     success: true,
-    product
+    product: productResult
   })
 });
 
@@ -147,12 +166,24 @@ exports.getLatestProducts = catchAsyncError(async (req, res, next) => {
 // get all products : /api/v1/admin/products
 exports.getAllProducts = catchAsyncError(async (req, res, next) => {
   const productName = req.query.productName || '';
-  const products = await Product.find({ name: { $regex: productName, $options: 'i' } })
-    .populate('category')
-    .populate('sizes')
-    .populate('colors')
-    .populate('stock.size')
-    .populate('stock.color');
+  let products = await Product.find({ name: { $regex: productName, $options: 'i' } })
+    .populate('category');
+
+  products = JSON.parse(JSON.stringify(products));
+
+  await Promise.all(products.map(item => ProductItem.find({ product: item._id })))
+    .then((values) => {
+      values.forEach((item, index) => {
+        products[index] = { ...products[index], productItems: item }
+      })
+    });
+
+  await Promise.all(products.map(item => ProductImage.find({ product: item._id })))
+    .then((values) => {
+      values.forEach((item, index) => {
+        products[index] = { ...products[index], images: item }
+      })
+    });
 
   res.status(200).json({
     success: true,
