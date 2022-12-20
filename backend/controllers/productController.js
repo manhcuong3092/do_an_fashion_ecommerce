@@ -46,14 +46,6 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
   }
   const product = await Product.create(req.body);
 
-  req.body.sizes.forEach(size =>
-    ProductSize.create({ product: product._id, size: size })
-  );
-
-  req.body.colors.forEach(color =>
-    ProductColor.create({ product: product._id, color: color })
-  );
-
   req.body.stock.forEach(stock => {
     ProductItem.create({ product: product._id, color: stock.color, size: stock.size, stock: stock.quantity })
   })
@@ -76,15 +68,35 @@ exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
   if (!product) {
     return next(new ErrorHandler('Không tìm thấy sản phẩm', 404));
   }
-  const productSizes = await ProductSize.find({ product: req.params.id }).populate('size');
-  const sizes = productSizes.map(item => item.size);
+  // const productSizes = await ProductSize.find({ product: req.params.id }).populate('size');
+  // const sizes = productSizes.map(item => item.size);
 
-  const productColors = await ProductColor.find({ product: req.params.id }).populate('color');
-  const colors = productColors.map(item => item.color);
+  // const productColors = await ProductColor.find({ product: req.params.id }).populate('color');
+  // const colors = productColors.map(item => item.color);
 
   const images = await ProductImage.find({ product: req.params.id });
 
-  const productItems = await ProductItem.find({ product: req.params.id }).populate('size').populate('color');
+  let productItems = await ProductItem.find({ product: req.params.id }).populate('size').populate('color');
+  productItems = JSON.parse(JSON.stringify(productItems));
+
+  console.log(productItems);
+
+  const sizes = [], colors = [];
+  productItems.forEach(item => {
+    if (!sizes.includes(item.size)) {
+      sizes.push(item.size);
+    }
+    if (!colors.includes(item.color)) {
+      colors.push(item.color);
+    }
+  });
+
+  productItems = productItems.sort((a, b) => {
+    if (a.size._id > b.size._id) {
+      return 1;
+    }
+    return -1;
+  })
 
   res.status(200).json({
     success: true,
@@ -136,14 +148,7 @@ exports.getProductBySlug = catchAsyncError(async (req, res, next) => {
 exports.getProducts = catchAsyncError(async (req, res, next) => {
   const resPerPage = 6;
   const productsCount = await Product.countDocuments();
-  // req.query.active = true;
-  // const apiFeatures = new APIFeatures(Product.find(), req.query)
-  //   .search()
-  //   .filter()
-  // let products = await apiFeatures.query;
-  // let filteredProductsCount = products.length
-  // apiFeatures.pagination(resPerPage);
-  // products = await apiFeatures.query.clone();
+
 
   const filterAggregate = [{
     $match: {
@@ -152,7 +157,11 @@ exports.getProducts = catchAsyncError(async (req, res, next) => {
         $options: 'i'
       }
     }
-  }];
+  },
+  {
+    $match: { active: { $eq: true } }
+  }
+  ];
   if (req.query.keyword) {
     filterAggregate.push({
       $match: {
@@ -205,19 +214,99 @@ exports.getProducts = catchAsyncError(async (req, res, next) => {
     })
   }
 
-  if (req.query.size) {
-    filterAggregate.push({ $lookup: { from: 'productsizes', localField: '_id', foreignField: 'product', as: 'productSizes' } },);
+  if (req.query.size && req.query.color) {
+    filterAggregate.push({ $lookup: { from: 'productitems', localField: '_id', foreignField: 'product', as: 'productSizes' } },);
     filterAggregate.push({ $unwind: "$productSizes" },);
     filterAggregate.push({
       $match: { 'productSizes.size': new mongoose.Types.ObjectId(req.query.size) }
     })
-  }
 
-  if (req.query.color) {
-    filterAggregate.push({ $lookup: { from: 'productcolors', localField: '_id', foreignField: 'product', as: 'productColors' } },);
+    filterAggregate.push({ $lookup: { from: 'productitems', localField: '_id', foreignField: 'product', as: 'productColors' } },);
     filterAggregate.push({ $unwind: "$productColors" },);
     filterAggregate.push({
       $match: { 'productColors.color': new mongoose.Types.ObjectId(req.query.color) }
+    });
+
+    filterAggregate.push({
+      $group: {
+        _id: "$_id",
+        name: { $first: "$name" },
+        price: { $first: "$price" },
+        salePrice: { $first: "$salePrice" },
+        isSale: { $first: "$isSale" },
+        ratings: { $first: "$ratings" },
+        gender: { $first: "$gender" },
+        category: { $first: "$category" },
+        active: { $first: "$active" },
+        slug: { $first: "$slug" },
+        images: { $first: "$slug" },
+        productSizes: { $first: "$productSizes" },
+        productColors: { $first: "$productColors" }
+      }
+    })
+
+    filterAggregate.push({
+      $group: {
+        _id: "$_id",
+        name: { $first: "$name" },
+        price: { $first: "$price" },
+        salePrice: { $first: "$salePrice" },
+        isSale: { $first: "$isSale" },
+        ratings: { $first: "$ratings" },
+        gender: { $first: "$gender" },
+        category: { $first: "$category" },
+        active: { $first: "$active" },
+        slug: { $first: "$slug" },
+        images: { $first: "$slug" },
+        productColors: { $first: "$productColors" },
+        productSizes: { $first: "$productSizes" }
+      }
+    })
+
+  } else if (req.query.color) {
+    filterAggregate.push({ $lookup: { from: 'productitems', localField: '_id', foreignField: 'product', as: 'productColors' } },);
+    filterAggregate.push({ $unwind: "$productColors" },);
+    filterAggregate.push({
+      $match: { 'productColors.color': new mongoose.Types.ObjectId(req.query.color) }
+    });
+    filterAggregate.push({
+      $group: {
+        _id: "$_id",
+        name: { $first: "$name" },
+        price: { $first: "$price" },
+        salePrice: { $first: "$salePrice" },
+        isSale: { $first: "$isSale" },
+        ratings: { $first: "$ratings" },
+        gender: { $first: "$gender" },
+        category: { $first: "$category" },
+        active: { $first: "$active" },
+        slug: { $first: "$slug" },
+        images: { $first: "$slug" },
+        productColors: { $first: "$productColors" }
+      }
+    })
+  } else if (req.query.size) {
+    filterAggregate.push({ $lookup: { from: 'productitems', localField: '_id', foreignField: 'product', as: 'productSizes' } },);
+    filterAggregate.push({ $unwind: "$productSizes" },);
+    filterAggregate.push({
+      $match: { 'productSizes.size': new mongoose.Types.ObjectId(req.query.size) }
+    })
+
+    filterAggregate.push({
+      $group: {
+        _id: "$_id",
+        name: { $first: "$name" },
+        price: { $first: "$price" },
+        salePrice: { $first: "$salePrice" },
+        isSale: { $first: "$isSale" },
+        ratings: { $first: "$ratings" },
+        gender: { $first: "$gender" },
+        category: { $first: "$category" },
+        active: { $first: "$active" },
+        slug: { $first: "$slug" },
+        images: { $first: "$slug" },
+        productSizes: { $first: "$productSizes" }
+      }
     })
   }
 
@@ -315,22 +404,6 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
       }
     }
   }
-
-  const productSizes = await ProductSize.find({ product: req.params.id });
-  productSizes.forEach(size => {
-    size.remove();
-  })
-  req.body.sizes.forEach(size =>
-    ProductSize.create({ product: product._id, size: size })
-  );
-
-  const productColors = await ProductColor.find({ product: req.params.id });
-  productColors.forEach(color => {
-    color.remove();
-  })
-  req.body.colors.forEach(color =>
-    ProductColor.create({ product: product._id, color: color })
-  );
 
   const productItems = await ProductItem.find({ product: req.params.id });
   productItems.forEach(item => {
