@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const { SUCCEEDED, DELIVERING } = require('../constants/orderStatus');
+const ErrorHandler = require('../utils/errorHandler');
+const OrderItem = require('./orderItem');
 
 const orderSchema = mongoose.Schema({
   shippingInfo: {
@@ -75,6 +78,18 @@ const orderSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
+});
+
+
+orderSchema.pre('remove', async function (next) {
+  if (this.orderStatus === SUCCEEDED) {
+    return next(new ErrorHandler('Không thể xóa đơn hàng đã giao', 400));
+  }
+  if (this.orderStatus === DELIVERING) {
+    return next(new ErrorHandler('Không thể xóa đơn hàng đang giao', 400));
+  }
+  const orderItem = await OrderItem.find({ order: this._id });
+  orderItem.forEach(item => item.remove());
 });
 
 module.exports = mongoose.model('Order', orderSchema);
