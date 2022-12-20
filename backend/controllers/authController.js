@@ -6,6 +6,7 @@ const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
 const { OAuth2Client } = require('google-auth-library');
+const Image = require('../models/image');
 
 require('dotenv').config();
 
@@ -21,10 +22,11 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
       width: 150,
       crop: 'scale'
     });
-    avatar = {
+    avatar = await Image.create({
       public_id: result.public_id,
       url: result.secure_url
-    }
+    })
+    avatar = avatar._id;
   }
 
   const { name, email, password, city, address, phoneNo } = req.body;
@@ -37,6 +39,7 @@ exports.registerUser = catchAsyncErrors(async (req, res, next) => {
     address,
     avatar
   });
+
 
   sendToken(user, 201, res);
 });
@@ -141,7 +144,9 @@ exports.resetPassword = catchAsyncErrors(async (req, res, next) => {
 
 //Get current logged in user details => api/v1/me
 exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
+  let user = await User.findById(req.user.id);
+  const userAvatar = await Image.findById(user.avatar);
+  user = { ...JSON.parse(JSON.stringify(user)), avatar: userAvatar };
 
   res.status(200).json({
     success: true,
@@ -179,18 +184,21 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
   // Update avatar
   if (req.body.avatar !== '') {
     const user = await User.findById(req.user.id);
-    const image_id = user.avatar.public_id;
-    const res = await cloudinary.v2.uploader.destroy(image_id);
+    const userAvatar = await Image.findById(user.avatar);
+    if (userAvatar) {
+      const res = await cloudinary.v2.uploader.destroy(userAvatar.public_id);
+    }
     const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
       folder: 'avatars',
       width: 150,
       crop: 'scale'
     });
 
-    newUserData.avatar = {
+    const image = await Image.create({
       public_id: result.public_id,
       url: result.secure_url
-    }
+    });
+    newUserData.avatar = image._id;
   }
 
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
@@ -198,6 +206,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
     runValidators: true,
     useFindAndModify: false
   });
+
 
   res.status(200).json({
     success: true
