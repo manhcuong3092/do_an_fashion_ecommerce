@@ -49,20 +49,25 @@ const OrderDetail = () => {
                     </thead>
                     <tbody>
                       {order.orderItems.map((item, index) => (
-                        <tr>
+                        <tr key={index}>
                           <td className="td-img text-left">
-                            <Link to={`/product/${item.product.slug}`}>
-                              <img src={item.product.images[0] ? item.product.images[0].url : ''} alt="Add Product" />
+                            <Link to={`/product/${item.productItem.product.slug}`}>
+                              <img
+                                src={item.productItem.product.images[0] ? item.productItem.product.images[0].url : ''}
+                                alt="Add Product"
+                              />
                             </Link>
                             <div className="items-dsc">
                               <h5>
-                                <Link to={`/product/${item.product.slug}`}>{item.product.name}</Link>
+                                <Link to={`/product/${item.productItem.product.slug}`}>
+                                  {item.productItem.product.name}
+                                </Link>
                               </h5>
                               <p className="itemcolor">
-                                Màu : <span>{item.color.name}</span>
+                                Màu : <span>{item.productItem.color.name}</span>
                               </p>
                               <p className="itemcolor">
-                                Cỡ : <span>{item.size.name}</span>
+                                Cỡ : <span>{item.productItem.size.name}</span>
                               </p>
                             </div>
                           </td>

@@ -26,18 +26,15 @@ const UpdateOrder = () => {
   if (order) {
     console.log(order);
     order.orderItems.forEach((item, index) => {
-      const stockIndex = item.product.stock.findIndex(
-        (stock) => stock.size === item.size._id && stock.color === item.color._id,
-      );
       productData.push({
         id: item._id,
-        name: item.product.name,
+        name: item.productItem.product.name,
         price: item.price.toLocaleString('vi-VN'),
-        size: item.size.name,
-        color: item.color.name,
+        size: item.productItem.size.name,
+        color: item.productItem.color.name,
         quantity: item.quantity,
-        image: item.product.images[0],
-        stock: item.product.stock[stockIndex].quantity,
+        image: item.productItem.product.images[0],
+        stock: item.productItem.stock,
         totalPrice: (item.price * item.quantity).toLocaleString('vi-VN'),
         sequense: index + 1,
       });
