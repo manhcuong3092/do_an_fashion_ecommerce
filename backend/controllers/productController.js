@@ -9,6 +9,7 @@ const ProductColor = require('../models/productColor');
 const ProductItem = require('../models/productItem');
 const ProductImage = require('../models/productImage');
 const productItem = require('../models/productItem');
+const { default: mongoose } = require('mongoose');
 
 // get : /api/v1/product/new
 exports.newProduct = catchAsyncError(async (req, res, next) => {
@@ -135,21 +136,106 @@ exports.getProductBySlug = catchAsyncError(async (req, res, next) => {
 exports.getProducts = catchAsyncError(async (req, res, next) => {
   const resPerPage = 6;
   const productsCount = await Product.countDocuments();
-  req.query.active = true;
-  const apiFeatures = new APIFeatures(Product.find(), req.query)
-    .search()
-    .filter()
-  let products = await apiFeatures.query;
-  let filteredProductsCount = products.length
-  apiFeatures.pagination(resPerPage);
-  products = await apiFeatures.query.clone();
+  // req.query.active = true;
+  // const apiFeatures = new APIFeatures(Product.find(), req.query)
+  //   .search()
+  //   .filter()
+  // let products = await apiFeatures.query;
+  // let filteredProductsCount = products.length
+  // apiFeatures.pagination(resPerPage);
+  // products = await apiFeatures.query.clone();
+
+  const filterAggregate = [{
+    $match: {
+      name: {
+        $regex: '',
+        $options: 'i'
+      }
+    }
+  }];
+  if (req.query.keyword) {
+    filterAggregate.push({
+      $match: {
+        name: {
+          $regex: req.query.keyword,
+          $options: 'i'
+        }
+      }
+    })
+  }
+
+  if (req.query.category) {
+    filterAggregate.push({
+      $match: { category: new mongoose.Types.ObjectId(req.query.category) }
+    })
+  }
+
+  if (req.query.price) {
+    if (req.query.price.gte) {
+      filterAggregate.push({
+        $match: { price: { $gte: Number.parseInt(req.query.price.gte) } }
+      })
+    }
+    if (req.query.price.lte) {
+      filterAggregate.push({
+        $match: { price: { $lte: Number.parseInt(req.query.price.lte) } }
+      })
+    }
+  }
+
+  if (req.query.gender) {
+    filterAggregate.push({
+      $match: {
+        gender: {
+          $regex: req.query.gender,
+          $options: 'i'
+        }
+      }
+    })
+  }
+
+  if (req.query.gender) {
+    filterAggregate.push({
+      $match: {
+        gender: {
+          $regex: req.query.gender,
+          $options: 'i'
+        }
+      }
+    })
+  }
+
+  if (req.query.size) {
+    filterAggregate.push({ $lookup: { from: 'productsizes', localField: '_id', foreignField: 'product', as: 'productSizes' } },);
+    filterAggregate.push({ $unwind: "$productSizes" },);
+    filterAggregate.push({
+      $match: { 'productSizes.size': new mongoose.Types.ObjectId(req.query.size) }
+    })
+  }
+
+  if (req.query.color) {
+    filterAggregate.push({ $lookup: { from: 'productcolors', localField: '_id', foreignField: 'product', as: 'productColors' } },);
+    filterAggregate.push({ $unwind: "$productColors" },);
+    filterAggregate.push({
+      $match: { 'productColors.color': new mongoose.Types.ObjectId(req.query.color) }
+    })
+  }
+
+  const currentPage = Number(req.query.page) || 1;
+  const skip = resPerPage * (currentPage - 1);
+
+  filterAggregate.push({ $skip: skip });
+  filterAggregate.push({ $limit: resPerPage });
+  filterAggregate.push({ $lookup: { from: 'productimages', localField: '_id', foreignField: 'product', as: 'images' } });
+
+  const products = await Product.aggregate(filterAggregate)
 
   res.status(200).json({
     success: true,
     products,
     productsCount,
     resPerPage,
-    filteredProductsCount
+    filteredProductsCount: products.length
   })
 });
 
