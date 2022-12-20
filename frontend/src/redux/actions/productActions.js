@@ -22,10 +22,10 @@ export const getProducts =
         link += `&price[lte]=${price[1]}`;
       }
       if (color) {
-        link += `&colors=${color}`;
+        link += `&color=${color}`;
       }
       if (size) {
-        link += `&sizes=${size}`;
+        link += `&size=${size}`;
       }
       if (gender) {
         link += `&gender=${gender}`;

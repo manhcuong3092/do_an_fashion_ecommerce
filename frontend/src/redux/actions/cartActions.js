@@ -14,12 +14,13 @@ export const getUserCart = (user) => async (dispatch, getState) => {
   }
 
   let cart;
-  const { data } = await axios.get(`${END_POINT}/api/v1/cart`, { withCredentials: true });
-  if (!data.cart) {
+  try {
+    const { data } = await axios.get(`${END_POINT}/api/v1/cart`, { withCredentials: true });
+    cart = data.cart;
+  } catch (error) {
+    console.log('aaaa');
     const { result } = await axios.post(`${END_POINT}/api/v1/cart`, { withCredentials: true });
     cart = result.cart;
-  } else {
-    cart = data.cart;
   }
   dispatch({
     type: GET_USER_CART,
