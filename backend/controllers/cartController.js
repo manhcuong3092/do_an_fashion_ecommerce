@@ -16,13 +16,18 @@ exports.newCart = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    cart
+    cart: { ...cart, cartItems: [] }
   });
 });
 
 
 // get logged user cart => /api/v1/cart
 exports.getCart = catchAsyncErrors(async (req, res, next) => {
+  let userCart = await Cart.findOne({ user: req.user._id });
+  if (!userCart) {
+    return next(new ErrorHandler('Không tìm thấy giỏ hàng', 404));
+  }
+
   let cart = await Cart.aggregate([
     { $match: { user: new mongoose.Types.ObjectId(req.user.id) } },
     {
@@ -46,13 +51,18 @@ exports.getCart = catchAsyncErrors(async (req, res, next) => {
       }
     }
   ]);
+
   if (cart.length === 0) {
-    return next(new ErrorHandler('Không tìm thấy đơn hàng', 404));
+    res.status(200).json({
+      success: true,
+      cart: { ...userCart, cartItems: [] }
+    });
+  } else {
+    res.status(200).json({
+      success: true,
+      cart: cart[0]
+    })
   }
-  res.status(200).json({
-    success: true,
-    cart: cart[0]
-  })
 })
 
 // update cart => /api/v1/cart

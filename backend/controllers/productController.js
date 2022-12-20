@@ -68,25 +68,18 @@ exports.getSingleProduct = catchAsyncError(async (req, res, next) => {
   if (!product) {
     return next(new ErrorHandler('Không tìm thấy sản phẩm', 404));
   }
-  // const productSizes = await ProductSize.find({ product: req.params.id }).populate('size');
-  // const sizes = productSizes.map(item => item.size);
-
-  // const productColors = await ProductColor.find({ product: req.params.id }).populate('color');
-  // const colors = productColors.map(item => item.color);
 
   const images = await ProductImage.find({ product: req.params.id });
 
   let productItems = await ProductItem.find({ product: req.params.id }).populate('size').populate('color');
   productItems = JSON.parse(JSON.stringify(productItems));
 
-  console.log(productItems);
-
   const sizes = [], colors = [];
   productItems.forEach(item => {
-    if (!sizes.includes(item.size)) {
+    if (!sizes.some(size => size._id === item.size._id)) {
       sizes.push(item.size);
     }
-    if (!colors.includes(item.color)) {
+    if (!colors.some(color => color._id === item.color._id)) {
       colors.push(item.color);
     }
   });
@@ -120,11 +113,6 @@ exports.getProductBySlug = catchAsyncError(async (req, res, next) => {
   if (!product) {
     return next(new ErrorHandler('Không tìm thấy sản phẩm', 404));
   }
-  const productSizes = await ProductSize.find({ product: product._id }).populate('size');
-  const sizes = productSizes.map(item => item.size);
-
-  const productColors = await ProductColor.find({ product: product._id }).populate('color');
-  const colors = productColors.map(item => item.color);
 
   const images = await ProductImage.find({ product: product._id });
 
@@ -135,6 +123,23 @@ exports.getProductBySlug = catchAsyncError(async (req, res, next) => {
   productItems = productItems.map(item => {
     return { ...JSON.parse(JSON.stringify(item)), product: productResult }
   })
+
+  productItems = productItems.sort((a, b) => {
+    if (a.size._id > b.size._id) {
+      return 1;
+    }
+    return -1;
+  })
+
+  const sizes = [], colors = [];
+  productItems.forEach(item => {
+    if (!sizes.some(size => size._id === item.size._id)) {
+      sizes.push(item.size);
+    }
+    if (!colors.some(color => color._id === item.color._id)) {
+      colors.push(item.color);
+    }
+  });
 
   productResult = { ...productResult, sizes, colors, productItems };
 
@@ -330,7 +335,23 @@ exports.getProducts = catchAsyncError(async (req, res, next) => {
 
 // get latest products : /api/v1/products
 exports.getLatestProducts = catchAsyncError(async (req, res, next) => {
-  const products = await Product.find({ active: true }).sort('-_id').limit(4);
+  const filterAggregate = [{
+    $match: {
+      name: {
+        $regex: '',
+        $options: 'i'
+      }
+    }
+  },
+  {
+    $match: { active: { $eq: true } }
+  }
+  ];
+
+  filterAggregate.push({ $limit: 4 });
+  filterAggregate.push({ $lookup: { from: 'productimages', localField: '_id', foreignField: 'product', as: 'images' } });
+
+  const products = await Product.aggregate(filterAggregate);
 
   res.status(200).json({
     success: true,
@@ -487,6 +508,8 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
     comment
   }
 
+  console.log(review);
+
   let result = null;
 
   const isReviewed = await Review.findOne({ product: productId, user: req.user._id });
@@ -495,7 +518,13 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
   } else {
     result = await Review.findByIdAndUpdate(isReviewed._id, review);
   }
-  const reviews = await Review.find({ product: productId }).populate('user');
+  const reviews = await Review.aggregate([
+    { $match: { product: new mongoose.Types.ObjectId(productId) } },
+    { $lookup: { from: 'users', localField: 'user', foreignField: '_id', as: 'user' } },
+    { $unwind: "$user" },
+    { $lookup: { from: 'images', localField: 'user.avatar', foreignField: '_id', as: 'user.avatar' } },
+    { $unwind: "$user.avatar" },
+  ]);
   const product = await Product.findById(productId);
 
   product.ratings = reviews.reduce((acc, item) => item.rating + acc, 0) / reviews.length;
@@ -509,7 +538,14 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
 
 //Get product Reviews => /api/v1/reviews
 exports.getProductReviews = catchAsyncError(async (req, res, next) => {
-  const reviews = await Review.find({ product: req.query.productId }).populate('user');
+  // const reviews = await Review.find({ product: req.query.productId }).populate('user');
+  const reviews = await Review.aggregate([
+    { $match: { product: new mongoose.Types.ObjectId(req.query.productId) } },
+    { $lookup: { from: 'users', localField: 'user', foreignField: '_id', as: 'user' } },
+    { $unwind: "$user" },
+    { $lookup: { from: 'images', localField: 'user.avatar', foreignField: '_id', as: 'user.avatar' } },
+    { $unwind: "$user.avatar" },
+  ]);
   res.status(200).json({
     success: true,
     reviews
