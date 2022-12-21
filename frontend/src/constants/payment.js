@@ -6,4 +6,5 @@ export const PAID = true;
 export const SHIPPING_PRICE = 30000;
 export const FREE_SHIP_MINIMUM = 500000;
 export const PAYPAL_CLIENT = "AdCFaewzZx8kVk3wWmXPuVUYeUKAGNfd6ixCUmTB6vYo3pNYScbgzbDzQ1E35PWFmhhgzLi68oODWwZO";
+export const STRIPE_PUBLIC_API_KEY = 'pk_test_51Ln0xNKIgFVjpAQgfaA5hs8BWgF53ttr7aXjwPqmlGuVm91CpqvBPrtGyXmCxtUynxV2OhFMoMKWrzvyfmfwoXN2004E7MwfGj'
 export const USD_TO_VND = 24365;

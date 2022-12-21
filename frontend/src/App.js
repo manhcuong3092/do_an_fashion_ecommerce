@@ -61,22 +61,16 @@ import SecurityPolicy from './pages/SecurityPolicy';
 import { checkCookie } from './redux/actions/authActions';
 import { useDispatch } from 'react-redux';
 import ScrollToTop from './layouts/ScrollToTop';
+import { STRIPE_PUBLIC_API_KEY } from './constants/payment';
 
 function App() {
-  const [stripeApiKey, setStripeApiKey] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    async function getStripeApiKey() {
-      const { data } = await axios.get(`${END_POINT}/api/v1/stripeapi`, { withCredentials: true });
-      setStripeApiKey(data.stripeApiKey);
-    }
-
     const checkUserCookie = async () => {
       dispatch(checkCookie());
     };
 
-    getStripeApiKey();
     checkUserCookie();
   }, [dispatch]);
 
@@ -97,16 +91,14 @@ function App() {
           <Route path="/return-policy" element={<ReturnPolicy />} />
           <Route path="/security-policy" element={<SecurityPolicy />} />
           <Route path="/cart" element={<Cart />} />
-          {stripeApiKey && (
-            <Route
-              path="/checkout"
-              element={
-                <Elements stripe={loadStripe(stripeApiKey)}>
-                  <Checkout />
-                </Elements>
-              }
-            />
-          )}
+          <Route
+            path="/checkout"
+            element={
+              <Elements stripe={loadStripe(STRIPE_PUBLIC_API_KEY)}>
+                <Checkout />
+              </Elements>
+            }
+          />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
