@@ -350,13 +350,6 @@ const getProductMenuTemplate = (products, sender_psid) => {
                 "title": "Xem sản phẩm"
               },
               {
-                "type": "web_url",
-                "url": `${ORDER_URL}?productId=${product._id}&sender_psid=${sender_psid}`,
-                "webview_height_ratio": "tall",
-                "messenger_extensions": true, // false to open webview in new tab
-                "title": "Đặt mua"
-              },
-              {
                 "type": "postback",
                 "title": "Quay lại",
                 "payload": MAIN_MENU
