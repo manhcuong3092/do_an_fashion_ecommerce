@@ -2,21 +2,21 @@ const Blog = require('../models/blog');
 const catchAsyncError = require('../middlewares/catchAsyncErrors');
 const ErrorHandler = require('../utils/errorHandler');
 const cloudinary = require('cloudinary');
-const blog = require('../models/blog');
+const Image = require('../models/image');
 
 
 exports.createBlog = catchAsyncError(async (req, res, next) => {
-  avatar = null;
+  let avatar = null;
   if (req.body.avatar) {
     try {
       const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
         folder: 'avatars',
       });
-      avatar = {
+      avatar = await Image.create({
         public_id: result.public_id,
         url: result.secure_url
-      }
-      req.body.avatar = avatar;
+      })
+      req.body.avatar = avatar._id;
     } catch (error) {
       return next(new ErrorHandler(`Tải ảnh lên có kích thước nhỏ hơn 1 MB.`, 400));
     }
@@ -40,7 +40,8 @@ exports.getBlogs = catchAsyncError(async (req, res, next) => {
     resPerPage = Number(req.query.limit);
   }
 
-  const blogs = await Blog.find().sort('-_id').limit(resPerPage).skip(skip).populate('author');
+  const blogs = await Blog.find().sort('-_id').limit(resPerPage).skip(skip).populate('author').populate('avatar');
+
   res.status(200).json({
     success: true,
     blogs,
@@ -51,7 +52,7 @@ exports.getBlogs = catchAsyncError(async (req, res, next) => {
 
 
 exports.getLatestBlogs = catchAsyncError(async (req, res, next) => {
-  const blogs = await Blog.find().sort('-_id').limit(3).populate('author');
+  const blogs = await Blog.find().sort('-_id').limit(3).populate('author').populate('avatar');
   res.status(200).json({
     success: true,
     blogs,
@@ -60,7 +61,7 @@ exports.getLatestBlogs = catchAsyncError(async (req, res, next) => {
 
 exports.getBlogBySlug = catchAsyncError(async (req, res, next) => {
   const slug = req.params.slug;
-  const blog = await Blog.findOne({ slug }).populate('author');
+  const blog = await Blog.findOne({ slug }).populate('author').populate('avatar');
   if (!blog) {
     return next(new ErrorHandler(`Không tìm thấy blog`, 404));
   }
@@ -73,7 +74,7 @@ exports.getBlogBySlug = catchAsyncError(async (req, res, next) => {
 
 exports.getBlog = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;
-  const blog = await Blog.findById(id).populate('author');
+  const blog = await Blog.findById(id).populate('author').populate('avatar');
   if (!blog) {
     return next(new ErrorHandler(`Không tìm thấy blog: ${req.params.id}`, 404));
   }
@@ -131,7 +132,7 @@ exports.deleteBlog = catchAsyncError(async (req, res, next) => {
 })
 
 exports.getAllBlogs = catchAsyncError(async (req, res, next) => {
-  const blogs = await Blog.find().populate('author');
+  const blogs = await Blog.find().populate('author').populate('avatar');
   res.status(200).json({
     success: true,
     blogs,
