@@ -50,6 +50,7 @@ const BlogList = () => {
                     onChange={(e, page) => {
                       setPage(page);
                     }}
+                    onClick={window.scrollTo(0, 150)}
                   />
                 </Stack>
               </div>

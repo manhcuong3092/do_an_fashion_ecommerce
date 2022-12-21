@@ -97,6 +97,7 @@ const BlogsList = () => {
         try {
           const { data } = await axios.get(`${END_POINT}/api/v1/admin/blogs`, { withCredentials: true });
           let blogData = [];
+          console.log(data);
 
           data.blogs.forEach((blog, index) => {
             const createdAt = new Date(Date.parse(blog.createdAt));
