@@ -227,10 +227,8 @@ const Checkout = () => {
 
     const orderItems = cartItems.map((item) => {
       const orderItem = {
-        price: item.product.isSale ? item.product.salePrice : item.product.price,
-        product: item.product._id,
-        size: item.size._id,
-        color: item.color._id,
+        price: item.productItem.product.isSale ? item.productItem.product.salePrice : item.productItem.product.price,
+        productItem: item.productItem._id,
         quantity: item.quantity,
       };
       return orderItem;

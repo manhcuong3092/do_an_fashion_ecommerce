@@ -31,23 +31,25 @@ const Shop = () => {
 
   const [searchParams] = useSearchParams('');
 
-  const { loading, products, error, resPerPage, filteredProductsCount } = useSelector((state) => state.products);
+  const { loading, products, error, resPerPage, productsCount } = useSelector((state) => state.products);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setKeyword(searchParams.get('keyword'));
+    setKeyword(searchParams.get('keyword') ? searchParams.get('keyword') : '');
   }, [searchParams]);
 
   useEffect(() => {
     const cateQuery = searchParams.get('category');
-    const getCategory = async () => {
-      const { data } = await axios.get(`${END_POINT}/api/v1/category/slug/${cateQuery}`, { withCredentials: true });
-      if (data) {
-        setCategory(data.category._id);
-      }
-    };
-    getCategory();
+    if (cateQuery) {
+      const getCategory = async () => {
+        const { data } = await axios.get(`${END_POINT}/api/v1/category/slug/${cateQuery}`, { withCredentials: true });
+        if (data) {
+          setCategory(data.category._id);
+        }
+      };
+      getCategory();
+    }
   }, [searchParams]);
 
   useEffect(() => {
@@ -291,18 +293,19 @@ const Shop = () => {
                 <GridProduct
                   products={products}
                   resPerPage={resPerPage}
-                  filteredProductsCount={filteredProductsCount}
                   currentPage={currentPage}
+                  productsCount={productsCount}
                 />
                 <Row>
                   <Col>
                     <div className="pagnation-ul">
                       <Stack spacing={2}>
                         <Pagination
-                          count={filteredProductsCount && resPerPage && Math.ceil(filteredProductsCount / resPerPage)}
+                          count={productsCount && resPerPage && Math.ceil(productsCount / resPerPage)}
                           onChange={(e, page) => {
                             setCurrentPage(page);
                           }}
+                          onClick={window.scrollTo(0, 150)}
                         />
                       </Stack>
                     </div>

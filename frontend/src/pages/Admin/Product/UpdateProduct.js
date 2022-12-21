@@ -51,7 +51,7 @@ const UpdateProduct = () => {
           const promise2 = axios.get(`${END_POINT}/api/v1/colors`, { withCredentials: true });
           const promise3 = axios.get(`${END_POINT}/api/v1/categories`, { withCredentials: true });
           const promise4 = axios.get(`${END_POINT}/api/v1/admin/product/${productId}`, { withCredentials: true });
-          Promise.all([promise1, promise2, promise3, promise4]).then((value) => {
+          await Promise.all([promise1, promise2, promise3, promise4]).then((value) => {
             setSizesData(value[0].data.sizes);
             setColorsData(value[1].data.colors);
             setCategoriesData(value[2].data.categories);

@@ -28,7 +28,6 @@ const Statistic = () => {
         setOrders(data.orders);
         // setProducts(data.products);
         // setUsers(data.users);
-        console.log(data);
       } catch (error) {
         toast.error(error.response.data.message);
       }
