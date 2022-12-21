@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 import { SORT_ASC, SORT_DESC } from '~/constants/filterPrice';
 
-const GridProduct = ({ products, resPerPage, filteredProductsCount, currentPage }) => {
+const GridProduct = ({ products, resPerPage, productsCount, currentPage }) => {
   const [sort, setSort] = useState('Không');
 
   if (sort === SORT_ASC) {
@@ -37,8 +37,8 @@ const GridProduct = ({ products, resPerPage, filteredProductsCount, currentPage 
               <li>
                 <ul className="d-flex bd-highlight">
                   <li className="sort-by flex-grow-1 bd-highlight">
-                    Hiện thị {resPerPage * (currentPage - 1) + 1} - {resPerPage * currentPage} của{' '}
-                    {filteredProductsCount} sản phẩm tìm thấy
+                    Hiện thị {resPerPage * (currentPage - 1) + 1} - {resPerPage * currentPage} của {productsCount} sản
+                    phẩm tìm thấy
                   </li>
                   <li className="sort-by bd-highlight" style={{ marginRight: '5px' }}>
                     Sắp xếp: {sort}{' '}
