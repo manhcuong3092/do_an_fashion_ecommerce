@@ -21,19 +21,22 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
   }
 
   let imagesLink = [];
-  for (let i = 0; i < images.length; i++) {
-    try {
-      const result = await clouldinary.v2.uploader.upload(images[i], {
-        folder: 'products'
-      });
-      imagesLink.push({
-        public_id: result.public_id,
-        url: result.secure_url
-      });
-    } catch (error) {
-      return next(new ErrorHandler('Tải ảnh có kích thước nhỏ hơn 1MB', 404));
-    }
-  }
+
+  await Promise.all(images.map(image =>
+    clouldinary.v2.uploader.upload(image, {
+      folder: 'products'
+    })
+  )).then(values => {
+    imagesLink = values.map(item => {
+      return {
+        public_id: item.public_id,
+        url: item.secure_url
+      }
+    })
+  }).catch(error => {
+    console.log(error);
+    return next(new ErrorHandler('Tải ảnh có kích thước nhỏ hơn 1MB', 404));
+  });
 
   req.body.images = imagesLink;
   req.body.createdBy = req.user.id;
@@ -152,7 +155,6 @@ exports.getProductBySlug = catchAsyncError(async (req, res, next) => {
 // get products : /api/v1/products
 exports.getProducts = catchAsyncError(async (req, res, next) => {
   const resPerPage = 6;
-  const productsCount = await Product.countDocuments();
 
   const filterAggregate = [
     {
@@ -310,18 +312,34 @@ exports.getProducts = catchAsyncError(async (req, res, next) => {
   const currentPage = Number(req.query.page) || 1;
   const skip = resPerPage * (currentPage - 1);
 
-  filterAggregate.push({ $skip: skip });
-  filterAggregate.push({ $limit: resPerPage });
   filterAggregate.push({ $lookup: { from: 'productimages', localField: '_id', foreignField: 'product', as: 'images' } });
 
-  const products = await Product.aggregate(filterAggregate)
+  filterAggregate.push({
+    $facet: {
+      paginatedResults: [{ $skip: skip }, { $limit: resPerPage }],
+      totalCount: [
+        {
+          $count: 'count'
+        }
+      ]
+    }
+  });
+
+  // filterAggregate.push({ $skip: skip });
+  // filterAggregate.push({ $limit: resPerPage });
+
+  let result = await Product.aggregate(filterAggregate);
+  result = result[0];
+  const products = result.paginatedResults;
+  const filteredProductsCount = products.length;
+  const productsCount = filteredProductsCount === 0 ? 0 : result.totalCount[0].count;
 
   res.status(200).json({
     success: true,
     products,
     productsCount,
     resPerPage,
-    filteredProductsCount: products.length
+    filteredProductsCount
   })
 });
 
@@ -476,7 +494,8 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
   }
 
   //delete images
-  for (let i = 0; i < product.images.length; i++) {
+  const images = await ProductImage.find({ product: req.params.id });
+  for (let i = 0; i < images.length; i++) {
     const result = await clouldinary.v2.uploader.destroy(product.images[i].public_id);
   }
 
