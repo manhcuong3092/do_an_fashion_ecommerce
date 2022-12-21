@@ -26,7 +26,12 @@ const OrderSuccessRateStatic = ({ orders }) => {
       nextMonth = new Date(currentMonth.setMonth(currentMonth.getMonth() + 1));
     }
     const filterData = orders.filter((item) => {
-      return new Date(item.paidAt) >= thisMonth && new Date(item.paidAt) < nextMonth;
+      return (
+        (new Date(item.paidAt) >= thisMonth && new Date(item.paidAt) < nextMonth) ||
+        (item.orderStatus === ORDER_CANCEL &&
+          new Date(item.createdAt) >= thisMonth &&
+          new Date(item.createdAt) < nextMonth)
+      );
     });
     const orderSuccess = filterData.reduce((acc, item) => (item.orderStatus === ORDER_SUCCESS ? acc + 1 : acc), 0);
     const orderCanceled = filterData.reduce((acc, item) => (item.orderStatus === ORDER_CANCEL ? acc + 1 : acc), 0);

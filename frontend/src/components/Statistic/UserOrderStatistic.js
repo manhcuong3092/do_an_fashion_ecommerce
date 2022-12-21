@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavDropdown } from 'react-bootstrap';
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
+import { ORDER_CANCEL } from '~/constants/order';
 import { TYPE_CURRENT_MONTH, TYPE_LAST_MONTH } from '~/constants/statistic';
 import OutlineBox from '../OutlineBox';
 
@@ -25,7 +26,12 @@ const UserOrderStatistic = ({ orders }) => {
       nextMonth = new Date(currentMonth.setMonth(currentMonth.getMonth() + 1));
     }
     const filterData = orders.filter((item) => {
-      return new Date(item.paidAt) >= thisMonth && new Date(item.paidAt) < nextMonth;
+      return (
+        (new Date(item.paidAt) >= thisMonth && new Date(item.paidAt) < nextMonth) ||
+        (item.orderStatus === ORDER_CANCEL &&
+          new Date(item.createdAt) >= thisMonth &&
+          new Date(item.createdAt) < nextMonth)
+      );
     });
     const haveUser = filterData.reduce((acc, item) => (item.user ? acc + 1 : acc), 0);
     const noUser = filterData.reduce((acc, item) => (!item.user ? acc + 1 : acc), 0);

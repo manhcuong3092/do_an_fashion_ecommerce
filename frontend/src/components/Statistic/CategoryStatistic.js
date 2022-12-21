@@ -45,14 +45,14 @@ const CategoryStatistic = ({ orders }) => {
 
     filterData.forEach((order) => {
       order.orderItems.forEach((item) => {
-        categoryObj[item.product.category._id] = categoryObj[item.product.category._id]
+        categoryObj[item.productItem.product.category._id] = categoryObj[item.productItem.product.category._id]
           ? {
-              ...categoryObj[item.product.category._id],
-              quantity: categoryObj[item.product.category._id].quantity + item.quantity,
+              ...categoryObj[item.productItem.product.category._id],
+              quantity: categoryObj[item.productItem.product.category._id].quantity + item.quantity,
             }
           : {
-              id: item.product.category._id,
-              name: item.product.category.name,
+              id: item.productItem.product.category._id,
+              name: item.productItem.product.category.name,
               quantity: 1,
             };
       });

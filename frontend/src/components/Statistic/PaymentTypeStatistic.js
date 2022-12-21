@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { NavDropdown } from 'react-bootstrap';
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
-import { PAYMENT_COD, PAYMENT_ONLINE } from '~/constants/payment';
+import { ORDER_CANCEL } from '~/constants/order';
+import { PAYMENT_COD, PAYMENT_ONLINE, PAYMENT_PAYPAL } from '~/constants/payment';
 import { TYPE_CURRENT_MONTH, TYPE_LAST_MONTH } from '~/constants/statistic';
 import OutlineBox from '../OutlineBox';
 
-const COLORS = ['#0088FE', '#00C49F'];
+const COLORS = ['#0088FE', '#00C49F', '#FF6C37'];
 
 const PaymentTypeStatistic = ({ orders }) => {
   const [monthView, setMonthView] = useState(TYPE_CURRENT_MONTH);
@@ -26,10 +27,16 @@ const PaymentTypeStatistic = ({ orders }) => {
       nextMonth = new Date(currentMonth.setMonth(currentMonth.getMonth() + 1));
     }
     const filterData = orders.filter((item) => {
-      return new Date(item.paidAt) >= thisMonth && new Date(item.paidAt) < nextMonth;
+      return (
+        (new Date(item.paidAt) >= thisMonth && new Date(item.paidAt) < nextMonth) ||
+        (item.orderStatus === ORDER_CANCEL &&
+          new Date(item.createdAt) >= thisMonth &&
+          new Date(item.createdAt) < nextMonth)
+      );
     });
     const payment_cod = filterData.reduce((acc, item) => (item.paymentType === PAYMENT_COD ? acc + 1 : acc), 0);
     const payment_onl = filterData.reduce((acc, item) => (item.paymentType === PAYMENT_ONLINE ? acc + 1 : acc), 0);
+    const payment_paypal = filterData.reduce((acc, item) => (item.paymentType === PAYMENT_PAYPAL ? acc + 1 : acc), 0);
     orderData = [
       {
         name: PAYMENT_COD,
@@ -38,6 +45,10 @@ const PaymentTypeStatistic = ({ orders }) => {
       {
         name: PAYMENT_ONLINE,
         value: payment_onl,
+      },
+      {
+        name: PAYMENT_PAYPAL,
+        value: payment_paypal,
       },
     ];
   }

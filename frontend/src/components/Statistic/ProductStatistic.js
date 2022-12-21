@@ -45,14 +45,14 @@ const ProductStatistic = ({ orders }) => {
 
     filterData.forEach((order) => {
       order.orderItems.forEach((item) => {
-        productObj[item.product._id] = productObj[item.product._id]
+        productObj[item.productItem.product._id] = productObj[item.productItem.product._id]
           ? {
-              ...productObj[item.product._id],
-              quantity: productObj[item.product._id].quantity + item.quantity,
+              ...productObj[item.productItem.product._id],
+              quantity: productObj[item.productItem.product._id].quantity + item.quantity,
             }
           : {
-              id: item.product._id,
-              name: item.product.name,
+              id: item.productItem.product._id,
+              name: item.productItem.product.name,
               quantity: 1,
             };
       });
