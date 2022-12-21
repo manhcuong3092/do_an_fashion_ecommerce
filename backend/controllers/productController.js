@@ -154,18 +154,10 @@ exports.getProducts = catchAsyncError(async (req, res, next) => {
   const resPerPage = 6;
   const productsCount = await Product.countDocuments();
 
-
-  const filterAggregate = [{
-    $match: {
-      name: {
-        $regex: '',
-        $options: 'i'
-      }
+  const filterAggregate = [
+    {
+      $match: { active: { $eq: true } }
     }
-  },
-  {
-    $match: { active: { $eq: true } }
-  }
   ];
   if (req.query.keyword) {
     filterAggregate.push({

@@ -2,12 +2,16 @@ const User = require('../models/user');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const cloudinary = require('cloudinary');
+const Image = require('../models/image');
 
 // Admin route
 
 //Get all user => /api/v1/admin/users
 exports.allUsers = catchAsyncErrors(async (req, res, next) => {
-  const users = await User.find();
+  const users = await User.aggregate([
+    { $lookup: { from: 'images', localField: 'avatar', foreignField: '_id', as: 'avatar' } },
+    { $unwind: '$avatar' }
+  ]);
 
   res.status(200).json({
     success: true,
@@ -17,7 +21,9 @@ exports.allUsers = catchAsyncErrors(async (req, res, next) => {
 
 // Get user details => api/v1/admin/user/:id
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
+  let user = await User.findById(req.params.id);
+  const userAvatar = await Image.findById(user.avatar);
+  user = { ...JSON.parse(JSON.stringify(user)), avatar: userAvatar };
   if (!user) {
     return next(new ErrorHandler(`Không tìm thấy user có id: ${req.params.id}`, 404));
   }
@@ -37,10 +43,11 @@ exports.createUser = catchAsyncErrors(async (req, res, next) => {
       width: 150,
       crop: 'scale'
     });
-    avatar = {
+    avatar = await Image.create({
       public_id: result.public_id,
       url: result.secure_url
-    }
+    })
+    avatar = avatar._id;
   }
 
   const { name, email, password, city, address, phoneNo, role } = req.body;
@@ -111,7 +118,7 @@ exports.deleteUser = catchAsyncErrors(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler(`Không tìm thấy user có id: ${req.params.id}`, 404));
   }
-  
+
   await user.remove();
   res.status(200).json({
     success: true

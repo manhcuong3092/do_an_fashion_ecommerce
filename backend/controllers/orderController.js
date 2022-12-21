@@ -183,8 +183,9 @@ exports.updateOrder = catchAsyncErrors(async (req, res, next) => {
     order.deliveredAt = Date.now();
 
   } else if (req.body.status === CANCELLED) {
+    const orderItems = await OrderItem.find({ order: req.params.id }).populate('productItem');
     order.orderStatus = req.body.status;
-    order.orderItems.forEach(async item => {
+    orderItems.forEach(async item => {
       await updateStock(item.productItem, -item.quantity);
     });
   } else if (req.body.status === SUCCEEDED) {
