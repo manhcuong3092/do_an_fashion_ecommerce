@@ -143,7 +143,7 @@ const UpdateProduct = () => {
     });
 
     const stockArr = stock.map((item) => {
-      return { size: item.size._id, color: item.color._id, stock: item.stock };
+      return { size: item.size._id, color: item.color._id, stock: item.stock, sku: item.sku };
     });
 
     stockArr.forEach((stockItem) => {
@@ -233,7 +233,7 @@ const UpdateProduct = () => {
       <SideNav>
         <main>
           <div className="container-fluid px-4">
-            <h1 className="my-4">Tạo sản phẩm</h1>
+            <h1 className="my-4">Cập nhật sản phẩm</h1>
             <OutlineBox>
               <Form className="form-control p-4" onSubmit={handleSubmit}>
                 <Form.Group>
@@ -406,6 +406,7 @@ const UpdateProduct = () => {
                       <tr>
                         <th>Kích cỡ</th>
                         <th>Màu sắc</th>
+                        <th>SKU</th>
                         <th>Kho</th>
                       </tr>
                     </thead>
@@ -415,6 +416,24 @@ const UpdateProduct = () => {
                           <tr key={index}>
                             <td className="text-center">{item.size.name}</td>
                             <td className="text-center">{item.color.name}</td>
+                            <td>
+                              <Form.Control
+                                type="text"
+                                value={item.sku}
+                                onChange={(e) => {
+                                  setStock([
+                                    ...stock.slice(0, index),
+                                    {
+                                      size: item.size,
+                                      color: item.color,
+                                      quantity: item.quantity,
+                                      sku: e.target.value,
+                                    },
+                                    ...stock.slice(index + 1),
+                                  ]);
+                                }}
+                              />
+                            </td>
                             <td>
                               <Form.Control
                                 type="number"

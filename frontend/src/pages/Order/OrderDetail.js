@@ -69,6 +69,9 @@ const OrderDetail = () => {
                               <p className="itemcolor">
                                 Cỡ : <span>{item.productItem.size.name}</span>
                               </p>
+                              <p className="itemcolor">
+                                SKU : <span>{item.productItem.sku}</span>
+                              </p>
                             </div>
                           </td>
                           <td>{item.price.toLocaleString('vi-VN')}₫</td>

@@ -13,6 +13,7 @@ const ProductDetail = ({ product }) => {
   const [size, setSize] = useState(product.sizes[0]);
   const [color, setColor] = useState(product.colors[0]);
   const [stock, setStock] = useState('');
+  const [sku, setSku] = useState('');
   const [productItem, setProductItem] = useState(null);
 
   const { user } = useSelector((state) => state.auth);
@@ -53,6 +54,7 @@ const ProductDetail = ({ product }) => {
       (stock) => stock.size._id === size._id && stock.color._id === color._id,
     );
     setStock(product.productItems[stockIndex].stock);
+    setSku(product.productItems[stockIndex].sku);
     setProductItem(product.productItems[stockIndex]);
     setQuantity(1);
   }, [product, size, color]);
@@ -132,6 +134,7 @@ const ProductDetail = ({ product }) => {
               </div>
               <div className="s-shoose">
                 <p>Số lượng trong kho: {stock}</p>
+                <p>SKU: {sku}</p>
               </div>
             </div>
             {stock !== 0 ? (

@@ -130,7 +130,7 @@ const CreateProduct = () => {
     });
 
     const stockArr = stock.map((item) => {
-      return { size: item.size._id, color: item.color._id, quantity: item.quantity };
+      return { size: item.size._id, color: item.color._id, quantity: item.quantity, sku: item.sku };
     });
 
     stockArr.forEach((stockItem) => {
@@ -394,6 +394,7 @@ const CreateProduct = () => {
                       <tr>
                         <th>Kích cỡ</th>
                         <th>Màu sắc</th>
+                        <th>SKU</th>
                         <th>Kho</th>
                       </tr>
                     </thead>
@@ -405,12 +406,30 @@ const CreateProduct = () => {
                             <td className="text-center">{item.color.name}</td>
                             <td>
                               <Form.Control
+                                type="text"
+                                value={item.sku}
+                                onChange={(e) => {
+                                  setStock([
+                                    ...stock.slice(0, index),
+                                    {
+                                      size: item.size,
+                                      color: item.color,
+                                      quantity: item.quantity,
+                                      sku: e.target.value,
+                                    },
+                                    ...stock.slice(index + 1),
+                                  ]);
+                                }}
+                              />
+                            </td>
+                            <td>
+                              <Form.Control
                                 type="number"
                                 value={item.quantity}
                                 onChange={(e) => {
                                   setStock([
                                     ...stock.slice(0, index),
-                                    { size: item.size, color: item.color, quantity: e.target.value },
+                                    { size: item.size, color: item.color, quantity: e.target.value, sku: item.sku },
                                     ...stock.slice(index + 1),
                                   ]);
                                 }}

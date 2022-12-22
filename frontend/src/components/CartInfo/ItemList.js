@@ -66,7 +66,10 @@ const ItemList = () => {
                         Màu: <span>{item.productItem.color.name}</span>
                       </p>
                       <p className="itemcolor">
-                        Kích cỡ : <span>{item.productItem.size.name}</span>
+                        Kích cỡ: <span>{item.productItem.size.name}</span>
+                      </p>
+                      <p className="itemcolor">
+                        SKU: <span>{item.productItem.sku}</span>
                       </p>
                     </div>
                   </td>
