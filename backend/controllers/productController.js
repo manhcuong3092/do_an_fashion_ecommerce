@@ -50,7 +50,7 @@ exports.newProduct = catchAsyncError(async (req, res, next) => {
   const product = await Product.create(req.body);
 
   req.body.stock.forEach(stock => {
-    ProductItem.create({ product: product._id, color: stock.color, size: stock.size, stock: stock.quantity })
+    ProductItem.create({ product: product._id, color: stock.color, size: stock.size, sku: stock.sku, stock: stock.quantity })
   })
 
   imagesLink.forEach(image =>
@@ -458,14 +458,16 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
         color: item.color,
         size: item.size,
       }, {
-      stock: item.stock
+      stock: item.stock,
+      sku: item.sku
     });
     if (!productItem) {
       ProductItem.create({
         product: req.params.id,
         color: item.color,
         size: item.size,
-        stock: item.stock
+        stock: item.stock,
+        sku: item.sku
       })
     }
   });

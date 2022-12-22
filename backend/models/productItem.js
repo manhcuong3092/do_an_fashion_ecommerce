@@ -16,6 +16,11 @@ const productItemSchema = new mongoose.Schema({
     ref: 'Color',
     require: true
   },
+  sku: {
+    type: String,
+    require: true,
+    default: ''
+  },
   stock: {
     type: Number,
     required: [true, 'Hãy nhập số lượng sản phẩm'],
