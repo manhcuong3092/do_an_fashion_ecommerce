@@ -190,7 +190,7 @@ let getMainMenuTemplate = () => {
         "template_type": "generic",
         "elements": [
           {
-            "title": "Danh mục sản phẩm của nhà hàng",
+            "title": "Danh mục sản phẩm của cửa hàng",
             "image_url": IMAGE_MAIN_MENU_1,
             "subtitle": "Dưới đây là các lựa chọn của shop.",
             "buttons": [
@@ -522,7 +522,7 @@ const handleTextMessage = async (sender_psid, received_message) => {
           response = getProductMenuTemplate(data.products);
         }
       } catch (error) {
-        console.log(error.response.data.message);
+        console.log(error);
         response = {
           "text": `Có lỗi xảy ra khi tìm kiếm sản phẩm.`
         }
