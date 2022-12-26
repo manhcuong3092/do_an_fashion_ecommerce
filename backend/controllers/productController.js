@@ -1,14 +1,10 @@
 const Product = require('../models/product');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncError = require('../middlewares/catchAsyncErrors');
-const APIFeatures = require('../utils/apiFeatures');
 const clouldinary = require('cloudinary');
 const Review = require('../models/review');
-const ProductSize = require('../models/productSize');
-const ProductColor = require('../models/productColor');
 const ProductItem = require('../models/productItem');
 const ProductImage = require('../models/productImage');
-const productItem = require('../models/productItem');
 const { default: mongoose } = require('mongoose');
 
 // get : /api/v1/product/new
