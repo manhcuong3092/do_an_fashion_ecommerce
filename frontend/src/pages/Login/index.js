@@ -81,14 +81,16 @@ const Login = () => {
                       </div>
                       <br />
                       <br />
-                      <GoogleLogin
-                        onSuccess={(credentialResponse) => {
-                          handleGoogleLogin(credentialResponse);
-                        }}
-                        onError={() => {
-                          console.log('Login Failed');
-                        }}
-                      />
+                      <div className="d-flex justify-content-center">
+                        <GoogleLogin
+                          onSuccess={(credentialResponse) => {
+                            handleGoogleLogin(credentialResponse);
+                          }}
+                          onError={() => {
+                            console.log('Login Failed');
+                          }}
+                        />
+                      </div>
                     </form>
                   </div>
                 </div>

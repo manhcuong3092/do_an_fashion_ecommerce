@@ -78,7 +78,7 @@ const ProductList = () => {
       },
     },
     { field: 'category', headerName: 'Danh mục', flex: 1 },
-    { field: 'stock', headerName: 'Kho', width: 80 },
+    { field: 'stock', headerName: 'Kho', width: 80, hide: true },
     {
       field: 'active',
       headerName: 'Kích hoạt',

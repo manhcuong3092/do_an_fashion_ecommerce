@@ -154,14 +154,16 @@ const Register = () => {
 
                   <br />
                   <br />
-                  <GoogleLogin
-                    onSuccess={(credentialResponse) => {
-                      handleGoogleLogin(credentialResponse);
-                    }}
-                    onError={() => {
-                      console.log('Login Failed');
-                    }}
-                  />
+                  <div className="d-flex justify-content-center">
+                    <GoogleLogin
+                      onSuccess={(credentialResponse) => {
+                        handleGoogleLogin(credentialResponse);
+                      }}
+                      onError={() => {
+                        console.log('Login Failed');
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </Col>

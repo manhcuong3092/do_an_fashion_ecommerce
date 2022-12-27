@@ -64,6 +64,7 @@ const OrderStatistic = ({ orders }) => {
   return (
     <OutlineBox>
       <div style={{ height: '550px' }} className="m-3">
+        <h4>Thống kê số lượng đơn hàng theo {orderView}</h4>
         <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4" align="end" id="nav-ul">
           <NavDropdown id="admin-nav" align="end" title="Xem theo">
             <NavDropdown.Item onClick={() => setOrderView(TYPE_DAY)}>Ngày</NavDropdown.Item>
@@ -74,7 +75,6 @@ const OrderStatistic = ({ orders }) => {
         <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4" align="end" id="nav-ul">
           {orderView}
         </ul>
-        <h4>Thống kê số lượng đơn hàng theo {orderView}</h4>
         <ResponsiveContainer width="100%" height="80%">
           <BarChart
             width={500}

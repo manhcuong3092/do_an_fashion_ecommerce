@@ -6,10 +6,9 @@ import FooterAdmin from '~/layouts/Admin/FooterAdmin';
 import SideNav from '~/layouts/Admin/SideNav';
 import TopNav from '~/layouts/Admin/TopNav';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
 import SellIcon from '@mui/icons-material/Sell';
 import { blue, cyan, green, orange, red, yellow } from '@mui/material/colors';
 import axios from 'axios';
@@ -20,9 +19,9 @@ import Metadata from '~/layouts/Metadata';
 const Dashboard = () => {
   const [orders, setOrders] = useState(null);
   const [products, setProducts] = useState(null);
-  const [subscribers, setSubscribers] = useState(null);
+  const [categories, setCategories] = useState(null);
   const [users, setUsers] = useState(null);
-  const [contacts, setContacts] = useState(null);
+  // const [contacts, setContacts] = useState(null);
   const [blogs, setBlogs] = useState(null);
 
   useEffect(() => {
@@ -30,17 +29,17 @@ const Dashboard = () => {
     const fetchData = async () => {
       const promise1 = axios.get(`${END_POINT}/api/v1/admin/orders`, config);
       const promise2 = axios.get(`${END_POINT}/api/v1/admin/products`, config);
-      const promise3 = axios.get(`${END_POINT}/api/v1/admin/subscribers`, config);
+      const promise3 = axios.get(`${END_POINT}/api/v1/categories`, config);
       const promise4 = axios.get(`${END_POINT}/api/v1/admin/users`, config);
-      const promise5 = axios.get(`${END_POINT}/api/v1/admin/contacts`, config);
-      const promise6 = axios.get(`${END_POINT}/api/v1/admin/blogs`, config);
-      Promise.all([promise1, promise2, promise3, promise4, promise5, promise6]).then((value) => {
+      // const promise5 = axios.get(`${END_POINT}/api/v1/admin/contacts`, config);
+      const promise5 = axios.get(`${END_POINT}/api/v1/admin/blogs`, config);
+      Promise.all([promise1, promise2, promise3, promise4, promise5]).then((value) => {
         setOrders(value[0].data.orders);
         setProducts(value[1].data.products);
-        setSubscribers(value[2].data.subscribers);
+        setCategories(value[2].data.categories);
         setUsers(value[3].data.users);
-        setContacts(value[4].data.contacts);
-        setBlogs(value[5].data.blogs);
+        // setContacts(value[4].data.contacts);
+        setBlogs(value[4].data.blogs);
       });
     };
     fetchData();
@@ -101,7 +100,7 @@ const Dashboard = () => {
                     </Card.Title>
                   </Card.Body>
                   <Card.Footer className="d-flex align-items-center justify-content-between">
-                    <Link className="small text-white stretched-link" to="/admin/management/products">
+                    <Link className="small text-white stretched-link" to="/admin/management/orders">
                       Xem chi tiết
                     </Link>
                     <div className="small text-white">
@@ -194,20 +193,20 @@ const Dashboard = () => {
               <Col xl={4} md={6}>
                 <Card>
                   <Card.Body className="card-body">
-                    <h6 className="cart-dashboard-title">Tổng số người dùng liên hệ</h6>
+                    <h6 className="cart-dashboard-title">Tổng số danh mục sản phẩm</h6>
                     <div className="d-flex align-items-center">
                       <div className="d-flex">
                         <Avatar sx={{ bgcolor: orange[500], width: 80, height: 80 }}>
-                          <ContactMailOutlinedIcon sx={{ width: 40, height: 40 }} />
+                          <CategoryOutlinedIcon sx={{ width: 40, height: 40 }} />
                         </Avatar>
                       </div>
                       <div className="ps-3">
-                        <h4>{contacts && contacts.length}</h4>
+                        <h4>{categories && categories.length}</h4>
                       </div>
                     </div>
                   </Card.Body>
                   <Card.Footer className="d-flex align-items-center justify-content-between">
-                    <Link className="small stretched-link" to="/admin/management/contacts">
+                    <Link className="small stretched-link" to="/admin/management/categories">
                       Xem chi tiết
                     </Link>
                     <div className="small">
@@ -287,31 +286,6 @@ const Dashboard = () => {
                   </Card.Body>
                   <Card.Footer className="d-flex align-items-center justify-content-between">
                     <Link className="small stretched-link" to="/admin/management/users">
-                      Xem chi tiết
-                    </Link>
-                    <div className="small">
-                      <i className="fas fa-angle-right"></i>
-                    </div>
-                  </Card.Footer>
-                </Card>
-              </Col>
-              <Col xl={4} md={6}>
-                <Card>
-                  <Card.Body className="card-body">
-                    <h6 className="cart-dashboard-title">Tổng số người đăng ký</h6>
-                    <div className="d-flex align-items-center">
-                      <div className="d-flex">
-                        <Avatar sx={{ bgcolor: red[500], width: 80, height: 80 }}>
-                          <SubscriptionsOutlinedIcon sx={{ width: 40, height: 40 }} />
-                        </Avatar>
-                      </div>
-                      <div className="ps-3">
-                        <h4>{subscribers && subscribers.length}</h4>
-                      </div>
-                    </div>
-                  </Card.Body>
-                  <Card.Footer className="d-flex align-items-center justify-content-between">
-                    <Link className="small stretched-link" to="/admin/management/subscribers">
                       Xem chi tiết
                     </Link>
                     <div className="small">

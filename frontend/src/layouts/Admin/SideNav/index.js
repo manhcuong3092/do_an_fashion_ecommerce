@@ -8,11 +8,11 @@ import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import HeightOutlinedIcon from '@mui/icons-material/HeightOutlined';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
-import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
-import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
+// import ContactMailOutlinedIcon from '@mui/icons-material/ContactMailOutlined';
+// import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
+// import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import { useSelector } from 'react-redux';
 
@@ -99,12 +99,12 @@ const SideNav = ({ children }) => {
                 </div>
                 Blog
               </Link>
-              <Link className="nav-link" to="/admin/management/contacts">
+              {/* <Link className="nav-link" to="/admin/management/contacts">
                 <div className="sb-nav-link-icon">
                   <ContactMailOutlinedIcon />
                 </div>
                 Liên hệ
-              </Link>
+              </Link> */}
               {/* <Link className="nav-link" to="/admin/management/subscribers">
                 <div className="sb-nav-link-icon">
                   <SubscriptionsOutlinedIcon />
