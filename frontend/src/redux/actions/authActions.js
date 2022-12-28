@@ -40,7 +40,7 @@ export const login = (email, password) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: LOGIN_FAIL,
-      payload: error.response.data.message,
+      payload: error.response.data.errMessage,
     });
   }
 };
@@ -63,7 +63,6 @@ export const googleLogin = (credentialResponse) => async (dispatch, getState) =>
     localStorage.setItem('auth', JSON.stringify(getState().auth));
     localStorage.setItem('jwtToken', data.token);
   } catch (error) {
-    console.log(error);
     dispatch({
       type: LOGIN_FAIL,
       payload: error,

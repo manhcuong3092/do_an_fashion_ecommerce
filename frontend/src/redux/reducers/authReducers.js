@@ -52,6 +52,13 @@ export const authReducer = (state = { user: {} }, action) => {
         user: null,
       };
     case LOGIN_FAIL:
+      return {
+        ...state,
+        loading: false,
+        isAuthenticated: false,
+        user: null,
+        error: action.payload,
+      };
     case CHECK_COOKIE_FAIL:
       return {
         ...state,

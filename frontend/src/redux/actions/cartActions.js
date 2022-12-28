@@ -18,7 +18,6 @@ export const getUserCart = (user) => async (dispatch, getState) => {
     const { data } = await axios.get(`${END_POINT}/api/v1/cart`, { withCredentials: true });
     cart = data.cart;
   } catch (error) {
-    console.log('aaaa');
     const { result } = await axios.post(`${END_POINT}/api/v1/cart`, { withCredentials: true });
     cart = result.cart;
   }

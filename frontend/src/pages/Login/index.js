@@ -30,6 +30,7 @@ const Login = () => {
       navigate('/');
     }
     if (error) {
+      console.log(error);
       toast.error(error);
       dispatch(clearErrors());
     }

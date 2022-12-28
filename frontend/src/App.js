@@ -44,8 +44,6 @@ import UpdateBlog from './pages/Admin/Blog/UpdateBlog';
 import ContactList from './pages/Admin/Contact/ContactList';
 import RelpyContact from './pages/Admin/Contact/ReplyContact';
 import SubscriberList from './pages/Admin/Subscriber/SubscriberList';
-import axios from 'axios';
-import { END_POINT } from './config';
 import OrderComplete from './pages/Order/OrderComplete';
 import ProtectRoute from './route/ProtectRoute';
 import OrderList from './pages/Admin/Order/OrderList';
@@ -58,9 +56,10 @@ import Statistic from './pages/Admin/Statistic/Statistic';
 import AboutUs from './pages/AboutUs';
 import ReturnPolicy from './pages/ReturnPolicy';
 import SecurityPolicy from './pages/SecurityPolicy';
+import AdminLogin from './pages/Admin/Login';
+import ScrollToTop from './layouts/ScrollToTop';
 import { checkCookie } from './redux/actions/authActions';
 import { useDispatch } from 'react-redux';
-import ScrollToTop from './layouts/ScrollToTop';
 import { STRIPE_PUBLIC_API_KEY } from './constants/payment';
 
 function App() {
@@ -131,6 +130,7 @@ function App() {
           <Route path="/order-complete" element={<OrderComplete />} />
 
           {/* admin path */}
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route
             path="/admin/dashboard"
             element={
