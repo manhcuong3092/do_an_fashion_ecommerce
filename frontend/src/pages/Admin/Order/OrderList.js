@@ -52,7 +52,7 @@ const OrderList = () => {
 
   const columns = [
     { field: 'sequense', headerName: 'STT' },
-    { field: 'id', headerName: 'ID', flex: 1 },
+    { field: 'id', headerName: 'ID', flex: 2 },
     { field: 'name', headerName: 'Họ tên', flex: 1 },
     { field: 'email', headerName: 'Email', flex: 1 },
     { field: 'shippingInfo', headerName: 'Địa chỉ', flex: 1 },

@@ -175,6 +175,7 @@ const ProductList = () => {
         withCredentials: true,
       };
       const { data } = await axios.get(`${END_POINT}/api/v1/admin/products?productName=${productName}`, config);
+      console.log(data);
       let productData = [];
 
       data.products.forEach((product, index) => {
@@ -184,18 +185,8 @@ const ProductList = () => {
           price: product.price,
           salePrice: product.salePrice,
           category: product.category.name,
-          sizes: product.sizes
-            .map((item) => {
-              return item.name;
-            })
-            .join(', '),
-          colors: product.colors
-            .map((item) => {
-              return item.name;
-            })
-            .join(', '),
-          stock: product.stock.reduce((acc, item) => {
-            return acc + item.quantity;
+          stock: product.productItems.reduce((acc, item) => {
+            return acc + item.stock;
           }, 0),
           isSale: product.isSale,
           active: product.active,
@@ -207,6 +198,7 @@ const ProductList = () => {
       });
       setProducts(productData);
     } catch (error) {
+      console.log(error);
       toast.error(error.response.data.message);
     }
   };
