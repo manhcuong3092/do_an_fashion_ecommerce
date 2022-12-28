@@ -72,12 +72,12 @@ const UpdateProduct = () => {
             setColors(value[3].data.colors.map((color) => JSON.stringify(color)));
           });
         } catch (error) {
-          toast.error(error.response.data.message);
+          toast.error(error.response.data.errMessage);
         }
       };
       fetchData();
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response.data.errMessage);
     }
   }, [productId]);
 
@@ -165,7 +165,8 @@ const UpdateProduct = () => {
         navigate('/admin/management/products');
       }
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log(error);
+      toast.error(error.response.data.errMessage);
     }
     setLoading(false);
   };
