@@ -54,7 +54,7 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
   }
 
   //Find user in db
-  const user = await User.findOne({ email: email.toLowerCase() }).select('+password')
+  const user = await User.findOne({ email: email.toLowerCase() }).select('+password').populate('avatar')
   if (!user) {
     return next(new ErrorHandler('Email hoặc mật khẩu không hợp lệ', 401));
   }
