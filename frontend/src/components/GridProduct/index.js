@@ -37,8 +37,13 @@ const GridProduct = ({ products, resPerPage, productsCount, currentPage }) => {
               <li>
                 <ul className="d-flex bd-highlight">
                   <li className="sort-by flex-grow-1 bd-highlight">
-                    Hiện thị {resPerPage * (currentPage - 1) + 1} - {resPerPage * currentPage} của {productsCount} sản
-                    phẩm tìm thấy
+                    {productsCount && (
+                      <>
+                        Hiện thị {resPerPage * (currentPage - 1) + 1} -{' '}
+                        {resPerPage * currentPage < productsCount ? resPerPage * currentPage : productsCount} của{' '}
+                        {productsCount} sản phẩm tìm thấy
+                      </>
+                    )}
                   </li>
                   <li className="sort-by bd-highlight" style={{ marginRight: '5px' }}>
                     Sắp xếp: {sort}{' '}
@@ -100,6 +105,7 @@ const GridProduct = ({ products, resPerPage, productsCount, currentPage }) => {
                     </div>
                   </Col>
                 ))}
+              {products && products.length === 0 && <h5>Không có sản phẩm tìm thấy</h5>}
             </Row>
           </div>
         </div>

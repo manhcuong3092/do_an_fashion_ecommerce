@@ -748,6 +748,7 @@ header.header-one {
 }
 .product-dsc {
   padding: 25px 0;
+  height: 147px;
 }
 .product-dsc > span {
   color: #fe5858;
@@ -2874,4 +2875,8 @@ table td .submit-text > a {
   display: inline-block;
   width: 15%;
   background-color: #fff;
+}
+
+.product-image {
+  margin-right: 5px;
 }

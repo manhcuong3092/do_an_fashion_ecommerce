@@ -400,7 +400,7 @@ const UpdateProduct = () => {
                 </Form.Group>
 
                 <Form.Group>
-                  <Form.Label>Kho hàng</Form.Label>
+                  <Form.Label>Phân loại sản phẩm</Form.Label>
                   <Table striped bordered hover>
                     <thead>
                       <tr>
@@ -461,10 +461,24 @@ const UpdateProduct = () => {
                   <Form.Control type="file" multiple onChange={(e) => hanleFileChange(e)} />
                   {oldImages &&
                     oldImages.map((img) => (
-                      <img src={img.url} key={img} alt={img.url} className="mt-3 mr-2" width="100" height="100" />
+                      <img
+                        src={img.url}
+                        key={img}
+                        alt={img.url}
+                        className="mt-3 mr-2 product-image"
+                        width="100"
+                        height="150"
+                      />
                     ))}
                   {imagesPreview.map((img) => (
-                    <img src={img} key={img} alt="Product" className="mt-3 mr-2" width="100" height="100" />
+                    <img
+                      src={img}
+                      key={img}
+                      alt="Product"
+                      className="mt-3 mr-2 product-image"
+                      width="100"
+                      height="150"
+                    />
                   ))}
                 </Form.Group>
 
