@@ -11,6 +11,7 @@ import Metadata from '../../layouts/Metadata';
 import Header from '../../layouts/Header';
 import Footer from '../../layouts/Footer';
 import { GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -22,8 +23,11 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken')
+        ? `Bearer ${localStorage.getItem('jwtToken')}`
+        : '';
       toast.success('Đăng nhập thành công.');
+      navigate('/');
     }
     if (error) {
       toast.error(error);
