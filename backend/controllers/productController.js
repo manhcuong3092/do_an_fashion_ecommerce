@@ -6,6 +6,7 @@ const Review = require('../models/review');
 const ProductItem = require('../models/productItem');
 const ProductImage = require('../models/productImage');
 const { default: mongoose } = require('mongoose');
+const OrderItem = require('../models/orderItem');
 
 // get : /api/v1/product/new
 exports.newProduct = catchAsyncError(async (req, res, next) => {
@@ -407,39 +408,36 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
     images = req.body.images
   }
 
-  if (images.length !== 0) {
-    //delete images
-    let productImages = await ProductImage.find({ product: req.params.id });
-    console.log(productImages);
-    for (let i = 0; i < productImages.length; i++) {
-      const result = await clouldinary.v2.uploader.destroy(productImages[i].public_id);
-      productImages[i].remove()
-    }
-
-    for (let i = 0; i < images.length; i++) {
-      try {
-        const result = await clouldinary.v2.uploader.upload(images[i], {
-          folder: 'products'
-        });
-        ProductImage.create({
-          public_id: result.public_id,
-          url: result.secure_url,
-          product: req.params.id
-        });
-      } catch (error) {
-        return next(new ErrorHandler('Tải ảnh có kích thước nhỏ hơn 1MB', 404));
-      }
-    }
-  }
+  const itemWillDeleted = [];
+  let remove = true;
 
   const productItems = await ProductItem.find({ product: req.params.id });
   productItems.forEach(item => {
     if (!req.body.sizes.includes(item.size.toString())) {
-      item.remove()
+      itemWillDeleted.push(item);
     } else if (!req.body.colors.includes(item.color.toString())) {
-      item.remove()
+      itemWillDeleted.push(item);
     }
   });
+
+  await Promise.all(itemWillDeleted.map(item =>
+    OrderItem.aggregate([
+      { $match: { 'productItem': new mongoose.Types.ObjectId(item._id) } }
+    ])
+  )).then(values => {
+    values.forEach(item => {
+      if (item.length > 0) {
+        remove = false
+      }
+    });
+  });
+  if (remove) {
+    itemWillDeleted.forEach(item => {
+      item.remove()
+    });
+  } else {
+    return next(new ErrorHandler('Không thể cập nhật sản phẩm do phân loại đang có trong đơn hàng', 400));
+  }
 
   req.body.stock = req.body.stock.map(item => {
     return JSON.parse(item)
@@ -468,6 +466,31 @@ exports.updateProduct = catchAsyncError(async (req, res, next) => {
     }
   });
 
+  if (images.length !== 0) {
+    //delete images
+    let productImages = await ProductImage.find({ product: req.params.id });
+    console.log(productImages);
+    for (let i = 0; i < productImages.length; i++) {
+      const result = await clouldinary.v2.uploader.destroy(productImages[i].public_id);
+      productImages[i].remove()
+    }
+
+    for (let i = 0; i < images.length; i++) {
+      try {
+        const result = await clouldinary.v2.uploader.upload(images[i], {
+          folder: 'products'
+        });
+        ProductImage.create({
+          public_id: result.public_id,
+          url: result.secure_url,
+          product: req.params.id
+        });
+      } catch (error) {
+        return next(new ErrorHandler('Tải ảnh có kích thước nhỏ hơn 1MB', 404));
+      }
+    }
+  }
+
   if (!req.body.salePrice) {
     req.body.salePrice = 0;
   }
@@ -491,13 +514,13 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler('Không tìm thấy sản phẩm', 404));
   }
 
+
+  await product.remove()
   //delete images
   const images = await ProductImage.find({ product: req.params.id });
   for (let i = 0; i < images.length; i++) {
-    const result = await clouldinary.v2.uploader.destroy(product.images[i].public_id);
+    const result = await clouldinary.v2.uploader.destroy(images[i].public_id);
   }
-
-  await product.remove()
 
   res.status(200).json({
     success: true,

@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const ErrorHandler = require('../utils/errorHandler');
 const Order = require('./order');
 const Cart = require('./cart');
+const ProductItem = require('./productItem');
+const OrderItem = require('./orderItem');
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -78,17 +80,38 @@ productSchema.pre('save', async function (next) {
   this.slug = `${slug(this.name)}-${Date.now()}`
 });
 
-// productSchema.pre('remove', async function (next) {
-//   const orders = await Order.find({ 'orderItems.productItem.product': this._id });
-//   if (orders.length !== 0) {
-//     return next(new ErrorHandler('Không thể xóa sản phẩm khi có đơn hàng tham chiếu đến.', 400))
-//   }
-//   const carts = await Cart.find({ 'cartItems.product': this._id });
-//   carts.forEach(cart => {
-//     const cartItems = cart.cartItems.filter(item => item.product.toString() !== this._id.toString());
-//     cart.cartItems = cartItems;
-//     cart.save();
-//   })
-// });
+productSchema.pre('remove', async function (next) {
+  const productItems = await ProductItem.find({ product: this._id });
+  let remove = true;
+
+  await Promise.all(productItems.map(item =>
+    OrderItem.aggregate([
+      { $match: { 'productItem': new mongoose.Types.ObjectId(item._id) } }
+    ])
+  )).then(values => {
+    values.forEach(item => {
+      if (item.length > 0) {
+        remove = false
+      }
+    });
+  })
+  if (remove) {
+    productItems.forEach(item => {
+      item.remove()
+    });
+  } else {
+    return next(new ErrorHandler('Không thể xóa sản phẩm đang nằm trong đơn hàng', 400));
+  }
+  // const orders = await Order.find({ 'orderItems.productItem.product': this._id });
+  // if (orders.length !== 0) {
+  //   return next(new ErrorHandler('Không thể xóa sản phẩm khi có đơn hàng tham chiếu đến.', 400))
+  // }
+  // const carts = await Cart.find({ 'cartItems.product': this._id });
+  // carts.forEach(cart => {
+  //   const cartItems = cart.cartItems.filter(item => item.product.toString() !== this._id.toString());
+  //   cart.cartItems = cartItems;
+  //   cart.save();
+  // })
+});
 
 module.exports = mongoose.model('Product', productSchema);
