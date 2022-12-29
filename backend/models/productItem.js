@@ -30,4 +30,8 @@ const productItemSchema = new mongoose.Schema({
 })
 
 
+productItemSchema.statics.findByProduct = async function (productId) {
+  return await this.find({ product: productId }).populate('size').populate('color');
+}
+
 module.exports = mongoose.model('ProductItem', productItemSchema);

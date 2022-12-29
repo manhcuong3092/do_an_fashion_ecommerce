@@ -84,39 +84,7 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
 
   // order = { ...JSON.parse(JSON.stringify(order)), orderItems };
 
-  let order = await Order.aggregate([
-    { $match: { _id: new mongoose.Types.ObjectId(req.params.id) } },
-    {
-      $lookup: { from: 'orderitems', localField: '_id', foreignField: 'order', as: 'orderItems' }
-    },
-    { $unwind: "$orderItems" },
-    { $lookup: { from: 'productitems', localField: 'orderItems.productItem', foreignField: '_id', as: 'orderItems.productItem' } },
-    { $unwind: "$orderItems.productItem" },
-    { $lookup: { from: 'products', localField: 'orderItems.productItem.product', foreignField: '_id', as: 'orderItems.productItem.product' } },
-    { $unwind: "$orderItems.productItem.product" },
-    { $lookup: { from: 'sizes', localField: 'orderItems.productItem.size', foreignField: '_id', as: 'orderItems.productItem.size' } },
-    { $unwind: "$orderItems.productItem.size" },
-    { $lookup: { from: 'colors', localField: 'orderItems.productItem.color', foreignField: '_id', as: 'orderItems.productItem.color' } },
-    { $unwind: "$orderItems.productItem.color" },
-    { $lookup: { from: 'productimages', localField: 'orderItems.productItem.product._id', foreignField: 'product', as: 'orderItems.productItem.product.images' } },
-    {
-      $group: {
-        _id: "$_id",
-        orderItems: { $push: "$orderItems" },
-        shippingInfo: { $first: "$shippingInfo" },
-        user: { $first: "$user" },
-        paymentType: { $first: "$paymentType" },
-        paymentStatus: { $first: "$paymentStatus" },
-        paidAt: { $first: "$paidAt" },
-        itemsPrice: { $first: "$itemsPrice" },
-        shippingPrice: { $first: "$shippingPrice" },
-        totalPrice: { $first: "$totalPrice" },
-        orderStatus: { $first: "$orderStatus" },
-        createdAt: { $first: "$createdAt" },
-        deliveredAt: { $first: "$deliveredAt" },
-      }
-    }
-  ]);
+  const order = await Order.findOrderById(req.params.id)
 
   console.log(order);
 
@@ -133,7 +101,7 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
 
 // get logged user orders => /api/v1/orders/me
 exports.myOrders = catchAsyncErrors(async (req, res, next) => {
-  const orders = await Order.find({ user: req.user.id });
+  const orders = await Order.findByUser(req.user.id);
   res.status(200).json({
     success: true,
     orders
@@ -223,6 +191,7 @@ exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
   }
 
   await order.remove();
+  OrderItem.deleteMany({ order: req.params.id })
 
   res.status(200).json({
     success: true

@@ -19,6 +19,10 @@ const sizeSchema = new mongoose.Schema({
   },
 });
 
+sizeSchema.statics.findAll = async function () {
+  return await this.find();
+}
+
 sizeSchema.pre('remove', async function (next) {
   const products = await Product.find({ sizes: this._id });
   if (products.length !== 0) {

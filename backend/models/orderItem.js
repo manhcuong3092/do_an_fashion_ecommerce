@@ -23,5 +23,8 @@ const orderItemSchema = new mongoose.Schema({
   }
 })
 
+orderItemSchema.statics.findByOrder = async function (orderId) {
+  return await this.find({ order: orderId });
+}
 
 module.exports = mongoose.model('OrderItem', orderItemSchema);

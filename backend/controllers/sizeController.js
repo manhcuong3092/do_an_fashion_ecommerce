@@ -9,15 +9,15 @@ exports.createSize = catchAsyncError(async (req, res, next) => {
     success: true,
     size
   });
-}) 
+})
 
 exports.getAllSizes = catchAsyncError(async (req, res, next) => {
-  const sizes = await Size.find();
+  const sizes = await Size.findAll();
   res.status(200).json({
     success: true,
     sizes
   });
-}) 
+})
 
 exports.getSize = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;
@@ -29,7 +29,7 @@ exports.getSize = catchAsyncError(async (req, res, next) => {
     success: true,
     size
   });
-}) 
+})
 
 exports.updateSize = catchAsyncError(async (req, res, next) => {
   const newSize = {
@@ -48,7 +48,7 @@ exports.updateSize = catchAsyncError(async (req, res, next) => {
     success: true,
     size
   });
-}) 
+})
 
 exports.deleteSize = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;

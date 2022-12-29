@@ -9,15 +9,15 @@ exports.createColor = catchAsyncError(async (req, res, next) => {
     success: true,
     color
   });
-}) 
+})
 
 exports.getAllColors = catchAsyncError(async (req, res, next) => {
-  const colors = await Color.find();
+  const colors = await Color.findAll();
   res.status(200).json({
     success: true,
     colors
   });
-}) 
+})
 
 exports.getColor = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;
@@ -29,7 +29,7 @@ exports.getColor = catchAsyncError(async (req, res, next) => {
     success: true,
     color
   });
-}) 
+})
 
 exports.updateColor = catchAsyncError(async (req, res, next) => {
   const newColor = {
@@ -49,7 +49,7 @@ exports.updateColor = catchAsyncError(async (req, res, next) => {
     success: true,
     color
   });
-}) 
+})
 
 exports.deleteColor = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;

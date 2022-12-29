@@ -24,6 +24,10 @@ const colorSchema = new mongoose.Schema({
   },
 });
 
+colorSchema.statics.findAll = async function () {
+  return await this.find();
+}
+
 colorSchema.pre('remove', async function (next) {
   const products = await Product.find({ colors: this._id });
   if (products.length !== 0) {

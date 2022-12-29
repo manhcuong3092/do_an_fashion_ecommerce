@@ -9,15 +9,15 @@ exports.createCategory = catchAsyncError(async (req, res, next) => {
     success: true,
     category
   });
-}) 
+})
 
 exports.getAllCategories = catchAsyncError(async (req, res, next) => {
-  const categories = await Category.find();
+  const categories = await Category.findAll();
   res.status(200).json({
     success: true,
     categories
   });
-}) 
+})
 
 exports.getCategory = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;
@@ -29,11 +29,11 @@ exports.getCategory = catchAsyncError(async (req, res, next) => {
     success: true,
     category
   });
-}) 
+})
 
 exports.getCategoryBySlug = catchAsyncError(async (req, res, next) => {
   const slug = req.params.slug;
-  const category = await Category.findOne({slug});
+  const category = await Category.findOne({ slug });
   if (!category) {
     return next(new ErrorHandler(`Không tìm thấy danh mục: ${req.params.id}`, 404));
   }
@@ -41,7 +41,7 @@ exports.getCategoryBySlug = catchAsyncError(async (req, res, next) => {
     success: true,
     category
   });
-}) 
+})
 
 exports.updateCategory = catchAsyncError(async (req, res, next) => {
   const newCategory = {
@@ -60,7 +60,7 @@ exports.updateCategory = catchAsyncError(async (req, res, next) => {
     success: true,
     category
   });
-}) 
+})
 
 exports.deleteCategory = catchAsyncError(async (req, res, next) => {
   const id = req.params.id;

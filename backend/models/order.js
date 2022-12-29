@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { SUCCEEDED, DELIVERING } = require('../constants/orderStatus');
 const ErrorHandler = require('../utils/errorHandler');
 const OrderItem = require('./orderItem');
+const ProductImage = require('./productImage');
 
 const orderSchema = mongoose.Schema({
   shippingInfo: {
@@ -80,6 +81,45 @@ const orderSchema = mongoose.Schema({
   },
 });
 
+orderSchema.statics.findByUser = async function (userId) {
+  return await this.find({ user: userId });
+}
+
+orderSchema.statics.findOrderById = async function (orderId) {
+  return await this.aggregate([
+    { $match: { _id: new mongoose.Types.ObjectId(orderId) } },
+    {
+      $lookup: { from: 'orderitems', localField: '_id', foreignField: 'order', as: 'orderItems' }
+    },
+    { $unwind: "$orderItems" },
+    { $lookup: { from: 'productitems', localField: 'orderItems.productItem', foreignField: '_id', as: 'orderItems.productItem' } },
+    { $unwind: "$orderItems.productItem" },
+    { $lookup: { from: 'products', localField: 'orderItems.productItem.product', foreignField: '_id', as: 'orderItems.productItem.product' } },
+    { $unwind: "$orderItems.productItem.product" },
+    { $lookup: { from: 'sizes', localField: 'orderItems.productItem.size', foreignField: '_id', as: 'orderItems.productItem.size' } },
+    { $unwind: "$orderItems.productItem.size" },
+    { $lookup: { from: 'colors', localField: 'orderItems.productItem.color', foreignField: '_id', as: 'orderItems.productItem.color' } },
+    { $unwind: "$orderItems.productItem.color" },
+    { $lookup: { from: 'productimages', localField: 'orderItems.productItem.product._id', foreignField: 'product', as: 'orderItems.productItem.product.images' } },
+    {
+      $group: {
+        _id: "$_id",
+        orderItems: { $push: "$orderItems" },
+        shippingInfo: { $first: "$shippingInfo" },
+        user: { $first: "$user" },
+        paymentType: { $first: "$paymentType" },
+        paymentStatus: { $first: "$paymentStatus" },
+        paidAt: { $first: "$paidAt" },
+        itemsPrice: { $first: "$itemsPrice" },
+        shippingPrice: { $first: "$shippingPrice" },
+        totalPrice: { $first: "$totalPrice" },
+        orderStatus: { $first: "$orderStatus" },
+        createdAt: { $first: "$createdAt" },
+        deliveredAt: { $first: "$deliveredAt" },
+      }
+    }
+  ]);
+}
 
 orderSchema.pre('remove', async function (next) {
   if (this.orderStatus === SUCCEEDED) {

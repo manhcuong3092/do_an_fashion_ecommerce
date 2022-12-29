@@ -22,6 +22,9 @@ const categorySchema = new mongoose.Schema({
   },
 });
 
+categorySchema.statics.findAll = async function () {
+  return await this.find();
+}
 
 categorySchema.pre('save', async function (next) {
   if (!this.isModified('name')) {
