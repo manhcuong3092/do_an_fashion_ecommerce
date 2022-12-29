@@ -167,7 +167,7 @@ const CreateProduct = () => {
         if (index !== -1) {
           stockArr.push(stock[index]);
         } else {
-          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), quantity: 0 });
+          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), sku: '', quantity: 0 });
         }
       });
     });
@@ -185,7 +185,7 @@ const CreateProduct = () => {
         if (index !== -1) {
           stockArr.push(stock[index]);
         } else {
-          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), quantity: 0 });
+          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), sku: '', quantity: 0 });
         }
       });
     });
