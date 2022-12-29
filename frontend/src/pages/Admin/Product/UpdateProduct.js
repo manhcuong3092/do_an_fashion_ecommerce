@@ -181,9 +181,15 @@ const UpdateProduct = () => {
         if (index !== -1) {
           stockArr.push(stock[index]);
         } else {
-          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), stock: 0 });
+          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), sku: '', stock: 0 });
         }
       });
+    });
+    stockArr.sort((a, b) => {
+      if (a.size._id > b.size._id) {
+        return 1;
+      }
+      return -1;
     });
     setStock(stockArr);
     setColors(e.target.value);
@@ -199,9 +205,15 @@ const UpdateProduct = () => {
         if (index !== -1) {
           stockArr.push(stock[index]);
         } else {
-          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), stock: 0 });
+          stockArr.push({ size: JSON.parse(size), color: JSON.parse(color), sku: '', stock: 0 });
         }
       });
+    });
+    stockArr.sort((a, b) => {
+      if (a.size._id > b.size._id) {
+        return 1;
+      }
+      return -1;
     });
     setStock(stockArr);
     setSizes(e.target.value);
@@ -305,8 +317,8 @@ const UpdateProduct = () => {
                           },
                         }}
                       >
-                        {categoriesData.map((item) => (
-                          <MenuItem key={item._id} value={JSON.stringify(item)}>
+                        {categoriesData.map((item, index) => (
+                          <MenuItem key={index} value={JSON.stringify(item)}>
                             {item.name}
                           </MenuItem>
                         ))}
@@ -330,8 +342,8 @@ const UpdateProduct = () => {
                           },
                         }}
                       >
-                        {sizesData.map((item) => (
-                          <MenuItem key={item._id} value={JSON.stringify(item)}>
+                        {sizesData.map((item, index) => (
+                          <MenuItem key={index} value={JSON.stringify(item)}>
                             {item.name}
                           </MenuItem>
                         ))}
@@ -355,8 +367,8 @@ const UpdateProduct = () => {
                           },
                         }}
                       >
-                        {colorsData.map((item) => (
-                          <MenuItem key={item._id} value={JSON.stringify(item)}>
+                        {colorsData.map((item, index) => (
+                          <MenuItem key={index} value={JSON.stringify(item)}>
                             <Box
                               sx={{
                                 width: 20,
@@ -461,20 +473,20 @@ const UpdateProduct = () => {
                   </Form.Label>
                   <Form.Control type="file" multiple onChange={(e) => hanleFileChange(e)} />
                   {oldImages &&
-                    oldImages.map((img) => (
+                    oldImages.map((img, index) => (
                       <img
                         src={img.url}
-                        key={img}
+                        key={index}
                         alt={img.url}
                         className="mt-3 mr-2 product-image"
                         width="100"
                         height="150"
                       />
                     ))}
-                  {imagesPreview.map((img) => (
+                  {imagesPreview.map((img, index) => (
                     <img
                       src={img}
-                      key={img}
+                      key={index}
                       alt="Product"
                       className="mt-3 mr-2 product-image"
                       width="100"
