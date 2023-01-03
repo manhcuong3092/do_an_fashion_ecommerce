@@ -5,19 +5,20 @@ module.exports = (err, req, res, next) => {
 
   console.log(err);
 
-  if(process.env.NODE_ENV === 'DEVELOPMENT') {
+  if (process.env.NODE_ENV === 'DEVELOPMENT') {
     res.status(err.statusCode).json({
       success: false,
       error: err,
       errMessage: err.message,
+      message: err.message,
       stack: err.stack
     })
   }
 
-  if(process.env.NODE_ENV === 'PRODUCTION') {
-    let error = {...err}
+  if (process.env.NODE_ENV === 'PRODUCTION') {
+    let error = { ...err }
     error.message = err.message
-    
+
     //wrong Mongoose object Id error
     if (err.name == 'CastError') {
       const message = `Resource not found. Invalid: ${err.path}`
@@ -41,5 +42,5 @@ module.exports = (err, req, res, next) => {
       message: error.message || 'Internal server error'
     })
   }
-  
+
 }
