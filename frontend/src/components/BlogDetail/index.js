@@ -28,43 +28,6 @@ const BlogDetail = ({ blog }) => {
                 </ul>
               </div>
               <div dangerouslySetInnerHTML={{ __html: blog.content }} className="mt-5" />
-              <div className="share-tag clearfix">
-                <ul className="blog-share floatleft">
-                  <li>
-                    <h5>share </h5>
-                  </li>
-                  <li>
-                    <Link>
-                      <i className="mdi mdi-facebook"></i>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link>
-                      <i className="mdi mdi-twitter"></i>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link>
-                      <i className="mdi mdi-linkedin"></i>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link>
-                      <i className="mdi mdi-vimeo"></i>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link>
-                      <i className="mdi mdi-dribbble"></i>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link>
-                      <i className="mdi mdi-instagram"></i>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
             </div>
             <div className="leave-comment">
               <h4>Để lại bình luận của bạn</h4>

@@ -72,12 +72,12 @@ const UpdateProduct = () => {
             setColors(value[3].data.colors.map((color) => JSON.stringify(color)));
           });
         } catch (error) {
-          toast.error(error.response.data.errMessage);
+          toast.error(error.response.data.message);
         }
       };
       fetchData();
     } catch (error) {
-      toast.error(error.response.data.errMessage);
+      toast.error(error.response.data.message);
     }
   }, [productId]);
 
@@ -166,7 +166,7 @@ const UpdateProduct = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.errMessage);
+      toast.error(error.response.data.message);
     }
     setLoading(false);
   };

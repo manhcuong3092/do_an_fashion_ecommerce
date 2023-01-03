@@ -146,43 +146,6 @@ const ProductDetail = ({ product }) => {
                 <button>Đã hết hàng</button>
               </div>
             )}
-            <div className="share-tag clearfix">
-              <ul className="blog-share floatleft">
-                <li>
-                  <h5>share </h5>
-                </li>
-                <li>
-                  <Link>
-                    <i className="mdi mdi-facebook"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link>
-                    <i className="mdi mdi-twitter"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link>
-                    <i className="mdi mdi-linkedin"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link>
-                    <i className="mdi mdi-vimeo"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link>
-                    <i className="mdi mdi-dribbble"></i>
-                  </Link>
-                </li>
-                <li>
-                  <Link>
-                    <i className="mdi mdi-instagram"></i>
-                  </Link>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
       </Col>
