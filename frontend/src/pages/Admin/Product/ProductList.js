@@ -51,7 +51,7 @@ const ProductList = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.errMessage);
+      toast.error(error.response.data.message);
     }
   };
 
@@ -68,9 +68,10 @@ const ProductList = () => {
       },
     },
     { field: 'name', headerName: 'Tên', flex: 3 },
-    { field: 'price', headerName: 'Giá', flex: 1 },
-    { field: 'salePrice', headerName: 'Giá khuyến mại', flex: 1 },
+    { field: 'price', headerName: 'Giá', flex: 1, type: 'number' },
+    { field: 'salePrice', headerName: 'Giá khuyến mại', flex: 1, type: 'number' },
     {
+      type: 'boolean',
       field: 'isSale',
       headerName: 'Khuyến mại',
       flex: 1,
@@ -79,10 +80,11 @@ const ProductList = () => {
       },
     },
     { field: 'category', headerName: 'Danh mục', flex: 1 },
-    { field: 'stock', headerName: 'Kho', width: 80, hide: true },
+    { field: 'stock', headerName: 'Kho', width: 80, hide: true, type: 'number' },
     {
       field: 'active',
       headerName: 'Kích hoạt',
+      type: 'boolean',
       renderCell: (cell) => {
         return cell.value ? <CheckCircleIcon color="success" /> : <DoNotDisturbOnIcon color="error" />;
       },

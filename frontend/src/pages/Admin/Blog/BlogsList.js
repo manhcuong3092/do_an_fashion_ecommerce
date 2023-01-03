@@ -63,7 +63,20 @@ const BlogsList = () => {
       },
     },
     { field: 'title', headerName: 'Tiêu đề', flex: 1 },
-    { field: 'createdAt', headerName: 'Ngày tạo', flex: 1 },
+    {
+      field: 'createdAt',
+      headerName: 'Ngày tạo',
+      flex: 1,
+      type: 'date',
+      valueFormatter: (params) => {
+        if (params.value == null) {
+          return '';
+        }
+        const createdAt = params.value;
+        const dateFormat = `${createdAt.toLocaleDateString('vi-VN')} lúc ${createdAt.toLocaleTimeString('vi-VN')}`;
+        return dateFormat;
+      },
+    },
     { field: 'author', headerName: 'Tác giả', flex: 1 },
     {
       field: 'actions',
@@ -106,9 +119,7 @@ const BlogsList = () => {
               title: blog.title,
               avatar: blog.avatar,
               author: blog.author.name,
-              createdAt: `
-              ${createdAt.toLocaleDateString('vi-VN')} lúc ${createdAt.toLocaleTimeString('vi-VN')}
-              `,
+              createdAt: createdAt,
               actions: blog._id,
               sequense: index + 1,
             });

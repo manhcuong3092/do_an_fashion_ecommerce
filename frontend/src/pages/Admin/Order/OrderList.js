@@ -56,8 +56,31 @@ const OrderList = () => {
     { field: 'name', headerName: 'Họ tên', flex: 1 },
     { field: 'email', headerName: 'Email', flex: 1 },
     { field: 'shippingInfo', headerName: 'Địa chỉ', flex: 1 },
-    { field: 'total', headerName: 'Tổng cộng' },
-    { field: 'createdAt', headerName: 'Ngày tạo' },
+    {
+      field: 'total',
+      headerName: 'Tổng cộng',
+      type: 'number',
+      valueFormatter: (params) => {
+        if (params.value == null) {
+          return '';
+        }
+
+        return Number(params.value).toLocaleString('vi-VN') + '₫';
+      },
+    },
+    {
+      field: 'createdAt',
+      headerName: 'Ngày tạo',
+      type: 'date',
+      valueFormatter: (params) => {
+        if (params.value == null) {
+          return '';
+        }
+        const createdAt = params.value;
+        const dateFormat = `${createdAt.toLocaleDateString('vi-VN')} lúc ${createdAt.toLocaleTimeString('vi-VN')}`;
+        return dateFormat;
+      },
+    },
     {
       field: 'paymentStatus',
       headerName: 'Thanh toán',
@@ -126,13 +149,11 @@ const OrderList = () => {
               name: order.shippingInfo.name,
               email: order.shippingInfo.email,
               shippingInfo: `${order.shippingInfo.address}, ${order.shippingInfo.city}`,
-              total: `${order.totalPrice.toLocaleString('vi-VN')}₫`,
+              total: order.totalPrice,
               paymentStatus: order.paymentStatus,
               paymentType: order.paymentType,
               orderStatus: order.orderStatus,
-              createdAt: `
-              ${createdAt.toLocaleDateString('vi-VN')} lúc ${createdAt.toLocaleTimeString('vi-VN')}
-              `,
+              createdAt: createdAt,
               actions: order._id,
               sequense: index + 1,
             });
