@@ -57,6 +57,7 @@ exports.deleteColor = catchAsyncError(async (req, res, next) => {
   if (!color) {
     return next(new ErrorHandler(`Không tìm thấy màu: ${req.params.id}`, 404));
   }
+  console.log('aaa');
   await color.remove();
   res.status(200).json({
     success: true,

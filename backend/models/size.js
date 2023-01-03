@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const ErrorHandler = require('../utils/errorHandler');
-const Product = require('./product');
+const ProductItem = require('./productItem');
 
 const sizeSchema = new mongoose.Schema({
   name: {
@@ -24,7 +24,7 @@ sizeSchema.statics.findAll = async function () {
 }
 
 sizeSchema.pre('remove', async function (next) {
-  const products = await Product.find({ sizes: this._id });
+  const products = await ProductItem.find({ size: this._id });
   if (products.length !== 0) {
     return next(new ErrorHandler('Không thể xóa kích cỡ khi đang có sản phẩm tham chiếu đến.', 400))
   }

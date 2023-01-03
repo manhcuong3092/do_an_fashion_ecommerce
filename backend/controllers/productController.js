@@ -162,25 +162,30 @@ exports.getLatestProducts = catchAsyncError(async (req, res, next) => {
 
 // get all products : /api/v1/admin/products
 exports.getAllProducts = catchAsyncError(async (req, res, next) => {
-  const productName = req.query.productName || '';
-  let products = await Product.find({ name: { $regex: productName, $options: 'i' } })
-    .populate('category');
+  // const productName = req.query.productName || '';
+  // let products = await Product.find({ name: { $regex: productName, $options: 'i' } })
+  //   .populate('category');
 
-  products = JSON.parse(JSON.stringify(products));
+  req.query.keyword = req.query.productName;
+  let result = await Product.findAll(req, false);
+  result = result[0];
+  const products = result.paginatedResults;
 
-  await Promise.all(products.map(item => ProductItem.find({ product: item._id })))
-    .then((values) => {
-      values.forEach((item, index) => {
-        products[index] = { ...products[index], productItems: item }
-      })
-    });
+  // products = JSON.parse(JSON.stringify(products));
 
-  await Promise.all(products.map(item => ProductImage.find({ product: item._id })))
-    .then((values) => {
-      values.forEach((item, index) => {
-        products[index] = { ...products[index], images: item }
-      })
-    });
+  // await Promise.all(products.map(item => ProductItem.find({ product: item._id })))
+  //   .then((values) => {
+  //     values.forEach((item, index) => {
+  //       products[index] = { ...products[index], productItems: item }
+  //     })
+  //   });
+
+  // await Promise.all(products.map(item => ProductImage.find({ product: item._id })))
+  //   .then((values) => {
+  //     values.forEach((item, index) => {
+  //       products[index] = { ...products[index], images: item }
+  //     })
+  //   });
 
   res.status(200).json({
     success: true,

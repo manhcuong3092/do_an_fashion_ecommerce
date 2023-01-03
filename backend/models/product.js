@@ -109,7 +109,7 @@ productSchema.statics.findOneProduct = async function (slug) {
   return productResult;
 }
 
-productSchema.statics.findAll = async function (req) {
+productSchema.statics.findAll = async function (req, paging = true) {
   const resPerPage = 6;
 
   const filterAggregate = [
@@ -145,17 +145,6 @@ productSchema.statics.findAll = async function (req) {
         $match: { price: { $lte: Number.parseInt(req.query.price.lte) } }
       })
     }
-  }
-
-  if (req.query.gender) {
-    filterAggregate.push({
-      $match: {
-        gender: {
-          $regex: req.query.gender,
-          $options: 'i'
-        }
-      }
-    })
   }
 
   if (req.query.gender) {
@@ -270,16 +259,37 @@ productSchema.statics.findAll = async function (req) {
 
   filterAggregate.push({ $lookup: { from: 'productimages', localField: '_id', foreignField: 'product', as: 'images' } });
 
-  filterAggregate.push({
-    $facet: {
-      paginatedResults: [{ $skip: skip }, { $limit: resPerPage }],
-      totalCount: [
-        {
-          $count: 'count'
-        }
-      ]
-    }
-  });
+  if (paging) {
+    filterAggregate.push({
+      $facet: {
+        paginatedResults: [{ $skip: skip }, { $limit: resPerPage }],
+        totalCount: [
+          {
+            $count: 'count'
+          }
+        ]
+      }
+    });
+  } else {
+    filterAggregate.push({
+      $lookup: { from: 'productitems', localField: '_id', foreignField: 'product', as: 'productItems' }
+    });
+    filterAggregate.push({
+      $lookup: { from: 'categories', localField: 'category', foreignField: '_id', as: 'category' }
+    });
+    filterAggregate.push({ $unwind: "$category" },);
+    filterAggregate.push({
+      $facet: {
+        paginatedResults: [{ $skip: 0 }],
+        totalCount: [
+          {
+            $count: 'count'
+          }
+        ]
+      }
+    });
+  }
+
 
   // filterAggregate.push({ $skip: skip });
   // filterAggregate.push({ $limit: resPerPage });
@@ -288,11 +298,12 @@ productSchema.statics.findAll = async function (req) {
 }
 
 productSchema.pre('save', async function (next) {
-  if (!this.isModified('name')) {
+  if (this.isModified('name')) {
+    const slug = require('slug');
+    this.slug = `${slug(this.name)}-${Date.now()}`
+  } else {
     next();
   }
-  const slug = require('slug');
-  this.slug = `${slug(this.name)}-${Date.now()}`
 });
 
 productSchema.pre('remove', async function (next) {

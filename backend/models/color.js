@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const ErrorHandler = require('../utils/errorHandler');
-const Product = require('./product');
+const ProductItem = require('./productItem');
 
 const colorSchema = new mongoose.Schema({
   name: {
@@ -29,8 +29,11 @@ colorSchema.statics.findAll = async function () {
 }
 
 colorSchema.pre('remove', async function (next) {
-  const products = await Product.find({ colors: this._id });
+  const products = await ProductItem.find({ color: this._id });
+  console.log(products);
+  console.log('aaa');
   if (products.length !== 0) {
+    console.log('aaa');
     return next(new ErrorHandler('Không thể xóa màu khi đang có sản phẩm tham chiếu đến.', 400))
   }
 });
