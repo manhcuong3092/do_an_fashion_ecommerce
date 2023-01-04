@@ -71,7 +71,7 @@ const ProductReview = ({ product }) => {
           </ul>
           <div className="tab-content">
             <div className={`info-reviews moreinfo tab-pane fade ${tab === 1 ? 'show active' : ''}`} id="moreinfo">
-              <p>{product.detailDescription}</p>
+              <p style={{ whiteSpace: 'pre-line' }}>{product.detailDescription}</p>
               <br />
               <p>
                 <img

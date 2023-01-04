@@ -54,9 +54,8 @@ const BlogSection = () => {
                           <span>
                             Tác giả : <Link>{blog.author.name}</Link>
                           </span>
-                          <p>
-                            There are many variations of passages of Lorem Ipsum available, but the majority have
-                            suffered alteration in some form, by injected humour....
+                          <p style={{ maxWidth: '400px', maxHeight: '100px' }}>
+                            <div dangerouslySetInnerHTML={{ __html: blog.content }} className="short-content" />
                           </p>
                         </div>
                         <div className="date-read clearfix">

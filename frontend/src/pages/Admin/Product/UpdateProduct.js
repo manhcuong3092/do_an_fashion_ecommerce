@@ -432,6 +432,7 @@ const UpdateProduct = () => {
                             <td>
                               <Form.Control
                                 type="text"
+                                className="text-center"
                                 value={item.sku}
                                 onChange={(e) => {
                                   setStock([
@@ -450,6 +451,7 @@ const UpdateProduct = () => {
                             <td>
                               <Form.Control
                                 type="number"
+                                className="text-center"
                                 value={item.stock}
                                 onChange={(e) => {
                                   setStock([

@@ -85,7 +85,7 @@ const ProductDetail = ({ product }) => {
               <del>{product.isSale && `${product.price.toLocaleString('vi-VN')}₫`}</del>{' '}
               {product.isSale ? `${product.salePrice.toLocaleString('vi-VN')}` : product.price.toLocaleString('vi-VN')}₫
             </h5>
-            <p>{product.description}</p>
+            <p style={{ whiteSpace: 'pre-line' }}>{product.description}</p>
             <div className="all-choose">
               <div className="s-shoose">
                 <h5>Màu sắc</h5>
