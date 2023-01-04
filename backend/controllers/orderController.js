@@ -4,9 +4,8 @@ const Product = require('../models/product');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const { SUCCEEDED, CANCELLED, DELIVERING, PENDING } = require('../constants/orderStatus');
-const ProductImage = require('../models/productImage');
 const ProductItem = require('../models/productItem');
-const { default: mongoose } = require('mongoose');
+const sendEmail = require('../utils/sendEmail');
 
 //create new order => /api/v1/order/new
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
@@ -23,7 +22,6 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
   } = req.body;
 
   let order = await Order.create({
-    orderItems,
     shippingInfo,
     itemsPrice,
     shippingPrice,
@@ -53,6 +51,31 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
 
   order = { ...JSON.parse(JSON.stringify(order)), orderItems: orderDetails }
   console.log(order);
+
+  let orderInfor = '';
+  orderDetails.forEach(item => {
+    orderInfor += item.productItem.product.name + ' - ' + item.productItem.color.name + ' - '
+      + item.productItem.size.name + ' x ' + item.quantity + '\n'
+  })
+
+  const message = `Cảm ơn bạn đã đặt hàng
+  Đơn hàng #${order._id} của bạn gồm:
+  ${orderInfor}
+  Tổng cộng: ${order.totalPrice}đ
+  Thông tin giao hàng
+  Người nhận: ${order.shippingInfo.name}, sđt: ${order.shippingInfo.phoneNo}
+  Địa chỉ: ${order.shippingInfo.address}, ${order.shippingInfo.city}
+  `;
+  try {
+    await sendEmail({
+      email: shippingInfo.email,
+      subject: 'Thông báo đặt hàng',
+      message
+    });
+  } catch (error) {
+    console.log(error);
+    return next(new ErrorHandler(error.message, 500));
+  }
 
   res.status(200).json({
     success: true,
