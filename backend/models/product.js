@@ -117,6 +117,9 @@ productSchema.statics.findAll = async function (req, paging = true) {
       $match: { active: { $eq: true } }
     }
   ];
+  filterAggregate.push({
+    $sort: { _id: -1 }
+  })
   if (req.query.keyword) {
     filterAggregate.push({
       $match: {
@@ -251,6 +254,16 @@ productSchema.statics.findAll = async function (req, paging = true) {
         images: { $first: "$slug" },
         productSizes: { $first: "$productSizes" }
       }
+    })
+  }
+
+  if (req.query.sort === 'asc') {
+    filterAggregate.push({
+      $sort: { price: 1 }
+    })
+  } else if (req.query.sort === 'desc') {
+    filterAggregate.push({
+      $sort: { price: -1 }
     })
   }
 
