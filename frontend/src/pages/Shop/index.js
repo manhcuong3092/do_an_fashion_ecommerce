@@ -15,6 +15,8 @@ import { Pagination, Stack } from '@mui/material';
 import axios from 'axios';
 import { END_POINT } from '~/config';
 import { PRICE_RANGE_1, PRICE_RANGE_2, PRICE_RANGE_3, PRICE_RANGE_4 } from '~/constants/filterPrice';
+import { Dropdown } from 'react-bootstrap';
+import { SORT_ASC, SORT_DESC } from '~/constants/filterPrice';
 
 const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,6 +32,7 @@ const Shop = () => {
   const [keyword, setKeyword] = useState('');
 
   const [searchParams] = useSearchParams('');
+  const [sort, setSort] = useState('Không');
 
   const { loading, products, error, resPerPage, productsCount } = useSelector((state) => state.products);
 
@@ -76,11 +79,11 @@ const Shop = () => {
       toast.error(error);
       return;
     }
-    dispatch(getProducts(keyword, currentPage, category, price, color, size, gender));
-  }, [dispatch, error, currentPage, category, price, color, size, gender]);
+    dispatch(getProducts(keyword, currentPage, category, price, color, size, gender, sort));
+  }, [dispatch, error, currentPage, category, price, color, size, gender, sort]);
 
   const handleSearch = () => {
-    dispatch(getProducts(keyword, currentPage, category, price, color, size, gender));
+    dispatch(getProducts(keyword, currentPage, category, price, color, size, gender, sort));
   };
 
   const handleChooseCategory = (e, id) => {
@@ -290,12 +293,62 @@ const Shop = () => {
 
             <Col md={8} lg={9}>
               <div className="right-products">
-                <GridProduct
-                  products={products}
-                  resPerPage={resPerPage}
-                  currentPage={currentPage}
-                  productsCount={productsCount}
-                />
+                <Row>
+                  <div className="col-12">
+                    <div className="section-title clearfix">
+                      <ul>
+                        <li>
+                          <ul className="d-flex bd-highlight">
+                            <li className="sort-by flex-grow-1 bd-highlight">
+                              {productsCount !== 0 ? (
+                                <>
+                                  Hiện thị {resPerPage * (currentPage - 1) + 1} -{' '}
+                                  {resPerPage * currentPage < productsCount ? resPerPage * currentPage : productsCount}{' '}
+                                  của {productsCount} sản phẩm tìm thấy
+                                </>
+                              ) : (
+                                ''
+                              )}
+                            </li>
+                            <li className="sort-by bd-highlight" style={{ marginRight: '5px' }}>
+                              Sắp xếp: {sort}{' '}
+                            </li>
+                            <li className="bd-highlight ml-5 mt-2">
+                              <Dropdown>
+                                <Dropdown.Toggle variant="light" id="dropdown-basic">
+                                  <i className="fa-solid fa-sort"></i>
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu>
+                                  <Dropdown.Item style={{ textTransform: 'none' }} onClick={() => setSort(SORT_ASC)}>
+                                    Giá tăng dần
+                                  </Dropdown.Item>
+                                  <Dropdown.Item style={{ textTransform: 'none' }} onClick={() => setSort(SORT_DESC)}>
+                                    Giá giảm dần
+                                  </Dropdown.Item>
+                                </Dropdown.Menu>
+                              </Dropdown>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </Row>
+                <Row>
+                  <div className="tab-content grid-content">
+                    <div className="tab-pane fade show active text-center" id="grid">
+                      <Row>
+                        <GridProduct
+                          products={products}
+                          resPerPage={resPerPage}
+                          currentPage={currentPage}
+                          productsCount={productsCount}
+                        />
+                      </Row>
+                    </div>
+                  </div>
+                </Row>
                 <Row>
                   <Col>
                     <div className="pagnation-ul">
