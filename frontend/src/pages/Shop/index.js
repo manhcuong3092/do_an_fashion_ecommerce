@@ -82,7 +82,8 @@ const Shop = () => {
     dispatch(getProducts(keyword, currentPage, category, price, color, size, gender, sort));
   }, [dispatch, error, currentPage, category, price, color, size, gender, sort]);
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     dispatch(getProducts(keyword, currentPage, category, price, color, size, gender, sort));
   };
 
@@ -107,18 +108,20 @@ const Shop = () => {
                   <div className="categories left-right-p">
                     <ul id="accordion" className="panel-group clearfix">
                       <li className="panel">
-                        <div className="search-product">
-                          <input
-                            type="text"
-                            className="search-input"
-                            value={keyword}
-                            onChange={(e) => setKeyword(e.target.value)}
-                            placeholder="Tìm kiếm..."
-                          />
-                          <button className="search-btn" onClick={handleSearch}>
-                            <i className="mdi mdi-magnify"></i>
-                          </button>
-                        </div>
+                        <form onSubmit={handleSearch}>
+                          <div className="search-product">
+                            <input
+                              type="text"
+                              className="search-input"
+                              value={keyword}
+                              onChange={(e) => setKeyword(e.target.value)}
+                              placeholder="Tìm kiếm..."
+                            />
+                            <button className="search-btn" onClick={handleSearch}>
+                              <i className="mdi mdi-magnify"></i>
+                            </button>
+                          </div>
+                        </form>
                       </li>
                     </ul>
                   </div>

@@ -8,7 +8,7 @@ const SecurityPolicy = () => {
   return (
     <Fragment>
       <Header />
-      <PageTitle title={'Chính sách đổi trả'} />
+      <PageTitle title={'Chính sách bảo mật'} />
       <Container className="mt-3">
         <div classname="page-wrapper">
           <div classname="heading-page">
