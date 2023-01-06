@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CartIcon from '../../components/CartIcon';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -17,6 +17,7 @@ const Navbar = () => {
 
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getCategories = async () => {
@@ -30,6 +31,7 @@ const Navbar = () => {
 
   const logoutHandler = () => {
     dispatch(logout());
+    navigate('/');
     toast.success('Đăng xuất thành công.');
   };
 

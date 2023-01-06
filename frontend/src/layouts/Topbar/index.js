@@ -16,12 +16,13 @@ const Topbar = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const navigate = useNavigate();
 
   const logoutHandler = () => {
     dispatch(logout());
+    navigate('/');
     toast.success('Đăng xuất thành công.');
   };
-  const navigate = useNavigate();
 
   const handleSearch = () => {
     navigate(`/shop?keyword=${keyword}`);
