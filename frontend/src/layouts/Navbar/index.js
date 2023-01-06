@@ -31,7 +31,6 @@ const Navbar = () => {
 
   const logoutHandler = () => {
     dispatch(logout());
-    navigate('/');
     toast.success('Đăng xuất thành công.');
   };
 
@@ -100,7 +99,9 @@ const Navbar = () => {
                     <ul className="dropdown dropdown-nav-menu">
                       {user ? (
                         <li>
-                          <Link onClick={() => logoutHandler()}>Đăng xuất</Link>
+                          <Link to="/" onClick={() => logoutHandler()}>
+                            Đăng xuất
+                          </Link>
                         </li>
                       ) : (
                         <li>

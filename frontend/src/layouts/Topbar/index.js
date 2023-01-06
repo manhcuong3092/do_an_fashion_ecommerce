@@ -19,8 +19,8 @@ const Topbar = () => {
   const navigate = useNavigate();
 
   const logoutHandler = () => {
-    dispatch(logout());
     navigate('/');
+    dispatch(logout());
     toast.success('Đăng xuất thành công.');
   };
 
@@ -49,7 +49,9 @@ const Topbar = () => {
                   {user ? (
                     <ul>
                       <li>
-                        <Link onClick={logoutHandler}>Đăng xuất</Link>
+                        <Link to="/" onClick={logoutHandler}>
+                          Đăng xuất
+                        </Link>
                       </li>
                       <li>
                         <Link to="/profile">Tài khoản</Link>
