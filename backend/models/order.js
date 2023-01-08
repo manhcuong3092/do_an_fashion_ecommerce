@@ -82,7 +82,7 @@ const orderSchema = mongoose.Schema({
 });
 
 orderSchema.statics.findByUser = async function (userId) {
-  return await this.find({ user: userId });
+  return await this.find({ user: userId }).sort({ _id: -1 });
 }
 
 orderSchema.statics.findOrderById = async function (orderId) {
