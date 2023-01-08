@@ -50,6 +50,12 @@ const ProductDetail = ({ product }) => {
   };
 
   useEffect(() => {
+    setColor(product.colors[0]);
+    setSize(product.sizes[0]);
+    console.log('update');
+  }, [product]);
+
+  useEffect(() => {
     const stockIndex = product.productItems.findIndex(
       (stock) => stock.size._id === size._id && stock.color._id === color._id,
     );
@@ -57,7 +63,7 @@ const ProductDetail = ({ product }) => {
     setSku(product.productItems[stockIndex].sku);
     setProductItem(product.productItems[stockIndex]);
     setQuantity(1);
-  }, [product, size, color]);
+  }, [size, color]);
 
   return (
     <Row className="single-list-view">
