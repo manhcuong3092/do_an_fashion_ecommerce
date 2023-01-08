@@ -23,6 +23,7 @@ import { END_POINT } from '~/config';
 import { useNavigate } from 'react-router-dom';
 import Loader from '~/layouts/Loader';
 import { PayPalButtons } from '@paypal/react-paypal-js';
+import stripeLogo from '../../assets/img/stripe_icon.png';
 
 const options = {
   style: {
@@ -480,7 +481,15 @@ const Checkout = () => {
                       >
                         <div className="normal-a border p-4">
                           <Form className="" onSubmit={submitHandler}>
-                            <h2 className="mb-4">Thông tin thẻ</h2>
+                            <h2 className="mb-4">
+                              Thông tin thẻ{' '}
+                              <img
+                                src={stripeLogo}
+                                style={{ width: '200px', height: '40px' }}
+                                className="mb-2"
+                                alt="Brand Logo"
+                              />
+                            </h2>
                             <div className="form-group">
                               <label htmlFor="card_num_field">Số thẻ</label>
                               <CardNumberElement

@@ -44,12 +44,6 @@ function DrawerComponent() {
             <Divider />
             <ListItem>
               <ListItemText>
-                <Link to="/about-us">Giới thiệu</Link>
-              </ListItemText>
-            </ListItem>
-            <Divider />
-            <ListItem>
-              <ListItemText>
                 <Link to="/profile">Tài khoản</Link>
               </ListItemText>
             </ListItem>
