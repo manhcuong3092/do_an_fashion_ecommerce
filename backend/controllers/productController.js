@@ -339,8 +339,6 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
     comment
   }
 
-  console.log(review);
-
   let result = null;
 
   const isReviewed = await Review.findOne({ product: productId, user: req.user._id });
@@ -349,13 +347,8 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
   } else {
     result = await Review.findByIdAndUpdate(isReviewed._id, review);
   }
-  const reviews = await Review.aggregate([
-    { $match: { product: new mongoose.Types.ObjectId(productId) } },
-    { $lookup: { from: 'users', localField: 'user', foreignField: '_id', as: 'user' } },
-    { $unwind: "$user" },
-    { $lookup: { from: 'images', localField: 'user.avatar', foreignField: '_id', as: 'user.avatar' } },
-    { $unwind: "$user.avatar" },
-  ]);
+  const reviews = await Review.find({ product: productId })
+    .populate({ path: "user", populate: [{ path: 'avatar' }] });
   const product = await Product.findById(productId);
 
   product.ratings = reviews.reduce((acc, item) => item.rating + acc, 0) / reviews.length;
@@ -370,13 +363,8 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
 //Get product Reviews => /api/v1/reviews
 exports.getProductReviews = catchAsyncError(async (req, res, next) => {
   // const reviews = await Review.find({ product: req.query.productId }).populate('user');
-  const reviews = await Review.aggregate([
-    { $match: { product: new mongoose.Types.ObjectId(req.query.productId) } },
-    { $lookup: { from: 'users', localField: 'user', foreignField: '_id', as: 'user' } },
-    { $unwind: "$user" },
-    { $lookup: { from: 'images', localField: 'user.avatar', foreignField: '_id', as: 'user.avatar' } },
-    { $unwind: "$user.avatar" },
-  ]);
+  const reviews = await Review.find({ product: req.query.productId })
+    .populate({ path: "user", populate: [{ path: 'avatar' }] });
   res.status(200).json({
     success: true,
     reviews

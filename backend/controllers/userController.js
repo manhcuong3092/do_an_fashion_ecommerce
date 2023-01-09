@@ -8,10 +8,7 @@ const Image = require('../models/image');
 
 //Get all user => /api/v1/admin/users
 exports.allUsers = catchAsyncErrors(async (req, res, next) => {
-  const users = await User.aggregate([
-    { $lookup: { from: 'images', localField: 'avatar', foreignField: '_id', as: 'avatar' } },
-    { $unwind: '$avatar' }
-  ]);
+  const users = await User.find().populate('avatar');
 
   res.status(200).json({
     success: true,

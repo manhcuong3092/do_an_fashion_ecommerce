@@ -7,6 +7,7 @@ const ErrorHandler = require('../utils/errorHandler');
 const Product = require('./product');
 const Order = require('./order');
 const Blog = require('./blog');
+const Review = require('./review');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -74,6 +75,7 @@ userSchema.pre('remove', async function (next) {
   if (blogs.length !== 0) {
     return next(new ErrorHandler('Không thể xóa người dùng có bài viết tham chiếu đến.', 400))
   }
+  const reviews = await Review.deleteMany({ user: this._id });
   const orders = await Order.find({ user: this._id });
   if (orders.length !== 0) {
     orders.forEach(order => {
