@@ -54,9 +54,9 @@ const BlogSection = () => {
                           <span>
                             Tác giả : <Link>{blog.author.name}</Link>
                           </span>
-                          <p style={{ maxWidth: '400px', maxHeight: '100px' }}>
+                          <div style={{ maxWidth: '400px', maxHeight: '100px' }}>
                             <div dangerouslySetInnerHTML={{ __html: blog.content }} className="short-content" />
-                          </p>
+                          </div>
                         </div>
                         <div className="date-read clearfix">
                           <Link>
