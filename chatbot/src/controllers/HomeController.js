@@ -3,7 +3,10 @@ const { default: axios } = require('axios');
 const request = require('request');
 const { GET_STARTED, SHOP_URL, RESTART_BOT, FANPAGE_URL, MAIN_MENU,
   AO_SO_MI, AO_BLAZER, AO_KHOAC, VIEW_SHOP_INFO, VIEW_SHOP_IMAGE, GUIDE_TO_USE,
-  SEARCH_PRODUCT } = require('../constant');
+  SEARCH_PRODUCT,
+  AO_HOODIE,
+  QUAN_AU,
+  QUAN_JEAN } = require('../constant');
 const chatbotService = require('../services/chatbotService');
 
 require('dotenv').config();
@@ -110,6 +113,15 @@ async function handlePostback(sender_psid, received_postback) {
       break;
     case AO_KHOAC:
       await chatbotService.handleSendAoKhoacMenu(sender_psid);
+      break;
+    case AO_HOODIE:
+      await chatbotService.handleSendAoHoodieMenu(sender_psid);
+      break;
+    case QUAN_AU:
+      await chatbotService.handleSendQuanAuMenu(sender_psid);
+      break;
+    case QUAN_JEAN:
+      await chatbotService.handleSendQuanJeanMenu(sender_psid);
       break;
     case VIEW_SHOP_INFO:
       await chatbotService.handleSendShopInfoMenu(sender_psid);

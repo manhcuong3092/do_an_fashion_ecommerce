@@ -3,7 +3,7 @@ const axios = require('axios');
 const { IMAGE_GET_STARTED, MAIN_MENU, SEARCH_PRODUCT, GUIDE_TO_USE, SHOP_URL,
   AO_SO_MI, AO_KHOAC, AO_BLAZER, IMAGE_MAIN_MENU_1,
   IMAGE_MAIN_MENU_2, IMAGE_MAIN_MENU_3, VIEW_SHOP_INFO, VIEW_SHOP_IMAGE,
-  ORDER_URL, IMAGE_GIF_WELCOME, GUIDE_VIDEO_URL, BACKEND_URL } = require('../constant');
+  ORDER_URL, IMAGE_GIF_WELCOME, GUIDE_VIDEO_URL, BACKEND_URL, AO_HOODIE, QUAN_AU, QUAN_JEAN } = require('../constant');
 require('dotenv').config();
 
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN
@@ -12,7 +12,7 @@ const handleGetStarted = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
       const username = await getUsername(sender_psid);
-      const response1 = { "text": `Xin chào mừng bạn ${username} đến với shop Amando.` }
+      const response1 = { "text": `Xin chào mừng bạn đến với shop Amando.` } // ${username}
       const response2 = getImageStartedTemplate();
       const response3 = getStartedTemplate();
 
@@ -212,6 +212,28 @@ let getMainMenuTemplate = () => {
             ]
           },
           {
+            "title": "Danh mục sản phẩm của cửa hàng",
+            "image_url": IMAGE_MAIN_MENU_1,
+            "subtitle": "Dưới đây là các lựa chọn của shop.",
+            "buttons": [
+              {
+                "type": "postback",
+                "title": "Áo hoodie",
+                "payload": AO_HOODIE
+              },
+              {
+                "type": "postback",
+                "title": "Quần âu",
+                "payload": QUAN_AU
+              },
+              {
+                "type": "postback",
+                "title": "Quần jean",
+                "payload": QUAN_JEAN
+              }
+            ]
+          },
+          {
             "title": "Địa điểm cửa hàng",
             "image_url": IMAGE_MAIN_MENU_3,
             "subtitle": "Gồm có 3 chi nhánh, ở Hà Nội. Tiện lợi cho các bạn lựa chọn",
@@ -311,6 +333,80 @@ const handleSendAoBlazerMenu = (sender_psid) => {
   return new Promise(async (resolve, reject) => {
     try {
       let { data } = await axios.get(`${BACKEND_URL}/api/v1/category/slug/ao-blazer`);
+      const result = await axios.get(`${BACKEND_URL}/api/v1/products?category=${data.category._id}`);
+
+      products = result.data.products;
+
+      if (products.length > 5) {
+        products.splice(5);
+      }
+
+      const response1 = getProductMenuTemplate(products, sender_psid);
+
+      //send generic template message
+      await callSendAPI(sender_psid, response1);
+
+      resolve('done');
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+const handleSendAoHoodieMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let { data } = await axios.get(`${BACKEND_URL}/api/v1/category/slug/ao-hoodie`);
+      const result = await axios.get(`${BACKEND_URL}/api/v1/products?category=${data.category._id}`);
+
+      products = result.data.products;
+
+      if (products.length > 5) {
+        products.splice(5);
+      }
+
+      const response1 = getProductMenuTemplate(products, sender_psid);
+
+      //send generic template message
+      await callSendAPI(sender_psid, response1);
+
+      resolve('done');
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+
+const handleSendQuanAuMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let { data } = await axios.get(`${BACKEND_URL}/api/v1/category/slug/quan-au`);
+      const result = await axios.get(`${BACKEND_URL}/api/v1/products?category=${data.category._id}`);
+
+      products = result.data.products;
+
+      if (products.length > 5) {
+        products.splice(5);
+      }
+
+      const response1 = getProductMenuTemplate(products, sender_psid);
+
+      //send generic template message
+      await callSendAPI(sender_psid, response1);
+
+      resolve('done');
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+
+const handleSendQuanJeanMenu = (sender_psid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let { data } = await axios.get(`${BACKEND_URL}/api/v1/category/slug/quan-jean`);
       const result = await axios.get(`${BACKEND_URL}/api/v1/products?category=${data.category._id}`);
 
       products = result.data.products;
@@ -591,5 +687,8 @@ module.exports = {
   callSendAPI,
   handleGuildeToUseBot,
   handleTextMessage,
-  handleSearchProductMenu
+  handleSearchProductMenu,
+  handleSendAoHoodieMenu,
+  handleSendQuanAuMenu,
+  handleSendQuanJeanMenu
 }

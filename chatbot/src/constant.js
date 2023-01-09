@@ -14,6 +14,9 @@ exports.RESTART_BOT = 'RESTART_BOT';
 exports.AO_SO_MI = 'AO_SO_MI';
 exports.AO_KHOAC = 'AO_KHOAC';
 exports.AO_BLAZER = 'AO_BLAZER';
+exports.AO_HOODIE = 'AO_HOODIE';
+exports.QUAN_AU = 'QUAN_AU';
+exports.QUAN_JEAN = 'QUAN_JEAN';
 exports.BUY_PRODUCT = 'BUY_PRODUCT';
 
 exports.VIEW_PRODUCT = 'VIEW_PRODUCT';
