@@ -5,6 +5,7 @@ import axios from 'axios';
 import { END_POINT } from '~/config';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import defaultAvatar from '~/assets/img/default_avatar.jpg';
 
 const ProductReview = ({ product }) => {
   const [tab, setTab] = useState(1);
@@ -107,7 +108,11 @@ const ProductReview = ({ product }) => {
                   <Fragment key={index}>
                     <div className="about-author" key={index}>
                       <div className="autohr-text">
-                        <img src={item.user.avatar && item.user.avatar.url} alt="" className="rounded-circle" />
+                        {item.user.avatar ? (
+                          <img src={item.user.avatar.url} alt="" className="rounded-circle" />
+                        ) : (
+                          <img src={defaultAvatar} alt="" className="rounded-circle" />
+                        )}
                         <div className="author-des">
                           <h4>
                             <a href="#!">{item.user.name}</a>

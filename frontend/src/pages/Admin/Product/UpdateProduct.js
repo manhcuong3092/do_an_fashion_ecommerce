@@ -296,7 +296,7 @@ const UpdateProduct = () => {
 
                 <Form.Group>
                   <Form.Label htmlFor="description_field">Đang khuyến mại</Form.Label>
-                  <Form.Check value={isSale} onChange={(e) => setIsSale(e.target.checked)} />
+                  <Form.Check value={isSale} checked={isSale} onChange={(e) => setIsSale(e.target.checked)} />
                 </Form.Group>
 
                 <Form.Group className="my-3">

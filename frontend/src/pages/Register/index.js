@@ -13,6 +13,7 @@ import Metadata from '../../layouts/Metadata';
 import Header from '../../layouts/Header';
 import Footer from '../../layouts/Footer';
 import { GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 const Register = () => {
   const [user, setUser] = useState({
@@ -31,6 +32,9 @@ const Register = () => {
 
   useEffect(() => {
     if (registed) {
+      axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken')
+        ? `Bearer ${localStorage.getItem('jwtToken')}`
+        : '';
       toast.success('Đăng ký tài khoản thành công.');
       dispatch({ type: REGISTER_USER_RESET });
       navigate('/');

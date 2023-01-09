@@ -113,7 +113,7 @@ export const checkCookie = () => async (dispatch, getState) => {
 };
 
 //Register
-export const register = (userData) => async (dispatch) => {
+export const register = (userData) => async (dispatch, getState) => {
   try {
     dispatch({ type: REGISTER_USER_REQUEST });
     const config = {
@@ -127,6 +127,8 @@ export const register = (userData) => async (dispatch) => {
       type: REGISTER_USER_SUCCESS,
       payload: data.user,
     });
+    localStorage.setItem('auth', JSON.stringify(getState().auth));
+    localStorage.setItem('jwtToken', data.token);
   } catch (error) {
     dispatch({
       type: REGISTER_USER_FAIL,
