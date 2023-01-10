@@ -54,7 +54,7 @@ const OrderList = () => {
     { field: 'sequense', headerName: 'STT' },
     { field: 'id', headerName: 'ID', flex: 2 },
     { field: 'name', headerName: 'Họ tên', flex: 1 },
-    { field: 'email', headerName: 'Email', flex: 1 },
+    { field: 'email', headerName: 'Email', flex: 1, hide: true },
     { field: 'shippingInfo', headerName: 'Địa chỉ', flex: 1 },
     {
       field: 'total',

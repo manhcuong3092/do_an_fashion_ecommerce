@@ -50,7 +50,7 @@ const UserOrderStatistic = ({ orders }) => {
   return (
     <OutlineBox>
       <div style={{ height: '400px' }} className="m-3">
-        <h5>Thống kê nguời dùng đăng nhập mua hàng</h5>
+        <h5>Thống kê nguời dùng đăng nhập mua</h5>
         <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4" align="end" id="nav-ul">
           <NavDropdown id="admin-nav" align="end" title="Xem theo">
             <NavDropdown.Item onClick={() => setMonthView(TYPE_CURRENT_MONTH)}>{TYPE_CURRENT_MONTH}</NavDropdown.Item>
