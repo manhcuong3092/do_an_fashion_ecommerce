@@ -58,6 +58,7 @@ import ReturnPolicy from './pages/ReturnPolicy';
 import SecurityPolicy from './pages/SecurityPolicy';
 import AdminLogin from './pages/Admin/Login';
 import ScrollToTop from './layouts/ScrollToTop';
+import PageNotFound from './pages/PageNotFound';
 import { checkCookie } from './redux/actions/authActions';
 import { useDispatch } from 'react-redux';
 import { STRIPE_PUBLIC_API_KEY } from './constants/payment';
@@ -339,6 +340,8 @@ function App() {
               </ProtectRoute>
             }
           />
+
+          <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
     </Fragment>
