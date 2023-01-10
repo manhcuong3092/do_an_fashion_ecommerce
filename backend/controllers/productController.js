@@ -149,6 +149,9 @@ exports.getLatestProducts = catchAsyncError(async (req, res, next) => {
   }
   ];
 
+  filterAggregate.push({
+    $sort: { _id: -1 }
+  })
   filterAggregate.push({ $limit: 4 });
   filterAggregate.push({ $lookup: { from: 'productimages', localField: '_id', foreignField: 'product', as: 'images' } });
 

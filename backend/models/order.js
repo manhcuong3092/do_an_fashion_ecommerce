@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { SUCCEEDED, DELIVERING } = require('../constants/orderStatus');
+const { SUCCEEDED, DELIVERING, COD } = require('../constants/orderStatus');
 const ErrorHandler = require('../utils/errorHandler');
 const OrderItem = require('./orderItem');
 const ProductImage = require('./productImage');
@@ -127,6 +127,10 @@ orderSchema.pre('remove', async function (next) {
   }
   if (this.orderStatus === DELIVERING) {
     return next(new ErrorHandler('Không thể xóa đơn hàng đang giao', 400));
+  }
+  console.log(this.paymentStatus);
+  if (this.paymentStatus === true) {
+    return next(new ErrorHandler('Không thể xóa đơn hàng đã được thanh toán', 400));
   }
   const orderItem = await OrderItem.find({ order: this._id });
   orderItem.forEach(item => item.remove());
